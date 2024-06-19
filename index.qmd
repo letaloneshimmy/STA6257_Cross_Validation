@@ -1,6 +1,6 @@
 ---
 title: "Sample Report - Data Science Capstone"
-author: "Student name"
+author: "Curtis Musson"
 date: '`r Sys.Date()`'
 format:
   html:
@@ -21,7 +21,7 @@ editor:
 
 ### What is "mehtod"?
 
-This is an introduction to Kernel regression, which is a non-parametric
+This is an introduction to cross, which is a non-parametric
 estimator that estimates the conditional expectation of two variables
 which is random. The goal of a kernel regression is to discover the
 non-linear relationship between two random variables. To discover the
