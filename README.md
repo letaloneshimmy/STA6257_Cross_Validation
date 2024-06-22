@@ -1,21 +1,13 @@
-# Instructions
+## Links
+  - [Github: Andrew Mattick](https://github.com/andyMattick/STA6257_Project_CrossValidation.git)
+  - [Github: Curtis Musson](https://github.com/letaloneshimmy/STA6257_Musson_CrossValidation.git)
+  - [Discord: Crossvalisdation Board](https://discord.com/channels/1253401001113817270/1253401001545957406)
+  - [Quarto: Markdown Basics](https://quarto.org/docs/authoring/markdown-basics.html)
+  - [website](https://letaloneshimmy.github.io/STA6257_Cross_Validation/)
+  - [Slides]()
 
-Create a GitHub page for the project
-
-## GitHub:
-#### 1. Create a GitHub account and Sign in
-#### 2. Go to https://github.com/acohenstat/STA6257_Project and fork (create a copy to your GitHub)
-![fork](fork.png)
-#### 3. Change the name of the repo to *STA6257_Project_NameofGroup*
-#### 4. Go to *Settings* -> *Pages* -> under *Branch* -> select *main*
-#### 5. Wait for a few seconds and refresh the page. You see the link of the page. 
-
-## RStudio:
-#### 1. Go to RStudio
-#### 2. Create a Version Control Project and Clone the repo.
-#### 3. Commit and push to see changes on the website et Voilà!
-
-More information:
+## More information:
+- [Class Web Site](https://uwf.instructure.com/courses/52193/pages/course-website?module_item_id=3144756)
 - [GitHub](https://happygitwithr.com/index.html)
 - [Video1 RStudio connection to GitHub](https://www.youtube.com/watch?v=MdmnE3AnkQE)
 - [Video2 RStudio connection to GitHub](https://www.youtube.com/watch?v=jN6tvgt3GK8)
