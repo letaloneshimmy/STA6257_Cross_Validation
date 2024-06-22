@@ -34,7 +34,7 @@ editor:
   - [Discord: Crossvalisdation Board](https://discord.com/channels/1253401001113817270/1253401001545957406)
   - [Quarto: Markdown Basics](https://quarto.org/docs/authoring/markdown-basics.html)
 
- [website](https://letaloneshimmy.github.io/STA6257_Musson_CrossValidation/)\
+ [website](https://letaloneshimmy.github.io/STA6257_Cross_Validation/)\
  [Slides]()
 
 
@@ -43,8 +43,153 @@ Cross validation is a resampling method. Resampling methods involve repeatedly d
 
 USGS book ref square error Mean Square error [@helsel1993statistical]
 
-concreet data [@misc_concrete_compressive_strength_165]
 
+
+
+## Methods
+
+
+
+![Leave One Out CV](LOOCV_fig.png)
+
+
+
+![5-fold CV](CV5Fold_fig.png)
+
+
+
+
+
+### Assumptions
+
+### Equations
+
+
+##### General Linear Model
+
+
+$$
+y = \beta_0 + \beta_1 X_1 + ... +\beta_k X_k +\varepsilon_i\tag{1}
+$$
+
+##### Mean Square Error
+
+$$
+MSE_i = (y_i - \hat{y}_i)^2\tag{2}
+$$
+
+
+##### Cross validation
+
+
+$$
+CV_(n) = \frac{1}{n}\sum_{i=1}^{n} MSE_i  \tag{3}
+$$
+
+[@james2013introduction]
+
+## Analysis and Results
+
+### Packages
+```{r, warning=FALSE, echo=TRUE}
+# loading packages 
+library(dplyr)
+library(readr)
+library(knitr)
+library(ggplot2)
+```
+
+### Data
+
+
+concrete data [@misc_concrete_compressive_strength_165]
+
+#### Source
+
+
+| Name                          | Data Type    | Measurement  | Description     |
+|:----------------------------- |:-------------|:-------------|:----------------|
+| Concrete compressive strength | Quantitative | MPa          | Output Variable |
+| Cement              | Quantitative | kg in a m3 mixture | Input Variable |
+| Blast Furnace Slag  | Quantitative | kg in a m3 mixture | Input Variable |
+| Fly Ash             | Quantitative | kg in a m3 mixture | Input Variable |
+| Water               | Quantitative | kg in a m3 mixture | Input Variable |
+| Superplasticizer    | Quantitative | kg in a m3 mixture | Input Variable |
+| Coarse Aggregate    | Quantitative | kg in a m3 mixture | Input Variable |
+| Fine Aggregate      | Quantitative | kg in a m3 mixture | Input Variable |
+| Age                 | Quantitative | Day (1~365)        | Input Variable |
+
+: Variables {.striped .hover}
+
+
+#### Extract transform and Load Data
+
+```{r, warning=FALSE, echo=TRUE}
+# Load Data
+concreet <- read_csv("Concrete_Data.csv") %>% 
+  rename(cement = 1, 
+         furnac_slag = 2,
+         fly_ash = 3,
+         water = 4,
+         superplasticizer = 5,
+         coarse_aggregate = 6,
+         fine_aggregate = 7,
+         age = 8,
+         compressive_strength = 9 ) %>% 
+  relocate(compressive_strength)
+```
+
+#### Visualize Data
+
+```{r}
+boxplot(concreet$compressive_strength)
+
+plot1 <- concreet %>% ggplot(aes(y = compressive_strength, x =furnac_slag)) +
+  geom_point() +
+  geom_smooth(formula = "y~x", method=lm,se = F) 
+plot1
+```
+
+### Statistical Modeling
+
+#### Assumptions
+
+
+### glm
+
+```{r, warning=FALSE, echo=T, message=FALSE}
+
+glm_mod <- glm(compressive_strength ~ cement + furnac_slag + 
+                fly_ash + water + superplasticizer + 
+                coarse_aggregate + fine_aggregate + age,
+               data = concreet, 
+               family = "gaussian")
+
+# significant of regression line
+full_mod <- glm_mod 
+reduced_mod <- glm(compressive_strength ~ 1, data = concreet, family = "gaussian")
+anova(reduced_mod, full_mod, test = "F")
+
+# significant predictors
+summary(glm_mod)
+
+```
+
+
+### Cross Validation
+
+ - 50/50 ... 70/30 ... 90/10 ... etc
+ - k-fold
+ - Leave One out
+
+
+## Conclusion
+
+
+____________________________________________________________________________________
+
+
+_________________________________________________________________________________
 
 ### What is "mehtod"?
 
@@ -65,26 +210,22 @@ This section is going to cover the literature review...
 
 ## Methods
 
-The common non-parametric regression model is
-$Y_i = m(X_i) + \varepsilon_i$, where $Y_i$ can be defined as the sum of
-the regression function value $m(x)$ for $X_i$. Here $m(x)$ is unknown
-and $\varepsilon_i$ some errors. With the help of this definition, we
-can create the estimation for local averaging i.e. $m(x)$ can be
-estimated with the product of $Y_i$ average and $X_i$ is near to $x$. In
-other words, this means that we are discovering the line through the
-data points with the help of surrounding data points. The estimation
-formula is printed below [@R-base]:
 
-$$
-M_n(x) = \sum_{i=1}^{n} W_n (X_i) Y_i  \tag{1}
-$$ $W_n(x)$ is the sum of weights that belongs to all real numbers.
-Weights are positive numbers and small if $X_i$ is far from $x$.
+<!-- The common non-parametric regression model is -->
+<!-- $Y_i = m(X_i) + \varepsilon_i$, where $Y_i$ can be defined as the sum of -->
+<!-- the regression function value $m(x)$ for $X_i$. Here $m(x)$ is unknown -->
+<!-- and $\varepsilon_i$ some errors. With the help of this definition, we -->
+<!-- can create the estimation for local averaging i.e. $m(x)$ can be -->
+<!-- estimated with the product of $Y_i$ average and $X_i$ is near to $x$. In -->
+<!-- other words, this means that we are discovering the line through the -->
+<!-- data points with the help of surrounding data points. The estimation -->
+<!-- formula is printed below [@R-base]: -->
 
-Another equation:
+<!-- $$ -->
+<!-- M_n(x) = \sum_{i=1}^{n} W_n (X_i) Y_i  \tag{1} -->
+<!-- $$ $W_n(x)$ is the sum of weights that belongs to all real numbers. -->
+<!-- Weights are positive numbers and small if $X_i$ is far from $x$. -->
 
-$$
-y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
-$$
 
 ## Analysis and Results
 
@@ -95,38 +236,41 @@ A study was conducted to determine how...
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # loading packages 
-library(tidyverse)
-library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
+# library(dplyr)
+# library(readr)
+# library(knitr)
+# library(ggplot2)
+# library(ggthemes)
+# library(ggrepel)
+# library(dslabs)
 ```
 
+
 ```{r, warning=FALSE, echo=TRUE}
-# Load Data
-kable(head(murders))
+ 
 
-ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
-
-  ggplot1 + geom_point(aes(col=region), size = 4) +
-  geom_text_repel(aes(label=abb)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(formula = "y~x", method=lm,se = F)+
-  xlab("Populations in millions (log10 scale)") + 
-  ylab("Total number of murders (log10 scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region")+
-      theme_bw()
+ 
+# kable(head(murders))
+# 
+# ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
+# 
+#   ggplot1 + geom_point(aes(col=region), size = 4) +
+#   geom_text_repel(aes(label=abb)) +
+#   scale_x_log10() +
+#   scale_y_log10() +
+#   geom_smooth(formula = "y~x", method=lm,se = F)+
+#   xlab("Populations in millions (log10 scale)") + 
+#   ylab("Total number of murders (log10 scale)") +
+#   ggtitle("US Gun Murders in 2010") +
+#   scale_color_discrete(name = "Region")+
+#       theme_bw()
   
 
 ```
 
 ### Statistical Modeling
 
-```{r}
 
-```
 
 ### Conclusion
 
