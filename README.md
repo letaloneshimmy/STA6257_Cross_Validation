@@ -5,6 +5,7 @@
   - [Quarto: Markdown Basics](https://quarto.org/docs/authoring/markdown-basics.html)
   - [website](https://letaloneshimmy.github.io/STA6257_Cross_Validation/)
   - [Slides]()
+  - -<a href="https://www.w3schools.com" target="_blank">Visit W3Schools.com!</a> 
 
 ## More information:
 - [Class Web Site](https://uwf.instructure.com/courses/52193/pages/course-website?module_item_id=3144756)
