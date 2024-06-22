@@ -1,6 +1,7 @@
 ---
-title: "Sample Report - Data Science Capstone"
-author: "Curtis Musson"
+title: "Cross Validation"
+subtitle: "Resampling methods to evaluate model fit"
+author: "Sai Devarasheyyt, Mattick, Musson, Perez"
 date: '`r Sys.Date()`'
 format:
   html:
@@ -17,18 +18,44 @@ editor:
     wrap: 72
 ---
 
+## Push, Pulbish changes to Github
+  - Git, nest to Environment and History
+  - select all files, check box
+  - commit
+  - add comment
+  - push
+  - Github username
+  - Password is the Git token
+
+
+## Links
+  - [Github: Andrew Mattick](https://github.com/andyMattick/STA6257_Project_CrossValidation.git)
+  - [Github: Curtis Musson](https://github.com/letaloneshimmy/STA6257_Musson_CrossValidation.git)
+  - [Discord: Crossvalisdation Board](https://discord.com/channels/1253401001113817270/1253401001545957406)
+  - [Quarto: Markdown Basics](https://quarto.org/docs/authoring/markdown-basics.html)
+
+ [website](https://letaloneshimmy.github.io/STA6257_Musson_CrossValidation/)\
+ [Slides]()
+
+
 ## Introduction
+Cross validation is a resampling method. Resampling methods involve repeatedly drawing samples from a training set and refitting a model of interest on each sample in order to obtain additional information about the fitted model [@james2013introduction].
+
+USGS book ref square error Mean Square error [@helsel1993statistical]
+
+concreet data [@misc_concrete_compressive_strength_165]
+
 
 ### What is "mehtod"?
 
-This is an introduction to cross, which is a non-parametric
+This is an introduction to LASSO regression, which is a non-parametric
 estimator that estimates the conditional expectation of two variables
 which is random. The goal of a kernel regression is to discover the
 non-linear relationship between two random variables. To discover the
 non-linear relationship, kernel estimator or kernel smoothing is the
 main method to estimate the curve for non-parametric statistics. In
 kernel estimator, weight function is known as kernel function
-[@efr2008]. Cite this paper [@bro2014principal]. The GEE [@wang2014].
+
 
 This is my work and I want to add more work...
 
@@ -64,6 +91,7 @@ $$
 ### Data and Visualization
 
 A study was conducted to determine how...
+
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # loading packages 
