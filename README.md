@@ -10,7 +10,7 @@
 
 ## More information:
 - [Quarto: Markdown Basics](https://quarto.org/docs/authoring/markdown-basics.html)
-- [Quarti: typesetting](https://www.albany.edu/spatial/talk/quarto/lecture/91-quarto-markdown.html#:~:text=Math%20symbols%20in%20Quarto/markdown%20are%20handled%20with,the%20most%20common%20system%20for%20typesetting%20mathematical)
+- [Quarto: Typesetting](https://www.albany.edu/spatial/talk/quarto/lecture/91-quarto-markdown.html#:~:text=Math%20symbols%20in%20Quarto/markdown%20are%20handled%20with,the%20most%20common%20system%20for%20typesetting%20mathematical)
 - [Class Web Site](https://uwf.instructure.com/courses/52193/pages/course-website?module_item_id=3144756)
 - [GitHub](https://happygitwithr.com/index.html)
 - [Video1 RStudio connection to GitHub](https://www.youtube.com/watch?v=MdmnE3AnkQE)
