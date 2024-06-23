@@ -2,6 +2,7 @@
   - [Github: Andrew Mattick](https://github.com/andyMattick/STA6257_Project_CrossValidation.git)
   - [Github: Curtis Musson](https://github.com/letaloneshimmy/STA6257_Musson_CrossValidation.git)
   - [Discord: Crossvalisdation Board](https://discord.com/channels/1253401001113817270/1253401001545957406)
+  - [Canvas: Crossvalisdation Board](https://uwf.instructure.com/groups/46154#)
   - [Quarto: Markdown Basics](https://quarto.org/docs/authoring/markdown-basics.html)
   - [website](https://letaloneshimmy.github.io/STA6257_Cross_Validation/)
   - [Slides]()
