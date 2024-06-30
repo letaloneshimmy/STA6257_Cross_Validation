@@ -3301,11 +3301,78 @@ window.Quarto = {
 <section id="limitations" class="level4">
 <h4 class="anchored" data-anchor-id="limitations">limitations</h4>
 <p>According to the author repeated CV is recommend to reduce variance. Other CV studies have concluded that variance is greatly reduced when using the 10-fold CV, when compared to the Leave-One-Out CV method. This experiment was done using the 10-fold CV method. I wounder if this experiment were done using LOOCV if the results/conclusions would be the same/similar.</p>
+<p>If I used Repetitive CV to estimate model error, I would not use the mean CV value, I would use the max CV error estimate.</p>
 </section>
 <section id="data-that-was-used" class="level4">
 <h4 class="anchored" data-anchor-id="data-that-was-used">data that was used</h4>
 <p>Frank, A. and Asuncion, A. (2010) UCI Machine Learning Repository. University of California, School of Information and Computer Science. Irvine. http://archive.ics.uci.edu/ ml</p>
 </section>
+</section>
+<section id="atrical-2-assessing-model-fit-by-cross-validation-hawkins2003assessing" class="level3">
+<h3 class="anchored" data-anchor-id="atrical-2-assessing-model-fit-by-cross-validation-hawkins2003assessing">Atrical-2 <a href="https://pubs.acs.org/doi/pdf/10.1021/ci025626i?casa_token=iSpUkNhlfsMAAAAA:nzsLXNNwrbIqqpp4fR5o8nYDSRt2Jr7SCMFXFA-n0lsb7G55C3jlDrTEIeJG89MYjxlQ-nmz2Z7ScepT">Assessing Model Fit by Cross-Validation</a> <span class="citation" data-cites="hawkins2003assessing">(<a href="#ref-hawkins2003assessing" role="doc-biblioref">Hawkins, Basak, and Mills 2003</a>)</span></h3>
+</section>
+<section id="goal" class="level3">
+<h3 class="anchored" data-anchor-id="goal">Goal</h3>
+<p>Provide evidence that, when the sample is small (“dozens or scores rather than the hundreds”), it is better to construct a QSAR model with all available data and use Cross-validation to estimate model error. Verses constructing a QSAR model with a portion of the available data (training set) and using the remaining portion of the data (test set) to evaluate model performance. The authors refer to the later method as “sample splitting”.</p>
+</section>
+<section id="methods-1" class="level3">
+<h3 class="anchored" data-anchor-id="methods-1">methods</h3>
+<section id="data-cleaning" class="level4">
+<h4 class="anchored" data-anchor-id="data-cleaning">Data cleaning</h4>
+<p>predictors were removing if they:</p>
+<ul>
+<li><p>perfectly correlated with another predictor</p></li>
+<li><p>showed no compound to compound variation</p></li>
+<li><p>were available for “a few” compounds</p></li>
+</ul>
+<p>Of the original 379 predictors, 232 were used in the experiment.</p>
+</section>
+<section id="calibration" class="level4">
+<h4 class="anchored" data-anchor-id="calibration">Calibration</h4>
+<section id="training-set-pool" class="level5">
+<h5 class="anchored" data-anchor-id="training-set-pool">Training Set pool</h5>
+<p>100 of the 469 compounds were randomly selected. 300 ridge regression models were fit to the 100 selected compounds that predicted vapor pressure (y).</p>
+<ul>
+<li><p>75 models were constructed with 5 randomly selected predictors (x)</p></li>
+<li><p>75 models were constructed with 10 randomly selected predictors (x)</p></li>
+<li><p>75 models were constructed with 20 randomly selected predictors (x)</p></li>
+<li><p>75 models were constructed with 50 randomly selected predictors (x)</p></li>
+</ul>
+</section>
+<section id="assessment" class="level5">
+<h5 class="anchored" data-anchor-id="assessment">Assessment</h5>
+<p>Of the remaining 369 (469-100 training compounds) compounds, 50 were randomly selected for the test set. The experimental data set was the 319 remaining compounds</p>
+<p>The 300 models were used to predict the vapor pressure of the compounds in the experimental data set. The R-Squared [1-(sum(yi - yhat)^2 / sum(yi - ybar)^2 )] value for each compound was calculated. The experimenters made the assumption that this R-Squared value was the “True” R-Squared value of the population.</p>
+<p>Four experimental R-Squared values for each of the 300 calibration models were calculated to evaluate their performance.</p>
+<ol type="1">
+<li><p>Leave One Out Cross validation</p></li>
+<li><p>Hold Out Set n = 10</p></li>
+<li><p>Hold Out Set n = 20</p></li>
+<li><p>Hold Out Set n = 50</p></li>
+</ol>
+<p>The “true” R-Squared value mean and standard deviation were compared to the experimental R-Squared means and standard deviations.</p>
+</section>
+</section>
+</section>
+<section id="results-1" class="level3">
+<h3 class="anchored" data-anchor-id="results-1">results</h3>
+<p>With a sample size of 100:</p>
+<ul>
+<li><p>The CV and 50-compond holdout set R-Squared values “seemed” to reliable predict the “true” R-Squared.</p></li>
+<li><p>The 20-compond holdout R-Squared values showed more variation than the CV and 50-compond holdout set R-Squared. The author concluded this method was inferior to CV and the 50-holdout.</p></li>
+<li><p>The 10-compund holdout R-Squared values showed “enormous” variation. The author concluded this method “useless”.</p></li>
+</ul>
+</section>
+<section id="limitations-1" class="level3">
+<h3 class="anchored" data-anchor-id="limitations-1">limitations</h3>
+<p>The authors conclusions are opinion based. This statistic is smallest than this statistic. This plot looks better that this plot. The is no evidence (hypothesis testing) to support the authors conclusions.</p>
+</section>
+<section id="data-that-was-used-1" class="level3">
+<h3 class="anchored" data-anchor-id="data-that-was-used-1">data that was used</h3>
+<p>The data set contains 469 compounds and 379 chemical descriptors. One of the descriptors was vapor pressure. Vapor pressure was the response variable in the models.</p>
+<p>The data sets were from:</p>
+<p>Basak, S. C.; Gute, B. D.; Grunwald, G. D. Use of topostructural topochemical, and geometric parameters in the prediction of vapor pressure: A hierarchical approach. J. Chem. Inf. Comput. Sci. 1997, 37, 651-655.</p>
+<p>Basak, S. C.; Gute, B. D.; Grunwald, G. D. Use of topostructural topochemical, and geometric parameters in the prediction of vapor pressure: A hierarchical approach. J. Chem. Inf. Comput. Sci. 1997, 37, 651-655.</p>
 </section>
 </section>
 <section id="push-pulbish-changes-to-github" class="level2">
@@ -3337,8 +3404,8 @@ window.Quarto = {
 <p>Cross validation is a resampling method. Resampling methods involve repeatedly drawing samples from a training set and refitting a model of interest on each sample in order to obtain additional information about the fitted model <span class="citation" data-cites="james2013introduction">(<a href="#ref-james2013introduction" role="doc-biblioref">James et al. 2013</a>)</span>.</p>
 <p>resampling sample w/out replacement.</p>
 </section>
-<section id="methods-1" class="level2">
-<h2 class="anchored" data-anchor-id="methods-1">Methods</h2>
+<section id="methods-2" class="level2">
+<h2 class="anchored" data-anchor-id="methods-2">Methods</h2>
 <ul>
 <li>Validation Set Approach k%/1-k% 50/50</li>
 <li>Leave-One-Out Cross-Validation k=1</li>
@@ -3647,8 +3714,8 @@ Number of Fisher Scoring iterations: 2</code></pre>
 <p>This section is going to cover the literature review…</p>
 </section>
 </section>
-<section id="methods-2" class="level2">
-<h2 class="anchored" data-anchor-id="methods-2">Methods</h2>
+<section id="methods-3" class="level2">
+<h2 class="anchored" data-anchor-id="methods-3">Methods</h2>
 <!-- The common non-parametric regression model is -->
 <!-- $Y_i = m(X_i) + \varepsilon_i$, where $Y_i$ can be defined as the sum of -->
 <!-- the regression function value $m(x)$ for $X_i$. Here $m(x)$ is unknown -->
@@ -3716,6 +3783,9 @@ Number of Fisher Scoring iterations: 2</code></pre>
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-bischl2012resampling" class="csl-entry" role="listitem">
 Bischl, Bernd, Olaf Mersmann, Heike Trautmann, and Claus Weihs. 2012. <span>“Resampling Methods for Meta-Model Validation with Recommendations for Evolutionary Computation.”</span> <em>Evolutionary Computation</em> 20 (2): 249–75.
+</div>
+<div id="ref-hawkins2003assessing" class="csl-entry" role="listitem">
+Hawkins, Douglas M, Subhash C Basak, and Denise Mills. 2003. <span>“Assessing Model Fit by Cross-Validation.”</span> <em>Journal of Chemical Information and Computer Sciences</em> 43 (2): 579–86.
 </div>
 <div id="ref-helsel1993statistical" class="csl-entry" role="listitem">
 Helsel, Dennis R, and Robert M Hirsch. 1993. <em>Statistical Methods in Water Resources</em>. Elsevier.

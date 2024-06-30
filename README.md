@@ -46,5 +46,87 @@ The pessimistic bias decreases with an increased sample size.
 #### limitations
 According to the author repeated CV is recommend to reduce variance. Other CV studies have concluded that variance is greatly reduced when using the 10-fold CV, when compared to the Leave-One-Out CV method.  This experiment was done using the 10-fold CV method. I wounder if this experiment were done using LOOCV if the results/conclusions would be the same/similar.
 
+If I  used Repetitive CV to estimate model error, I would not use the mean CV value,  I would use the max CV error estimate.
+
 #### data that was used
 Frank, A. and Asuncion, A. (2010) UCI Machine Learning Repository. University of California, School of Information and Computer Science. Irvine. http://archive.ics.uci.edu/ ml
+
+
+### Atrical-2 [Assessing Model Fit by Cross-Validation](https://pubs.acs.org/doi/pdf/10.1021/ci025626i?casa_token=iSpUkNhlfsMAAAAA:nzsLXNNwrbIqqpp4fR5o8nYDSRt2Jr7SCMFXFA-n0lsb7G55C3jlDrTEIeJG89MYjxlQ-nmz2Z7ScepT) [@hawkins2003assessing]
+
+
+### Goal
+
+Provide evidence that, when the sample is small ("dozens or scores rather than the hundreds"), it is better to construct a QSAR model with all available data and use Cross-validation to estimate model error. Verses constructing a QSAR model with a portion of the available data (training set) and using the remaining portion of the data (test set) to evaluate model performance. The authors refer to the later method as "sample splitting".
+
+### methods
+#### Data cleaning 
+predictors were removing if they:
+
+-	perfectly correlated with another predictor
+
+-	showed no compound to compound variation
+
+-	were available for "a few" compounds
+
+Of the original 379 predictors, 232 were used in the experiment.
+
+#### Calibration
+##### Training Set pool
+100 of the 469 compounds were randomly selected.
+300 ridge regression models were fit to the 100 selected compounds that predicted vapor pressure (y).
+
+-	75 models were constructed with 5  randomly selected predictors (x)
+
+-	75 models were constructed with 10 randomly selected predictors (x)
+
+-	75 models were constructed with 20 randomly selected predictors (x) 
+
+-	75 models were constructed with 50 randomly selected predictors (x) 
+
+##### Assessment
+Of the remaining 369 (469-100 training compounds) compounds, 50 were randomly selected for the test set. 
+The experimental data set was the 319 remaining compounds 
+
+The 300 models were used to predict the vapor pressure of the compounds in the experimental data set. The R-Squared [1-(sum(yi - yhat)^2 / sum(yi - ybar)^2 )] value for each compound was calculated. The experimenters made the assumption that this R-Squared value was the "True" R-Squared value of the population. 
+
+Four experimental R-Squared values for each of the 300 calibration models were calculated to evaluate their performance.
+
+1. Leave One Out Cross validation
+
+2. Hold Out Set n = 10
+
+3. Hold Out Set n = 20
+
+4. Hold Out Set n = 50
+
+The "true" R-Squared value mean and standard deviation were compared to the experimental R-Squared means and standard deviations. 
+
+### results
+With a sample size of 100:
+
+-	The CV and 50-compond holdout set R-Squared values "seemed" to reliable predict the "true" R-Squared.
+
+-	The 20-compond holdout R-Squared values showed more variation than  the CV and 50-compond holdout set R-Squared. The author concluded this method was inferior to CV and the 50-holdout. 
+
+-	The 10-compund holdout R-Squared values showed "enormous" variation. The author concluded this method "useless".
+
+
+### limitations
+The authors conclusions are opinion based. This statistic is smallest than this statistic. This plot looks better that this plot. The is no evidence (hypothesis testing) to support the authors conclusions. 
+
+### data that was used
+
+The data set contains 469 compounds and 379 chemical descriptors. One of the descriptors was vapor pressure. Vapor pressure was the response variable in the models.
+
+The data sets were from:
+
+Basak, S. C.; Gute, B. D.; Grunwald, G. D. Use of topostructural
+topochemical, and geometric parameters in the prediction of vapor
+pressure: A hierarchical approach. J. Chem. Inf. Comput. Sci. 1997,
+37, 651-655.
+
+Basak, S. C.; Gute, B. D.; Grunwald, G. D. Use of topostructural
+topochemical, and geometric parameters in the prediction of vapor
+pressure: A hierarchical approach. J. Chem. Inf. Comput. Sci. 1997,
+37, 651-655.
