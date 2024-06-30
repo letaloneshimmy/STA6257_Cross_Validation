@@ -18,8 +18,56 @@ editor:
     wrap: 72
 ---
 
+## Week 2 Atrical Summaries
+
+### Atrical-1 [On Estimating Model Accuracy with Repeated Cross-Validation](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C10&q=On+Estimating+Model+Accuracy+with+Repeated+Cross-Validation.&btnG=) [@vanwinckelen2012estimating]
+
+
+#### Goal/why
+The authors objective is to evaluate the benefits of estimating model accuracy with Repeated Cross-Validation (CV). Repeated CV is the process of repeat the CV multiple times then calculating a mean and confidence interval around the mean. Their hypothesis is that repeated CV is not useful.
+
+#### Methods
+A large data set was used to represent a population P
+Nine data sets S were created by randomly sampling P n times.
+
+-       Experiment 1: The C4.5 method was used to model each S. S = 9, n = 200
+
+-       Experiment 2: The Naive Bayes method was used to model each S. S = 9, n = 200
+
+-       Experiment 3: The C4.5 method was used to model each S. S = 9, n = 1000
+
+-       Experiment 4: The Naive Bayes method was used to model each S. S = 9, n = 1000
+
+Three 10-Fold CV estimates were calculated for each S. Each of the three CV estimates were repeated at different frequencies (1x, 10x, 30x) 
+The mean CV estimate was calculated and a 95% CI was constructed around the mean. 
+The population accuracy for each model was calculated.
+The mean CV estimate and its upper and lower CI estimates were compared to the population accuracy.
+
+#### results
+The 95%CI range decreases as the number of CV repetitions increases. 
+The model population accuracy value was within most (29/36) of the 1xCV 95%CI. As the number of CV reps. increase fewer of the model population accuracy value were within the 95%CI.
+When the model population accuracy value was outside the 95%CI, most of the model population accuracy value were to the right of the 95%CI. Showing a pessimistic bias. 
+The pessimistic bias decreases with an increased sample size.
+
+#### limitations
+According to the author repeated CV is recommend to reduce variance. Other CV studies have concluded that variance is greatly reduced when using the 10-fold CV, when compared to the Leave-One-Out CV method.  This experiment was done using the 10-fold CV method. I wounder if this experiment were done using LOOCV if the results/conclusions would be the same/similar.
+
+#### data that was used
+Frank, A. and Asuncion, A. (2010) UCI Machine Learning Repository. University of California, School of Information and Computer Science. Irvine. http://archive.ics.uci.edu/ ml
+
+
+
+
+
+
+
+
+
+
+
+
 ## Push, Pulbish changes to Github
-  - Git, nest to Environment and History
+  - Git, next to Environment and History
   - select all files, check box
   - commit
   - add comment
@@ -33,6 +81,7 @@ editor:
   - [Github: Curtis Musson](https://github.com/letaloneshimmy/STA6257_Musson_CrossValidation.git)
   - [Discord: Crossvalisdation Board](https://discord.com/channels/1253401001113817270/1253401001545957406)
   - [Quarto: Markdown Basics](https://quarto.org/docs/authoring/markdown-basics.html)
+  - [Quarto: Typesetting](https://www.albany.edu/spatial/talk/quarto/lecture/91-quarto-markdown.html#:~:text=Math%20symbols%20in%20Quarto/markdown%20are%20handled%20with,the%20most%20common%20system%20for%20typesetting%20mathematical)
 
  [website](https://letaloneshimmy.github.io/STA6257_Cross_Validation/)\
  [Slides]()
@@ -41,13 +90,16 @@ editor:
 ## Introduction
 Cross validation is a resampling method. Resampling methods involve repeatedly drawing samples from a training set and refitting a model of interest on each sample in order to obtain additional information about the fitted model [@james2013introduction].
 
-USGS book ref square error Mean Square error [@helsel1993statistical]
 
+resampling sample w/out replacement.
 
 
 
 ## Methods
 
+ - Validation Set Approach	k%/1-k%   50/50
+ - Leave-One-Out Cross-Validation k=1
+ - k-fold k=n
 
 
 ![Leave One Out CV](LOOCV_fig.png)
@@ -69,24 +121,63 @@ USGS book ref square error Mean Square error [@helsel1993statistical]
 
 
 $$
-y = \beta_0 + \beta_1 X_1 + ... +\beta_k X_k +\varepsilon_i\tag{1}
+y = \beta_0 + \beta_1 X_1 + ... +\beta_k X_k +\varepsilon_i\tag{3}
 $$
+
+##### Square Error
+
+$$
+Square\ Error_i = (y_i - \hat{y}_i)^2\tag{3}
+$$
+  One of the major issues in MLR is finding the appropriate approach to variable selection. The benefit of adding additional variables to an MLR model is to account for or explain more of the variance of the response variable. The cost of adding additional variables is that the degrees of freedom, n−k−1, decreases (the number of independent pieces of information in the sample), making it more difficult to find significance in hypothesis tests and increasing the width of confidence intervals. A good model will explain as much of the variance of y as possible with a small number of explanatory variables.
+
+  The first step is to consider only explanatory variables that ought to have some effect on the dependent variable. There must be plausible theory behind why a variable might be expected to influence the magnitude of y. Simply minimizing the SSE  or maximizing R2 are not sufficient criteria. In fact, any explanatory variable will reduce the SSE and increase the R2 by some small amount, even those irrelevant to the situation (or even random numbers). The benefit of adding these unrelated variables, however, is small compared to the cost of a degree of freedom. Therefore, the choice of whether to add a variable is based on a cost-benefit analysis, and variables enter the model only if they make a significant improvement in the model, because there is a loss of statistical power as more variables are added.  [@helsel1993statistical]
+  
+It should be noted, that it is usually advisable to choose a less complex model in order to achieve good results with the desired small sample sizes since more complex models usually require larger data sets to be sufficiently accurate. [@bischl2012resampling]
+
 
 ##### Mean Square Error
 
 $$
-MSE_i = (y_i - \hat{y}_i)^2\tag{2}
+MSE = \frac{1}{n}\sum_{i=1}^{n}(y_i -\hat{y}_i)^2  \tag{3}
 $$
 
 
-##### Cross validation
 
+##### Leave-One_Out Cross validation
 
 $$
-CV_(n) = \frac{1}{n}\sum_{i=1}^{n} MSE_i  \tag{3}
+CV_{(n)} = \frac{1}{n}\sum_{i=1}^{n} MSE_i  \tag{3}
 $$
+
+
 
 [@james2013introduction]
+
+
+#### leverage statistic
+
+$$
+h_i = \frac{1}{n} + \frac{(x_i - \bar{x})^2}{\sum_{i=1}^{n}(x_i - \bar{x})^2}\tag{3}
+$$
+[@james2013introduction] pdf page 110, book page99
+
+
+#### Leave-One-Out Cross-Validation for linear models fit by least squares
+
+LOOCV is computationally expensive and may take a lot of time to compute when n is large because the models has to be fit n times. For least squares linear or polynomial regression there is a less computationally expensive method. The following formula produces the same results as LOOCV. Where hat{y_i} is the ith fitted value nd hi is the leverage defined (99)
+
+$$
+CV_{(n)}=\frac{1}{n}\sum_{i=1}^{n}\left(\frac{y_i - \hat{y}}{1-h_i}\right)^2\tag{3}
+$$
+
+#### k-Fold Cross-Validation
+
+
+$$
+CV_{(k)} = \frac{1}{k}\sum_{i=1}^{k} MSEi
+$$
+
 
 ## Analysis and Results
 
@@ -107,17 +198,17 @@ concrete data [@misc_concrete_compressive_strength_165]
 #### Source
 
 
-| Name                          | Data Type    | Measurement  | Description     |
+| Name                          | Data Type    | Measurement  | Variable     |
 |:----------------------------- |:-------------|:-------------|:----------------|
-| Concrete compressive strength | Quantitative | MPa          | Output Variable |
-| Cement              | Quantitative | kg in a m3 mixture | Input Variable |
-| Blast Furnace Slag  | Quantitative | kg in a m3 mixture | Input Variable |
-| Fly Ash             | Quantitative | kg in a m3 mixture | Input Variable |
-| Water               | Quantitative | kg in a m3 mixture | Input Variable |
-| Superplasticizer    | Quantitative | kg in a m3 mixture | Input Variable |
-| Coarse Aggregate    | Quantitative | kg in a m3 mixture | Input Variable |
-| Fine Aggregate      | Quantitative | kg in a m3 mixture | Input Variable |
-| Age                 | Quantitative | Day (1~365)        | Input Variable |
+| Concrete compressive strength | Quantitative | MPa          | Response  |
+| Cement              | Quantitative | kg in a m3 mixture | Predictor |
+| Blast Furnace Slag  | Quantitative | kg in a m3 mixture | Predictor |
+| Fly Ash             | Quantitative | kg in a m3 mixture | Predictor |
+| Water               | Quantitative | kg in a m3 mixture | Predictor |
+| Superplasticizer    | Quantitative | kg in a m3 mixture | Predictor |
+| Coarse Aggregate    | Quantitative | kg in a m3 mixture | Predictor |
+| Fine Aggregate      | Quantitative | kg in a m3 mixture | Predictor |
+| Age                 | Quantitative | Day (1~365)        | Predictor |
 
 : Variables {.striped .hover}
 

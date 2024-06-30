@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sai Devarasheyyt, Mattick, Musson, Perez">
-<meta name="dcterms.date" content="2024-06-22">
+<meta name="dcterms.date" content="2024-06-30">
 
 <title>Cross Validation</title>
 <style>
@@ -3263,7 +3263,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 22, 2024</p>
+      <p class="date">June 30, 2024</p>
     </div>
   </div>
   
@@ -3275,6 +3275,39 @@ window.Quarto = {
 </header>
 
 
+<section id="week-2-atrical-summaries" class="level2">
+<h2 class="anchored" data-anchor-id="week-2-atrical-summaries">Week 2 Atrical Summaries</h2>
+<section id="atrical-1-on-estimating-model-accuracy-with-repeated-cross-validation-vanwinckelen2012estimating" class="level3">
+<h3 class="anchored" data-anchor-id="atrical-1-on-estimating-model-accuracy-with-repeated-cross-validation-vanwinckelen2012estimating">Atrical-1 <a href="https://scholar.google.com/scholar?hl=en&amp;as_sdt=0%2C10&amp;q=On+Estimating+Model+Accuracy+with+Repeated+Cross-Validation.&amp;btnG=">On Estimating Model Accuracy with Repeated Cross-Validation</a> <span class="citation" data-cites="vanwinckelen2012estimating">(<a href="#ref-vanwinckelen2012estimating" role="doc-biblioref">Vanwinckelen and Blockeel 2012</a>)</span></h3>
+<section id="goalwhy" class="level4">
+<h4 class="anchored" data-anchor-id="goalwhy">Goal/why</h4>
+<p>The authors objective is to evaluate the benefits of estimating model accuracy with Repeated Cross-Validation (CV). Repeated CV is the process of repeat the CV multiple times then calculating a mean and confidence interval around the mean. Their hypothesis is that repeated CV is not useful.</p>
+</section>
+<section id="methods" class="level4">
+<h4 class="anchored" data-anchor-id="methods">Methods</h4>
+<p>A large data set was used to represent a population P Nine data sets S were created by randomly sampling P n times.</p>
+<ul>
+<li><pre><code>  Experiment 1: The C4.5 method was used to model each S. S = 9, n = 200</code></pre></li>
+<li><pre><code>  Experiment 2: The Naive Bayes method was used to model each S. S = 9, n = 200</code></pre></li>
+<li><pre><code>  Experiment 3: The C4.5 method was used to model each S. S = 9, n = 1000</code></pre></li>
+<li><pre><code>  Experiment 4: The Naive Bayes method was used to model each S. S = 9, n = 1000</code></pre></li>
+</ul>
+<p>Three 10-Fold CV estimates were calculated for each S. Each of the three CV estimates were repeated at different frequencies (1x, 10x, 30x) The mean CV estimate was calculated and a 95% CI was constructed around the mean. The population accuracy for each model was calculated. The mean CV estimate and its upper and lower CI estimates were compared to the population accuracy.</p>
+</section>
+<section id="results" class="level4">
+<h4 class="anchored" data-anchor-id="results">results</h4>
+<p>The 95%CI range decreases as the number of CV repetitions increases. The model population accuracy value was within most (29/36) of the 1xCV 95%CI. As the number of CV reps. increase fewer of the model population accuracy value were within the 95%CI. When the model population accuracy value was outside the 95%CI, most of the model population accuracy value were to the right of the 95%CI. Showing a pessimistic bias. The pessimistic bias decreases with an increased sample size.</p>
+</section>
+<section id="limitations" class="level4">
+<h4 class="anchored" data-anchor-id="limitations">limitations</h4>
+<p>According to the author repeated CV is recommend to reduce variance. Other CV studies have concluded that variance is greatly reduced when using the 10-fold CV, when compared to the Leave-One-Out CV method. This experiment was done using the 10-fold CV method. I wounder if this experiment were done using LOOCV if the results/conclusions would be the same/similar.</p>
+</section>
+<section id="data-that-was-used" class="level4">
+<h4 class="anchored" data-anchor-id="data-that-was-used">data that was used</h4>
+<p>Frank, A. and Asuncion, A. (2010) UCI Machine Learning Repository. University of California, School of Information and Computer Science. Irvine. http://archive.ics.uci.edu/ ml</p>
+</section>
+</section>
+</section>
 <section id="push-pulbish-changes-to-github" class="level2">
 <h2 class="anchored" data-anchor-id="push-pulbish-changes-to-github">Push, Pulbish changes to Github</h2>
 <ul>
@@ -3294,6 +3327,7 @@ window.Quarto = {
 <li><a href="https://github.com/letaloneshimmy/STA6257_Musson_CrossValidation.git">Github: Curtis Musson</a></li>
 <li><a href="https://discord.com/channels/1253401001113817270/1253401001545957406">Discord: Crossvalisdation Board</a></li>
 <li><a href="https://quarto.org/docs/authoring/markdown-basics.html">Quarto: Markdown Basics</a></li>
+<li><a href="https://www.albany.edu/spatial/talk/quarto/lecture/91-quarto-markdown.html#:~:text=Math%20symbols%20in%20Quarto/markdown%20are%20handled%20with,the%20most%20common%20system%20for%20typesetting%20mathematical">Quarto: Typesetting</a></li>
 </ul>
 <p><a href="https://letaloneshimmy.github.io/STA6257_Cross_Validation/">website</a><br>
 <a href>Slides</a></p>
@@ -3301,10 +3335,15 @@ window.Quarto = {
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>Cross validation is a resampling method. Resampling methods involve repeatedly drawing samples from a training set and refitting a model of interest on each sample in order to obtain additional information about the fitted model <span class="citation" data-cites="james2013introduction">(<a href="#ref-james2013introduction" role="doc-biblioref">James et al. 2013</a>)</span>.</p>
-<p>USGS book ref square error Mean Square error <span class="citation" data-cites="helsel1993statistical">(<a href="#ref-helsel1993statistical" role="doc-biblioref">Helsel and Hirsch 1993</a>)</span></p>
+<p>resampling sample w/out replacement.</p>
 </section>
-<section id="methods" class="level2">
-<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<section id="methods-1" class="level2">
+<h2 class="anchored" data-anchor-id="methods-1">Methods</h2>
+<ul>
+<li>Validation Set Approach k%/1-k% 50/50</li>
+<li>Leave-One-Out Cross-Validation k=1</li>
+<li>k-fold k=n</li>
+</ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img role="img" src="data:image/png;base64,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" class="img-fluid figure-img"></p>
@@ -3322,21 +3361,51 @@ window.Quarto = {
 </section>
 <section id="equations" class="level3">
 <h3 class="anchored" data-anchor-id="equations">Equations</h3>
-<section id="general-linear-model" class="level4">
-<h4 class="anchored" data-anchor-id="general-linear-model">General Linear Model</h4>
+<section id="general-linear-model" class="level5">
+<h5 class="anchored" data-anchor-id="general-linear-model">General Linear Model</h5>
 <p><span class="math display">\[
-y = \beta_0 + \beta_1 X_1 + ... +\beta_k X_k +\varepsilon_i\tag{1}
+y = \beta_0 + \beta_1 X_1 + ... +\beta_k X_k +\varepsilon_i\tag{3}
 \]</span></p>
 </section>
-<section id="mean-square-error" class="level4">
-<h4 class="anchored" data-anchor-id="mean-square-error">Mean Square Error</h4>
+<section id="square-error" class="level5">
+<h5 class="anchored" data-anchor-id="square-error">Square Error</h5>
 <p><span class="math display">\[
-MSE_i = (y_i - \hat{y}_i)^2\tag{2}
+Square\ Error_i = (y_i - \hat{y}_i)^2\tag{3}
+\]</span> One of the major issues in MLR is finding the appropriate approach to variable selection. The benefit of adding additional variables to an MLR model is to account for or explain more of the variance of the response variable. The cost of adding additional variables is that the degrees of freedom, n−k−1, decreases (the number of independent pieces of information in the sample), making it more difficult to find significance in hypothesis tests and increasing the width of confidence intervals. A good model will explain as much of the variance of y as possible with a small number of explanatory variables.</p>
+<p>The first step is to consider only explanatory variables that ought to have some effect on the dependent variable. There must be plausible theory behind why a variable might be expected to influence the magnitude of y. Simply minimizing the SSE or maximizing R2 are not sufficient criteria. In fact, any explanatory variable will reduce the SSE and increase the R2 by some small amount, even those irrelevant to the situation (or even random numbers). The benefit of adding these unrelated variables, however, is small compared to the cost of a degree of freedom. Therefore, the choice of whether to add a variable is based on a cost-benefit analysis, and variables enter the model only if they make a significant improvement in the model, because there is a loss of statistical power as more variables are added. <span class="citation" data-cites="helsel1993statistical">(<a href="#ref-helsel1993statistical" role="doc-biblioref">Helsel and Hirsch 1993</a>)</span></p>
+<p>It should be noted, that it is usually advisable to choose a less complex model in order to achieve good results with the desired small sample sizes since more complex models usually require larger data sets to be sufficiently accurate. <span class="citation" data-cites="bischl2012resampling">(<a href="#ref-bischl2012resampling" role="doc-biblioref">Bischl et al. 2012</a>)</span></p>
+</section>
+<section id="mean-square-error" class="level5">
+<h5 class="anchored" data-anchor-id="mean-square-error">Mean Square Error</h5>
+<p><span class="math display">\[
+MSE = \frac{1}{n}\sum_{i=1}^{n}(y_i -\hat{y}_i)^2  \tag{3}
 \]</span></p>
+</section>
+<section id="leave-one_out-cross-validation" class="level5">
+<h5 class="anchored" data-anchor-id="leave-one_out-cross-validation">Leave-One_Out Cross validation</h5>
 <p><span class="math display">\[
-CV_n = \frac{1}{n}\sum_{i=1}^{n} MSE_i  \tag{3}
+CV_{(n)} = \frac{1}{n}\sum_{i=1}^{n} MSE_i  \tag{3}
 \]</span></p>
 <p><span class="citation" data-cites="james2013introduction">(<a href="#ref-james2013introduction" role="doc-biblioref">James et al. 2013</a>)</span></p>
+</section>
+<section id="leverage-statistic" class="level4">
+<h4 class="anchored" data-anchor-id="leverage-statistic">leverage statistic</h4>
+<p><span class="math display">\[
+h_i = \frac{1}{n} + \frac{(x_i - \bar{x})^2}{\sum_{i=1}^{n}(x_i - \bar{x})^2}\tag{3}
+\]</span> <span class="citation" data-cites="james2013introduction">(<a href="#ref-james2013introduction" role="doc-biblioref">James et al. 2013</a>)</span> pdf page 110, book page99</p>
+</section>
+<section id="leave-one-out-cross-validation-for-linear-models-fit-by-least-squares" class="level4">
+<h4 class="anchored" data-anchor-id="leave-one-out-cross-validation-for-linear-models-fit-by-least-squares">Leave-One-Out Cross-Validation for linear models fit by least squares</h4>
+<p>LOOCV is computationally expensive and may take a lot of time to compute when n is large because the models has to be fit n times. For least squares linear or polynomial regression there is a less computationally expensive method. The following formula produces the same results as LOOCV. Where hat{y_i} is the ith fitted value nd hi is the leverage defined (99)</p>
+<p><span class="math display">\[
+CV_{(n)}=\frac{1}{n}\sum_{i=1}^{n}\left(\frac{y_i - \hat{y}}{1-h_i}\right)^2\tag{3}
+\]</span></p>
+</section>
+<section id="k-fold-cross-validation" class="level4">
+<h4 class="anchored" data-anchor-id="k-fold-cross-validation">k-Fold Cross-Validation</h4>
+<p><span class="math display">\[
+CV_{(k)} = \frac{1}{k}\sum_{i=1}^{k} MSEi
+\]</span></p>
 </section>
 </section>
 </section>
@@ -3347,11 +3416,11 @@ CV_n = \frac{1}{n}\sum_{i=1}^{n} MSE_i  \tag{3}
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -3373,7 +3442,7 @@ CV_n = \frac{1}{n}\sum_{i=1}^{n} MSE_i  \tag{3}
 <th style="text-align: left;">Name</th>
 <th style="text-align: left;">Data Type</th>
 <th style="text-align: left;">Measurement</th>
-<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Variable</th>
 </tr>
 </thead>
 <tbody>
@@ -3381,55 +3450,55 @@ CV_n = \frac{1}{n}\sum_{i=1}^{n} MSE_i  \tag{3}
 <td style="text-align: left;">Concrete compressive strength</td>
 <td style="text-align: left;">Quantitative</td>
 <td style="text-align: left;">MPa</td>
-<td style="text-align: left;">Output Variable</td>
+<td style="text-align: left;">Response</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Cement</td>
 <td style="text-align: left;">Quantitative</td>
 <td style="text-align: left;">kg in a m3 mixture</td>
-<td style="text-align: left;">Input Variable</td>
+<td style="text-align: left;">Predictor</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Blast Furnace Slag</td>
 <td style="text-align: left;">Quantitative</td>
 <td style="text-align: left;">kg in a m3 mixture</td>
-<td style="text-align: left;">Input Variable</td>
+<td style="text-align: left;">Predictor</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Fly Ash</td>
 <td style="text-align: left;">Quantitative</td>
 <td style="text-align: left;">kg in a m3 mixture</td>
-<td style="text-align: left;">Input Variable</td>
+<td style="text-align: left;">Predictor</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Water</td>
 <td style="text-align: left;">Quantitative</td>
 <td style="text-align: left;">kg in a m3 mixture</td>
-<td style="text-align: left;">Input Variable</td>
+<td style="text-align: left;">Predictor</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Superplasticizer</td>
 <td style="text-align: left;">Quantitative</td>
 <td style="text-align: left;">kg in a m3 mixture</td>
-<td style="text-align: left;">Input Variable</td>
+<td style="text-align: left;">Predictor</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Coarse Aggregate</td>
 <td style="text-align: left;">Quantitative</td>
 <td style="text-align: left;">kg in a m3 mixture</td>
-<td style="text-align: left;">Input Variable</td>
+<td style="text-align: left;">Predictor</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Fine Aggregate</td>
 <td style="text-align: left;">Quantitative</td>
 <td style="text-align: left;">kg in a m3 mixture</td>
-<td style="text-align: left;">Input Variable</td>
+<td style="text-align: left;">Predictor</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Age</td>
 <td style="text-align: left;">Quantitative</td>
 <td style="text-align: left;">Day (1~365)</td>
-<td style="text-align: left;">Input Variable</td>
+<td style="text-align: left;">Predictor</td>
 </tr>
 </tbody>
 </table>
@@ -3439,18 +3508,18 @@ CV_n = \frac{1}{n}\sum_{i=1}^{n} MSE_i  \tag{3}
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>concreet <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Concrete_Data.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">cement =</span> <span class="dv">1</span>, </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">furnac_slag =</span> <span class="dv">2</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">fly_ash =</span> <span class="dv">3</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">water =</span> <span class="dv">4</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">superplasticizer =</span> <span class="dv">5</span>,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">coarse_aggregate =</span> <span class="dv">6</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">fine_aggregate =</span> <span class="dv">7</span>,</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">age =</span> <span class="dv">8</span>,</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">compressive_strength =</span> <span class="dv">9</span> ) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(compressive_strength)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>concreet <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Concrete_Data.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">cement =</span> <span class="dv">1</span>, </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">furnac_slag =</span> <span class="dv">2</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">fly_ash =</span> <span class="dv">3</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">water =</span> <span class="dv">4</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">superplasticizer =</span> <span class="dv">5</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">coarse_aggregate =</span> <span class="dv">6</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">fine_aggregate =</span> <span class="dv">7</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">age =</span> <span class="dv">8</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">compressive_strength =</span> <span class="dv">9</span> ) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(compressive_strength)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -3459,7 +3528,7 @@ CV_n = \frac{1}{n}\sum_{i=1}^{n} MSE_i  \tag{3}
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(concreet<span class="sc">$</span>compressive_strength)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(concreet<span class="sc">$</span>compressive_strength)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3470,10 +3539,10 @@ CV_n = \frac{1}{n}\sum_{i=1}^{n} MSE_i  \tag{3}
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> concreet <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> compressive_strength, <span class="at">x =</span>furnac_slag)) <span class="sc">+</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> <span class="st">&quot;y~x&quot;</span>, <span class="at">method=</span>lm,<span class="at">se =</span> F) </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plot1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> concreet <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> compressive_strength, <span class="at">x =</span>furnac_slag)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> <span class="st">&quot;y~x&quot;</span>, <span class="at">method=</span>lm,<span class="at">se =</span> F) </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plot1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3496,16 +3565,16 @@ CV_n = \frac{1}{n}\sum_{i=1}^{n} MSE_i  \tag{3}
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>glm_mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(compressive_strength <span class="sc">~</span> cement <span class="sc">+</span> furnac_slag <span class="sc">+</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                fly_ash <span class="sc">+</span> water <span class="sc">+</span> superplasticizer <span class="sc">+</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                coarse_aggregate <span class="sc">+</span> fine_aggregate <span class="sc">+</span> age,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> concreet, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># significant of regression line</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>full_mod <span class="ot">&lt;-</span> glm_mod </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>reduced_mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(compressive_strength <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> concreet, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(reduced_mod, full_mod, <span class="at">test =</span> <span class="st">&quot;F&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>glm_mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(compressive_strength <span class="sc">~</span> cement <span class="sc">+</span> furnac_slag <span class="sc">+</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                fly_ash <span class="sc">+</span> water <span class="sc">+</span> superplasticizer <span class="sc">+</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                coarse_aggregate <span class="sc">+</span> fine_aggregate <span class="sc">+</span> age,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> concreet, </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># significant of regression line</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>full_mod <span class="ot">&lt;-</span> glm_mod </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>reduced_mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(compressive_strength <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> concreet, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(reduced_mod, full_mod, <span class="at">test =</span> <span class="st">&quot;F&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table
@@ -3521,8 +3590,8 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># significant predictors</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># significant predictors</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -3578,8 +3647,8 @@ Number of Fisher Scoring iterations: 2</code></pre>
 <p>This section is going to cover the literature review…</p>
 </section>
 </section>
-<section id="methods-1" class="level2">
-<h2 class="anchored" data-anchor-id="methods-1">Methods</h2>
+<section id="methods-2" class="level2">
+<h2 class="anchored" data-anchor-id="methods-2">Methods</h2>
 <!-- The common non-parametric regression model is -->
 <!-- $Y_i = m(X_i) + \varepsilon_i$, where $Y_i$ can be defined as the sum of -->
 <!-- the regression function value $m(x)$ for $X_i$. Here $m(x)$ is unknown -->
@@ -3602,33 +3671,33 @@ Number of Fisher Scoring iterations: 2</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(dplyr)</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># library(readr)</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># library(knitr)</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ggplot2)</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ggthemes)</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ggrepel)</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># library(dslabs)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(dplyr)</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># library(readr)</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># library(knitr)</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ggplot2)</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ggthemes)</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ggrepel)</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># library(dslabs)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># kable(head(murders))</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot1 = murders %&gt;% ggplot(mapping = aes(x=population/10^6, y=total)) </span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot1 + geom_point(aes(col=region), size = 4) +</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_text_repel(aes(label=abb)) +</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_x_log10() +</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_y_log10() +</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(formula = &quot;y~x&quot;, method=lm,se = F)+</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   xlab(&quot;Populations in millions (log10 scale)&quot;) + </span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylab(&quot;Total number of murders (log10 scale)&quot;) +</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle(&quot;US Gun Murders in 2010&quot;) +</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_color_discrete(name = &quot;Region&quot;)+</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#       theme_bw()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># kable(head(murders))</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot1 = murders %&gt;% ggplot(mapping = aes(x=population/10^6, y=total)) </span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggplot1 + geom_point(aes(col=region), size = 4) +</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_text_repel(aes(label=abb)) +</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_x_log10() +</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_y_log10() +</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_smooth(formula = &quot;y~x&quot;, method=lm,se = F)+</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   xlab(&quot;Populations in millions (log10 scale)&quot;) + </span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   ylab(&quot;Total number of murders (log10 scale)&quot;) +</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggtitle(&quot;US Gun Murders in 2010&quot;) +</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale_color_discrete(name = &quot;Region&quot;)+</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#       theme_bw()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -3645,11 +3714,17 @@ Number of Fisher Scoring iterations: 2</code></pre>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-bischl2012resampling" class="csl-entry" role="listitem">
+Bischl, Bernd, Olaf Mersmann, Heike Trautmann, and Claus Weihs. 2012. <span>“Resampling Methods for Meta-Model Validation with Recommendations for Evolutionary Computation.”</span> <em>Evolutionary Computation</em> 20 (2): 249–75.
+</div>
 <div id="ref-helsel1993statistical" class="csl-entry" role="listitem">
 Helsel, Dennis R, and Robert M Hirsch. 1993. <em>Statistical Methods in Water Resources</em>. Elsevier.
 </div>
 <div id="ref-james2013introduction" class="csl-entry" role="listitem">
 James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, et al. 2013. <em>An Introduction to Statistical Learning</em>. Vol. 112. Springer.
+</div>
+<div id="ref-vanwinckelen2012estimating" class="csl-entry" role="listitem">
+Vanwinckelen, Gitte, and Hendrik Blockeel. 2012. <span>“On Estimating Model Accuracy with Repeated Cross-Validation.”</span> In <em>BeneLearn 2012: Proceedings of the 21st Belgian-Dutch Conference on Machine Learning</em>, 39–44.
 </div>
 <div id="ref-misc_concrete_compressive_strength_165" class="csl-entry" role="listitem">
 Yeh, I-Cheng. 2007. <span>“<span>Concrete Compressive Strength</span>.”</span> UCI Machine Learning Repository.
