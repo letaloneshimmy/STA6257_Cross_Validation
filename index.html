@@ -3433,6 +3433,23 @@ CV_{(n)} = \frac{1}{n}\sum_{i=1}^{n} \text{Measuer of Errori}_i \tag{5}
 <li><p>Repeat the process k-times, this time choosing a new test fold.</p></li>
 </ol>
 </section>
+<section id="nested-cross-validation-v2" class="level3">
+<h3 class="anchored" data-anchor-id="nested-cross-validation-v2">Nested Cross-Validation v2</h3>
+<ol type="1">
+<li><p><strong>Split the data into training and testing sets</strong><br>
+As in k-fold cross-validation, break the observations into the single test fold and the training folds. For example, if there are 300 observations and you use K = 5, four of the folds would be training folds and one of them would be the training fold.</p></li>
+<li><p><strong>Define inner and outer loops</strong><br>
+We define the test fold as the outer loop and use that to test the performance of the model. The training loops will be defined as the inner loop and we will use that to test which parameters we should use.</p></li>
+<li><p><strong>Split the inner loop into training sets and validation sets</strong><br>
+The inner loop (or training folds) is broken in half. Half of that data will be used as training and the other half will be used as evaluation <a href="#fig-NestCV" class="quarto-xref">Figure 3</a>.</p></li>
+<li><p><strong>Fit the model to the inner loop</strong><br>
+We choose the number of parameters that we are going to use for validation and fit it to the model. After fitting, you will store the accuracy value for those parameters. We then switch the validation and training sets from the inner loop and fit them to the model. After receiving another accuracy score, we would average them together with the previous accuracy score for that number of parameters.</p></li>
+<li><p><strong>Choose another number of parameters</strong><br>
+We would then choose a different number of parameters and repeat step 4. After determining the average accuracy for the new set of parameters, we would compare it to the average accuracy produced by the other parameters. The number of parameters that produces the highest average accuracy is chosen for that training fold.</p></li>
+<li><p><strong>Repeat the process K-times</strong><br>
+After getting an accuracy score for each training fold, we find the average of all folds which will give us the average accuracy of the model <span class="citation" data-cites="berrar2019cross">(<a href="#ref-berrar2019cross" role="doc-biblioref">Berrar et al. 2019</a>)</span>.</p></li>
+</ol>
+</section>
 </section>
 <section id="analysis-and-results" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-and-results">Analysis and Results</h2>

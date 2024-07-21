@@ -187,6 +187,26 @@ The steps for LOOCV are almost identical to k-fold cross validation. The only di
 
 7. Repeat the process k-times, this time choosing a new test fold.
 
+### Nested Cross-Validation v2
+
+1. **Split the data into training and testing sets**\
+As in k-fold cross-validation, break the observations into the single test fold and the training folds.  For example, if there are 300 observations and you use K = 5, four of the folds would be training folds and one of them would be the training fold.
+
+2. **Define inner and outer loops**\
+We define the test fold as the outer loop and use that to test the performance of the model.  The training loops will be defined as the inner loop and we will use that to test which parameters we should use.
+
+3. **Split the inner loop into training sets and validation sets**\
+The inner loop (or training folds) is broken in half.  Half of that data will be used as training and the other half will be used as evaluation [@fig-NestCV].
+
+4. **Fit the model to the inner loop**\
+We choose the number of parameters that we are going to use for validation and fit it to the model.  After fitting, you will store the accuracy value for those parameters.  We then switch the validation and training sets from the inner loop and fit them to the model.  After receiving another accuracy score, we would average them together with the previous accuracy score for that number of parameters.
+
+5. **Choose another number of parameters**\
+We would then choose a different number of parameters and repeat step 4.  After determining the average accuracy for the new set of parameters, we would compare it to the average accuracy produced by the other parameters.  The number of parameters that produces the highest average accuracy is chosen for that training fold.
+
+6. **Repeat the process K-times**\
+After getting an accuracy score for each training fold, we find the average of all folds which will give us the average accuracy of the model [@berrar2019cross].
+
 
 
 ## Analysis and Results
