@@ -431,9 +431,9 @@ nested_cv_df %>%  kable()
 #| label: analysis_results
 
 # Adding method to CV data frames
-kfold_results  <- kfold_df %>% mutate(Method = "10-Fold")
+kfold_results  <- kfold_df %>% mutate(Method = "10-Fold") 
 LOOCV_results  <- loocv_df %>% mutate(Method = "LOOCV")
-nested_results <- nested_cv_df %>% mutate(Method = "Nested CV")
+nested_results <- nested_cv_df %>% mutate(Method = "Nested CV") 
 
 # Combining 3 CV data frames.
 # Result Summary Table
@@ -457,7 +457,7 @@ summary_plot <- result_long_df %>%
 summary_plot
 
 
-summary_plot2 <- result_long_df %>% 
+summary_plot2 <- result_long_df %>%
   ggplot(aes(x = Method, y = Result_Value)) +
   geom_segment( aes(x=Method, xend=Method, y=0, yend=Result_Value)) +
   geom_point( size=5, color="red", fill=alpha("orange", 0.3), alpha=0.7, shape=21, stroke=2) +
@@ -468,14 +468,13 @@ summary_plot2 <- result_long_df %>%
 
 summary_plot2
 
-
 ```
 
 
 
 ## Conclution
 
-
+In this study, we analyzed cross-validation techniques that can be used for evaluating concrete strength modeling performance, including K-Fold, leave-one-out cross-validation, and Nested cross-validation. In our case, we were able to examine the linear regression performance of an entire data set and then compare it with the performance of cross-validation techniques. The findings pointed out that leave-one-out cross validation, K-fold cross validation, and nested cross validation techniques had a better generalization error compared with conventional linear regression models. The detailed models established better results regarding the actual concrete strength. We can note that the nested cross-validation slightly performed better than the k-fold and leave-one-out cross-validation techniques. Further, the research also stressed the feature selection part, as variables like water-cement ratio, age, and type of aggregate were identified as main attributes influencing concrete strength. Overall, this kind of assessment raises the prospect of generating vehicle models for refining forecast precision and effectiveness, as well as investigating the best strategies for developing concrete mixes and promoting construction improvement.
 
 
 

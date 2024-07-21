@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sai Devarasheyyt, Mattick, Musson, Perez">
-<meta name="dcterms.date" content="2024-07-20">
+<meta name="dcterms.date" content="2024-07-21">
 
 <title>Evaluating Concrete Strength Modle Preformance</title>
 <style>
@@ -3274,7 +3274,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 20, 2024</p>
+      <p class="date">July 21, 2024</p>
     </div>
   </div>
   
@@ -3901,9 +3901,9 @@ Table 1: <strong>Variables</strong>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding method to CV data frames</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>kfold_results  <span class="ot">&lt;-</span> kfold_df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Method =</span> <span class="st">&quot;10-Fold&quot;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>kfold_results  <span class="ot">&lt;-</span> kfold_df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Method =</span> <span class="st">&quot;10-Fold&quot;</span>) </span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>LOOCV_results  <span class="ot">&lt;-</span> loocv_df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Method =</span> <span class="st">&quot;LOOCV&quot;</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>nested_results <span class="ot">&lt;-</span> nested_cv_df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Method =</span> <span class="st">&quot;Nested CV&quot;</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>nested_results <span class="ot">&lt;-</span> nested_cv_df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Method =</span> <span class="st">&quot;Nested CV&quot;</span>) </span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Combining 3 CV data frames.</span></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Result Summary Table</span></span>
@@ -3969,7 +3969,7 @@ Table 1: <strong>Variables</strong>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>summary_plot2 <span class="ot">&lt;-</span> result_long_df <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>summary_plot2 <span class="ot">&lt;-</span> result_long_df <span class="sc">%&gt;%</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Method, <span class="at">y =</span> Result_Value)) <span class="sc">+</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>( <span class="fu">aes</span>(<span class="at">x=</span>Method, <span class="at">xend=</span>Method, <span class="at">y=</span><span class="dv">0</span>, <span class="at">yend=</span>Result_Value)) <span class="sc">+</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>( <span class="at">size=</span><span class="dv">5</span>, <span class="at">color=</span><span class="st">&quot;red&quot;</span>, <span class="at">fill=</span><span class="fu">alpha</span>(<span class="st">&quot;orange&quot;</span>, <span class="fl">0.3</span>), <span class="at">alpha=</span><span class="fl">0.7</span>, <span class="at">shape=</span><span class="dv">21</span>, <span class="at">stroke=</span><span class="dv">2</span>) <span class="sc">+</span></span>
@@ -3990,12 +3990,13 @@ Table 1: <strong>Variables</strong>
 </div>
 </section>
 </section>
-<section id="conclution" class="level2 unnumbered">
-
+<section id="conclution" class="level2">
+<h2 class="anchored" data-anchor-id="conclution">Conclution</h2>
+<p>In this study, we analyzed cross-validation techniques that can be used for evaluating concrete strength modeling performance, including K-Fold, leave-one-out cross-validation, and Nested cross-validation. In our case, we were able to examine the linear regression performance of an entire data set and then compare it with the performance of cross-validation techniques. The findings pointed out that leave-one-out cross validation, K-fold cross validation, and nested cross validation techniques had a better generalization error compared with conventional linear regression models. The detailed models established better results regarding the actual concrete strength. We can note that the nested cross-validation slightly performed better than the k-fold and leave-one-out cross-validation techniques. Further, the research also stressed the feature selection part, as variables like water-cement ratio, age, and type of aggregate were identified as main attributes influencing concrete strength. Overall, this kind of assessment raises the prospect of generating vehicle models for refining forecast precision and effectiveness, as well as investigating the best strategies for developing concrete mixes and promoting construction improvement.</p>
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">Conclution</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-adin2024automatic" class="csl-entry" role="listitem">
 Adin, Aritz, Elias Teixeira Krainski, Amanda Lenzi, Zhedong Liu, Joaquı́n Martı́nez-Minaya, and Haavard Rue. 2024. <span>“Automatic Cross-Validation in Structured Models: Is It Time to Leave Out Leave-One-Out?”</span> <em>Spatial Statistics</em>, 100843.
 </div>
