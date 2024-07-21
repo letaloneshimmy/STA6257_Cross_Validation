@@ -50,7 +50,7 @@ Many, including [@james2013introduction], [@gorriz2024k] describe a <i>Bias-Vari
 Leave-One-Out Cross-Validation is a specific case of K-Fold Cross-Validation, where K is the number of observations in the dataset. 
 With this method, the model is trained n times, where each training set has n−1 observations, and the test set has 1 observation [@fig-LOOCV].
 This approach is particularly useful for smaller datasets for which separate training and testing sets are impractical [@wong2019reliable].
-Iterating through all possible n−1 subset results in a performance estimate with low bias [@james2013introduction].
+Iterating through all possible n−1 subset results in a performance estimate with low bias [@yates2023cross].
 One drawback to this method is the high computational cost associate with fitting the model n times. 
 When n is large or the model complex, LOOCV can be unfeasible due to the prohibitive computational cost [@adin2024automatic]. 
 When n is small or computational cost is irrelevant, LOOCV is good at giving a thorough, low bias evaluation of model performance [@lei2020cross], [@hawkins2003assessing].
