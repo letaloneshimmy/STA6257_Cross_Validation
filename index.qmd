@@ -61,9 +61,12 @@ The other drawback to LOOCV is high variance. High variance in error estimation 
 
 
 3. **Nested Cross-Validation:**\
+
+Two stages of cross-validation are used in this method, an inner loop that optimizes hyperparameters and an outside loop that assesses the model's performance [@fig-NestCV]. 
+Nested cross-validation offers a more objective estimation of the model's capacity for generalization by isolating the hyperparameter tweaking procedure from the performance assessment.
 Nested Cross-Validation is especially helpful when choosing a model and adjusting hyperparameters [@bradshaw2023guide]. 
-Two stages of cross-validation are used in this technique: an inner loop that optimizes hyperparameters and an outside loop that assesses the model's performance [@fig-NestCV]. 
-Nested cross-validation offers a more objective estimation of the model's capacity for generalization by isolating the hyperparameter tweaking procedure from the performance assessment. According to [@filzmoser2009repeated], nested cross-validation is useful for generating precise performance estimates without causing overfitting, which can happen when hyperparameters are adjusted using the same data that is used for model evaluation. This technique is particularly important in complicated modeling situations when the model's prediction performance is greatly impacted by parameter adjustment.
+Recently, recommendations to use this method when n is small have become more common [@raschka2018model]. 
+According to [@filzmoser2009repeated], nested cross-validation is useful for generating precise performance estimates without causing overfitting, which can happen when hyperparameters are adjusted using the same data that is used for model evaluation. This technique is particularly important in complicated modeling situations when the model's prediction performance is greatly impacted by parameter adjustment.
 
 ![Nested Cross-validation where K=5. Created by Author](NestCV_fig.png#center){#fig-NestCV}
 
@@ -163,7 +166,7 @@ CV_{(n)} = \frac{1}{n}\sum_{i=1}^{n} \text{Measuer of Errori}_i \tag{5}
 $$
 
 #### Process:
-The steps for LOOCV are almost identical to k-fold cross validation. The only difference is that in K-fold, K must be less than the number of observations (n). In LOOCV, K = n, so when you split the data into testing and training data, the first testing fold is one of the observations and the training data would be every other observation [@fig-LOOCV]. In this way, every observation is tested against every other observation and the process would be repeated n times.
+The steps for LOOCV are almost identical to k-fold cross validation. The only difference is that in K-fold, K must be less than the number of observations (n). In LOOCV, K = n, so when you split the data into testing and training data, the first testing fold is one of the observations and the training data would be every other observation [@fig-LOOCV]. In this way, every observation is tested against every other observation and the process would be repeated n times [@james2013introduction].
 
 
 

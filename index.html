@@ -3332,8 +3332,9 @@ Figure 2: Leave-one-out Cross-validation. Created by Author
 </div>
 <ol start="3" type="1">
 <li><strong>Nested Cross-Validation:</strong><br>
-Nested Cross-Validation is especially helpful when choosing a model and adjusting hyperparameters <span class="citation" data-cites="bradshaw2023guide">(<a href="#ref-bradshaw2023guide" role="doc-biblioref">Bradshaw et al. 2023</a>)</span>. Two stages of cross-validation are used in this technique: an inner loop that optimizes hyperparameters and an outside loop that assesses the model’s performance <a href="#fig-NestCV" class="quarto-xref">Figure 3</a>. Nested cross-validation offers a more objective estimation of the model’s capacity for generalization by isolating the hyperparameter tweaking procedure from the performance assessment. According to <span class="citation" data-cites="filzmoser2009repeated">(<a href="#ref-filzmoser2009repeated" role="doc-biblioref">Filzmoser, Liebmann, and Varmuza 2009</a>)</span>, nested cross-validation is useful for generating precise performance estimates without causing overfitting, which can happen when hyperparameters are adjusted using the same data that is used for model evaluation. This technique is particularly important in complicated modeling situations when the model’s prediction performance is greatly impacted by parameter adjustment.</li>
+</li>
 </ol>
+<p>Two stages of cross-validation are used in this method, an inner loop that optimizes hyperparameters and an outside loop that assesses the model’s performance <a href="#fig-NestCV" class="quarto-xref">Figure 3</a>. Nested cross-validation offers a more objective estimation of the model’s capacity for generalization by isolating the hyperparameter tweaking procedure from the performance assessment. Nested Cross-Validation is especially helpful when choosing a model and adjusting hyperparameters <span class="citation" data-cites="bradshaw2023guide">(<a href="#ref-bradshaw2023guide" role="doc-biblioref">Bradshaw et al. 2023</a>)</span>. Recently, recommendations to use this method when n is small have become more common <span class="citation" data-cites="raschka2018model">(<a href="#ref-raschka2018model" role="doc-biblioref">Raschka 2018</a>)</span>. According to <span class="citation" data-cites="filzmoser2009repeated">(<a href="#ref-filzmoser2009repeated" role="doc-biblioref">Filzmoser, Liebmann, and Varmuza 2009</a>)</span>, nested cross-validation is useful for generating precise performance estimates without causing overfitting, which can happen when hyperparameters are adjusted using the same data that is used for model evaluation. This technique is particularly important in complicated modeling situations when the model’s prediction performance is greatly impacted by parameter adjustment.</p>
 <div id="fig-NestCV" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NestCV-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -3417,7 +3418,7 @@ CV_{(n)} = \frac{1}{n}\sum_{i=1}^{n} \text{Measuer of Errori}_i \tag{5}
 \]</span></p>
 <section id="process-1" class="level4">
 <h4 class="anchored" data-anchor-id="process-1">Process:</h4>
-<p>The steps for LOOCV are almost identical to k-fold cross validation. The only difference is that in K-fold, K must be less than the number of observations (n). In LOOCV, K = n, so when you split the data into testing and training data, the first testing fold is one of the observations and the training data would be every other observation <a href="#fig-LOOCV" class="quarto-xref">Figure 2</a>. In this way, every observation is tested against every other observation and the process would be repeated n times.</p>
+<p>The steps for LOOCV are almost identical to k-fold cross validation. The only difference is that in K-fold, K must be less than the number of observations (n). In LOOCV, K = n, so when you split the data into testing and training data, the first testing fold is one of the observations and the training data would be every other observation <a href="#fig-LOOCV" class="quarto-xref">Figure 2</a>. In this way, every observation is tested against every other observation and the process would be repeated n times <span class="citation" data-cites="james2013introduction">(<a href="#ref-james2013introduction" role="doc-biblioref">James et al. 2013</a>)</span>.</p>
 </section>
 </section>
 <section id="nested-cross-validation" class="level3">
@@ -4030,6 +4031,9 @@ James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, et al. 2013. <e
 </div>
 <div id="ref-lei2020cross" class="csl-entry" role="listitem">
 Lei, Jing. 2020. <span>“Cross-Validation with Confidence.”</span> <em>Journal of the American Statistical Association</em> 115 (532): 1978–97.
+</div>
+<div id="ref-raschka2018model" class="csl-entry" role="listitem">
+Raschka, Sebastian. 2018. <span>“Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning.”</span> <em>arXiv Preprint arXiv:1811.12808</em>.
 </div>
 <div id="ref-song2021making" class="csl-entry" role="listitem">
 Song, Q Chelsea, Chen Tang, and Serena Wee. 2021. <span>“Making Sense of Model Generalizability: A Tutorial on Cross-Validation in r and Shiny.”</span> <em>Advances in Methods and Practices in Psychological Science</em> 4 (1): 2515245920947067.
