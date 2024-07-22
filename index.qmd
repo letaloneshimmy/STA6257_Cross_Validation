@@ -1,5 +1,5 @@
 ---
-title: "Evaluating Concrete Strength Modle Preformance"
+title: "Evaluating Concrete Strength Model Performance"
 subtitle: "Using Cross Validation Methods"
 author: "Sai Devarasheyyt, Mattick, Musson, Perez"
 date: '`r Sys.Date()`'
@@ -61,15 +61,24 @@ The other drawback to LOOCV is high variance. High variance in error estimation 
 
 
 3. **Nested Cross-Validation:**\
-
-Two stages of cross-validation are used in this method, an inner loop that optimizes hyperparameters and an outside loop that assesses the model's performance [@fig-NestCV]. 
-Nested cross-validation offers a more objective estimation of the model's capacity for generalization by isolating the hyperparameter tweaking procedure from the performance assessment.
-Nested Cross-Validation is especially helpful when choosing a model and adjusting hyperparameters [@bradshaw2023guide]. 
+Nested Cross-Validation is also very similar to K-fold Cross-Validation. 
+After dividing the data into K-folds with each fold holding a similar amount of data, the model is trained on the outer fold which are K-1 folds while the testing fold remains a single fold. 
+The difference between Nested and K-fold lies in its usage of two loops. 
+The training data becomes the inner loop which optimizes hyperparameters and the test data is the outside loop that assesses the model’s performance [@fig-NestCV]. \
+\
+Nested cross-validation offers a more objective estimation of the model’s capacity for generalization by isolating the hyperparameter tweaking procedure from the performance assessment. Nested Cross-Validation is especially helpful when choosing a model and adjusting hyperparameters [@bradshaw2023guide]. 
 Recently, recommendations to use this method when n is small have become more common [@raschka2018model]. 
-According to [@filzmoser2009repeated], nested cross-validation is useful for generating precise performance estimates without causing overfitting, which can happen when hyperparameters are adjusted using the same data that is used for model evaluation. This technique is particularly important in complicated modeling situations when the model's prediction performance is greatly impacted by parameter adjustment.
+According to [@filzmoser2009repeated], nested cross-validation is useful for generating precise performance estimates without causing overfitting, which can happen when hyperparameters are adjusted using the same data that is used for model evaluation. This technique is particularly important in complicated modeling situations when the model’s prediction performance is greatly impacted by parameter adjustment.
 
 ![Nested Cross-validation where K=5. Created by Author](NestCV_fig.png#center){#fig-NestCV}
 
+### Study Objectives
+
+The goal of this paper is to explore the methodology of cross-validation and its application in evaluating the performance of predictive models for concrete strength. Concrete strength is a crucial parameter in construction, directly impacting the safety, durability, and cost-effectiveness of structures. Accurate prediction of concrete strength allows for optimal design, better resource allocation, and improved construction practices. Traditional methods of model validation, such as holdout validation, can sometimes provide misleading performance estimates due to their reliance on a single training-validation split. Cross-validation addresses this limitation by using multiple splits, thus providing a more robust evaluation of the model. As previously mentioned, cross-validation is a statistical technique used to assess the generalizability and reliability of a model by partitioning the data into multiple subsets, training the model on some subsets while validating it on others. This process helps prevent overfitting, ensuring that the model performs well on new, unseen data, and provides a more accurate estimate of the model's performance.\
+\
+Concrete strength is a crucial parameter in construction, directly impacting the safety, durability, and cost-effectiveness of structures. Accurate prediction of concrete strength allows for optimal design, better resource allocation, and improved construction practices. Traditional methods of model validation, such as holdout validation, can sometimes provide misleading performance estimates due to their reliance on a single training-validation split. Cross-validation addresses this limitation by using multiple splits, thus providing a more robust evaluation of the model.\
+\
+In this study, we apply cross-validation to a dataset containing measurements of concrete strength. We aim to demonstrate how different cross-validation techniques, such as k-fold cross-validation and leave-one-out cross-validation, can be used to evaluate the performance of predictive models. By comparing these techniques, we seek to identify the most effective method for assessing model accuracy and reliability in the context of predicting concrete strength.
 
 
 
@@ -172,23 +181,6 @@ The steps for LOOCV are almost identical to k-fold cross validation. The only di
 
 ### Nested Cross-Validation
 
-
-1. As in k-fold cross-validation, break the observations into the single test fold and the training folds.
-
-2. The training fold becomes the outer loop, the testing fold is the inner loop.
-
-3. Split the inner loop into training sets and validation sets. In a 5 * 2 split, where 5 is the number of folds, the inner loop is broken into 2 training sets and 2 validation sets [@fig-NestCV].
-
-4. After validating the inner loop by fitting it to the model, the training set and the validation set are reversed and the inner loop is checked again.
-
-5. During the inner loop validation process, the hyperparameters are tested. The number of hyperparameters that produces the highest average accuracy is chosen for that fold.
-
-6. Take the hyperparameter accuracy for each fold and find the average of all folds which will give us the average accuracy of the model [@berrar2019cross].
-
-7. Repeat the process k-times, this time choosing a new test fold.
-
-### Nested Cross-Validation v2
-
 1. **Split the data into training and testing sets**\
 As in k-fold cross-validation, break the observations into the single test fold and the training folds.  For example, if there are 300 observations and you use K = 5, four of the folds would be training folds and one of them would be the training fold.
 
@@ -205,7 +197,7 @@ We choose the number of parameters that we are going to use for validation and f
 We would then choose a different number of parameters and repeat step 4.  After determining the average accuracy for the new set of parameters, we would compare it to the average accuracy produced by the other parameters.  The number of parameters that produces the highest average accuracy is chosen for that training fold.
 
 6. **Repeat the process K-times**\
-After getting an accuracy score for each training fold, we find the average of all folds which will give us the average accuracy of the model [@berrar2019cross].
+After getting an accuracy score for each training fold, we find the average of all folds which will give us the average accuracy of the model.\ [@berrar2019cross].
 
 
 
@@ -338,18 +330,14 @@ train_data <- data_combined[trainIndex,]
 test_data <- data_combined[-trainIndex,]
 
 model <- train(Strength ~ Cement + Superplasticizer + Age + Water, data = train_data, method = "lm")
-
-# Print model coefficients
-summary(model$finalModel)$coefficients %>% kable()
 ```
 
 $$
-\hat{Strength} = 
-`r round(summary(model$finalModel)$coefficients[1],3)` \text{ + } 
-`r round(summary(model$finalModel)$coefficients[2],3)` _\text{Cement} \text{ + } 
-`r round(summary(model$finalModel)$coefficients[3],3)` _\text{Superplasticizer} \text{ + } 
-`r round(summary(model$finalModel)$coefficients[4],3)` _\text{Age} 
-`r round(summary(model$finalModel)$coefficients[5],3)` _\text{Water}
+\hat{Strength_i} = 
+x_\text{Cement} \text{ + } 
+x_\text{Superplasticizer} \text{ + } 
+x_\text{Age} \text{ + } 
+x _\text{Water}
 $$
 
 #### K-Fold Cross-validation
@@ -475,19 +463,6 @@ summary_plot <- result_long_df %>%
   theme(strip.text = element_text(face = "bold"))
 
 summary_plot
-
-
-summary_plot2 <- result_long_df %>%
-  ggplot(aes(x = Method, y = Result_Value)) +
-  geom_segment( aes(x=Method, xend=Method, y=0, yend=Result_Value)) +
-  geom_point( size=5, color="red", fill=alpha("orange", 0.3), alpha=0.7, shape=21, stroke=2) +
-  facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
-  ylab("Measure of Error Result") + theme(axis.title.y = element_text(face = "bold")) +
-  xlab("Cross-validation Method") + theme(axis.title.x = element_text(face = "bold")) +
-  theme(strip.text = element_text(face = "bold")) 
-
-summary_plot2
-
 ```
 
 
