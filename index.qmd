@@ -333,11 +333,11 @@ model <- train(Strength ~ Cement + Superplasticizer + Age + Water, data = train_
 ```
 
 $$
-\hat{Strength_i} = 
-x_\text{Cement} \text{ + } 
-x_\text{Superplasticizer} \text{ + } 
-x_\text{Age} \text{ + } 
-x _\text{Water}
+\hat{Strength} = 
+\text{Cement + } 
+\text{Superplasticizer + } 
+\text{Age + } 
+\text{Water}
 $$
 
 #### K-Fold Cross-validation
