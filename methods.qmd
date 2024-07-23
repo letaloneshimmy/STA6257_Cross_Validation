@@ -22,8 +22,6 @@ toc-expand: true
 toc-depth: 2
 ---
 
-[Slides](slides.html)
-
 ## Introduction
 
 Cross-validation (CV) is an important statistical method used to measure the performance and generalizability of machine learning and predictive models. 
@@ -72,7 +70,7 @@ Nested cross-validation offers a more objective estimation of the model’s capa
 Recently, recommendations to use this method when n is small have become more common [@raschka2018model]. 
 According to [@filzmoser2009repeated], nested cross-validation is useful for generating precise performance estimates without causing overfitting, which can happen when hyperparameters are adjusted using the same data that is used for model evaluation. This technique is particularly important in complicated modeling situations when the model’s prediction performance is greatly impacted by parameter adjustment.
 
-![Nested Cross-validation where K=5. Created by Author](NestCV_fig.png#center){#fig-NestCV}
+![Nested Cross-validation where K=5,2. Created by Author](NestCV_fig.png#center){#fig-NestCV}
 
 ### Study Objectives
 
@@ -263,19 +261,19 @@ data <- read_csv("Concrete_Data.csv") %>%
   relocate(Strength)
 ```
 
-### Data Plots
+### Data Plot
 ```{r, warning=FALSE, echo=TRUE}
 #| label: plot_data
 
-# Variable Box Plots
-pivot_longer(data = data, 1:9, names_to = "grp") %>% 
-  mutate(grp = str_to_title(str_replace(grp, "_"," "))) %>%
-  ggplot(aes(x=factor(0), y = value)) +
-  geom_boxplot(color="blue",outlier.color="red") +
-  xlab("Predictor")+ ylab("")+
-  theme(axis.text.x=element_blank() )+
-  facet_wrap(~grp, scales = "free", ncol = 3)+
-  theme(strip.text = element_text(face = "bold"))
+# # Variable Box Plots
+# pivot_longer(data = data, 1:9, names_to = "grp") %>% 
+#   mutate(grp = str_to_title(str_replace(grp, "_"," "))) %>%
+#   ggplot(aes(x=factor(0), y = value)) +
+#   geom_boxplot(color="blue",outlier.color="red") +
+#   xlab("Predictor")+ ylab("")+
+#   theme(axis.text.x=element_blank() )+
+#   facet_wrap(~grp, scales = "free", ncol = 3)+
+#   theme(strip.text = element_text(face = "bold"))
 
 # Variable xy-point plots
 pivot_longer(data = data, 2:9, names_to = "grp") %>% 
@@ -289,15 +287,15 @@ pivot_longer(data = data, 2:9, names_to = "grp") %>%
   geom_smooth(formula = "y~x", method=lm,se = F)
 ```
 
-### Data Correlation Plots
+### Data Correlation Plot
 ```{r, warning=FALSE, echo=TRUE}
 #| label: plot_corr
 
 # Correlation plots
 cor_matrix <- cor(data)
 
-# Correlation circle plot
-corrplot(cor_matrix, method = "circle", type = "upper", tl.col = "black", tl.srt = 45)
+# # Correlation circle plot
+# corrplot(cor_matrix, method = "circle", type = "upper", tl.col = "black", tl.srt = 45)
 
 # Correlation Bar plot
 response_correlations <- cor_matrix[, "Strength"]
@@ -306,10 +304,14 @@ sorted_correlations <- sort(response_correlations, decreasing = TRUE)
 
 cor_df <- data.frame(Variable = names(sorted_correlations), Correlation = sorted_correlations)
 ggplot(cor_df, aes(x = reorder(Variable, Correlation), y = Correlation)) +
-  geom_bar(stat = "identity") +
+  geom_bar(stat="identity", color = "blue4", fill = "gray78") +
   coord_flip() +
   theme_minimal() +
-  labs(title = "Correlation with Concrete Compressive Strength", x = "Predictor Variable", y = "Correlation")
+  labs(title = "Correlation with Concrete Compressive Strength", 
+       x = "Predictor Variable", 
+       y = "Correlation") + 
+  theme(axis.title.x = element_text(face = "bold")) + 
+  theme(axis.title.y = element_text(face = "bold"))
 
 ```
 
@@ -320,26 +322,49 @@ ggplot(cor_df, aes(x = reorder(Variable, Correlation), y = Correlation)) +
 ```{r, warning=FALSE, echo=TRUE}
 #| label: analysis_model
 
-# Subset data
+# Subset model A
 predictors <- data[, c("Cement", "Superplasticizer", "Age", "Water")]
 target <- data$Strength
 data_combined <- data.frame(predictors, Strength = target)
 
-# 
+# Split model A
 set.seed(123)
 trainIndex <- createDataPartition(data_combined$Strength, p = .8, list = FALSE, times = 1)
 train_data <- data_combined[trainIndex,]
 test_data <- data_combined[-trainIndex,]
 
-model <- train(Strength ~ Cement + Superplasticizer + Age + Water, data = train_data, method = "lm")
+
+# Subset model B
+predictors_b <- data[, c("FurnacSlag", "FlyAsh",  "CoarseAggregate",  "FineAggregate")]
+target_b <- data$Strength
+data_combined_b <- data.frame(predictors_b, Strength = target_b)
+
+# Split model B
+set.seed(84)
+trainIndex_b <- createDataPartition(data_combined_b$Strength, p = .8, list = FALSE, times = 1)
+train_data_b <- data_combined_b[trainIndex_b,]
+test_data_b <- data_combined_b[-trainIndex_b,]
+
 ```
 
+
+
 $$
+\text{Model A: } 
 \hat{Strength} = 
 \text{Cement + } 
 \text{Superplasticizer + } 
 \text{Age + } 
 \text{Water}
+$$
+
+$$
+\text{Model B: } 
+\hat{Strength} = 
+\text{Furnac Slag + }
+\text{Coarse Aggregate + }
+\text{Fine Aggregate + }
+\text{FlyAsh}
 $$
 
 #### K-Fold Cross-validation
@@ -360,21 +385,41 @@ calculate_r2 <- function(actual, predicted) {
   1 - (sum((actual - predicted)^2) / sum((actual - mean(actual))^2))
   }
 
-# K-Fold CV
-set.seed(117)
+# K-Fold CV Model A
+set.seed(123)
 train_control_kfold <- trainControl(method = "cv", number = 10)
-model_kfold <- train(Strength ~ Cement + Superplasticizer + Age + Water, data = train_data, method = "lm", trControl = train_control_kfold)
+model_kfold <- train(Strength ~ Cement + Superplasticizer + Age + Water, 
+                     data = train_data, 
+                     method = "lm", 
+                     trControl = train_control_kfold)
 kfold_predictions <- predict(model_kfold, newdata = test_data) 
 kfold_rmse <- calculate_rmse(test_data$Strength, kfold_predictions) %>% round(2)
 kfold_mae <- calculate_mae(test_data$Strength, kfold_predictions) %>% round(2)
 kfold_r2 <- calculate_r2(test_data$Strength, kfold_predictions) %>% round(2)
-# cat("K-Fold CV RMSE:", kfold_rmse, "\n")
-# cat("K-Fold CV MAE:", kfold_mae, "\n")
-# cat("K-Fold CV R2:", kfold_r2, "\n")
 
+# Measure of Error df Model A
 Measure_of_Error <- c("RMSE","MAE", "R2" )
-Result_Value <- c(kfold_rmse, kfold_mae, kfold_r2)
-kfold_df <- data.frame(Measure_of_Error, Result_Value) 
+Model_A <- c(kfold_rmse, kfold_mae, kfold_r2)
+# kfold_df <- data.frame(Measure_of_Error, Model_A) 
+# kfold_df %>%  kable()
+
+
+# K-Fold CV Model B
+set.seed(84)
+train_control_kfold <- trainControl(method = "cv", number = 10)
+model_kfold_b <- train(Strength ~ FurnacSlag + FlyAsh + CoarseAggregate + FineAggregate,
+                     data = train_data_b, 
+                     method = "lm", 
+                     trControl = train_control_kfold)
+kfold_predictions_b <- predict(model_kfold_b, newdata = test_data_b) 
+kfold_rmse_b <- calculate_rmse(test_data_b$Strength, kfold_predictions_b) %>% round(2)
+kfold_mae_b <- calculate_mae(test_data_b$Strength, kfold_predictions_b) %>% round(2)
+kfold_r2_b <- calculate_r2(test_data_b$Strength, kfold_predictions_b) %>% round(2)
+
+# Measure of Error df Model B
+Measure_of_Error <- c("RMSE","MAE", "R2" )
+Model_B <- c(kfold_rmse_b, kfold_mae_b, kfold_r2_b)
+kfold_df <- data.frame(Measure_of_Error,Model_A, Model_B) 
 kfold_df %>%  kable()
 
 ```
@@ -383,21 +428,39 @@ kfold_df %>%  kable()
 
 ```{r, warning=FALSE, echo=TRUE}
 #| label: analysis_loocv
+
+# LOOCV model A
 set.seed(84)
 train_control_loocv <- trainControl(method = "LOOCV")
-model_loocv <- train(Strength ~ Cement + Superplasticizer + Age + Water, data = train_data, method = "lm", trControl = train_control_loocv)
+model_loocv <- train(Strength ~ Cement + Superplasticizer + Age + Water, 
+                     data = train_data, 
+                     method = "lm", 
+                     trControl = train_control_loocv)
 loocv_predictions <- predict(model_loocv, newdata = test_data)
 loocv_rmse <- calculate_rmse(test_data$Strength, loocv_predictions) %>% round(2)
 loocv_mae <- calculate_mae(test_data$Strength, loocv_predictions) %>% round(2)
 loocv_r2 <- calculate_r2(test_data$Strength, loocv_predictions) %>% round(2)
 
-Result_Value <- c(loocv_rmse, loocv_mae, loocv_r2)
-loocv_df <- data.frame(Measure_of_Error, Result_Value) 
+Model_A <- c(loocv_rmse, loocv_mae, loocv_r2)
+# loocv_df <- data.frame(Measure_of_Error, Model_A) 
+# loocv_df %>%  kable()
+
+# LOOCV model b
+set.seed(84)
+train_control_loocv <- trainControl(method = "LOOCV")
+model_loocv_b <- train(Strength ~ FurnacSlag + FlyAsh + CoarseAggregate + FineAggregate,
+                     data = train_data_b, 
+                     method = "lm", 
+                     trControl = train_control_loocv)
+loocv_predictions_b <- predict(model_loocv_b, newdata = test_data_b)
+loocv_rmse_b <- calculate_rmse(test_data_b$Strength, loocv_predictions_b) %>% round(2)
+loocv_mae_b <- calculate_mae(test_data_b$Strength, loocv_predictions_b) %>% round(2)
+loocv_r2_b <- calculate_r2(test_data_b$Strength, loocv_predictions_b) %>% round(2)
+
+Model_B <- c(loocv_rmse_b, loocv_mae_b, loocv_r2_b)
+loocv_df <- data.frame(Measure_of_Error,Model_A, Model_B) 
 loocv_df %>%  kable()
 
-# cat("LOOCV RMSE:", loocv_rmse, "\n")
-# cat("LOOCV MAE:", loocv_mae, "\n")
-# cat("LOOCV R2:", loocv_r2, "\n")
 ```
 
 #### Nested Cross-validation
@@ -405,40 +468,71 @@ loocv_df %>%  kable()
 ```{r, warning=FALSE, echo=TRUE}
 #| label: analysis_nest
 
+
 set.seed(123)
 outer_train_control <- trainControl(method = "cv", number = 5)
-inner_train_control <- trainControl(method = "cv", number = 5)
+inner_train_control <- trainControl(method = "cv", number = 2)
 
+# model a
 nested_model <- function(data, indices) {
   train_data <- data[indices,]
   test_data <- data[-indices,]
   
-  model <- train(Strength ~ Cement + Superplasticizer + Age + Water, data = train_data, method = "lm", trControl = inner_train_control)
+  model <- train(Strength ~ Cement + Superplasticizer + Age + Water, 
+                 data = train_data, 
+                 method = "lm", 
+                 trControl = inner_train_control)
   predictions <- predict(model, newdata = test_data)
   rmse <- calculate_rmse(test_data$Strength, predictions)
   mae <- calculate_mae(test_data$Strength, predictions)
   r2 <- calculate_r2(test_data$Strength, predictions)
   return(c(rmse, mae, r2))
-}
+  }
 
 nested_cv_indices <- createFolds(data_combined$Strength, k = 5, list = TRUE, returnTrain = TRUE)
 nested_cv_results <- t(sapply(nested_cv_indices, nested_model, data = data_combined))
 nested_cv_rmse <- mean(nested_cv_results[, 1]) %>% round(2)
 nested_cv_mae <- mean(nested_cv_results[, 2]) %>% round(2)
 nested_cv_r2 <- mean(nested_cv_results[, 3]) %>% round(2)
-# cat("Nested CV RMSE:", nested_cv_rmse, "\n")
-# cat("Nested CV MAE:", nested_cv_mae, "\n")
-# cat("Nested CV R2:", nested_cv_r2, "\n")
 
-Result_Value <- c(nested_cv_rmse, nested_cv_mae, nested_cv_r2)
-nested_cv_df <- data.frame(Measure_of_Error, Result_Value) 
+Model_A <- c(nested_cv_rmse, nested_cv_mae, nested_cv_r2)
+# nested_cv_df <- data.frame(Measure_of_Error, Model_A) 
+# nested_cv_df %>%  kable()
+
+#############
+# model b
+nested_model_b <- function(data, indices) {
+  train_data <- data[indices,]
+  test_data <- data[-indices,]
+  
+  model <- train(Strength ~ FurnacSlag + FlyAsh + CoarseAggregate + FineAggregate,
+                 data = train_data, 
+                 method = "lm", 
+                 trControl = inner_train_control)
+  predictions <- predict(model, newdata = test_data)
+  rmse <- calculate_rmse(test_data$Strength, predictions)
+  mae <- calculate_mae(test_data$Strength, predictions)
+  r2 <- calculate_r2(test_data$Strength, predictions)
+  return(c(rmse, mae, r2))
+  }
+
+nested_cv_indices_b <- createFolds(data_combined_b$Strength, k = 5, list = TRUE, returnTrain = TRUE)
+nested_cv_results_b <- t(sapply(nested_cv_indices_b, nested_model_b, data = data_combined_b))
+nested_cv_rmse_b <- mean(nested_cv_results_b[, 1]) %>% round(2)
+nested_cv_mae_b <- mean(nested_cv_results_b[, 2]) %>% round(2)
+nested_cv_r2_b <- mean(nested_cv_results_b[, 3]) %>% round(2)
+
+Model_B <- c(nested_cv_rmse_b, nested_cv_mae_b, nested_cv_r2_b)
+nested_cv_df <- data.frame(Measure_of_Error, Model_A, Model_B) 
 nested_cv_df %>%  kable()
 
 ```
 
-### Result Table and Plots
+### Results
+
+#### Result Summary Table
 ```{r, warning=FALSE, echo=TRUE}
-#| label: analysis_results
+#| label: analysis_result_tbl
 
 # Adding method to CV data frames
 kfold_results  <- kfold_df %>% mutate(Method = "10-Fold") 
@@ -447,24 +541,60 @@ nested_results <- nested_cv_df %>% mutate(Method = "Nested CV")
 
 # Combining 3 CV data frames.
 # Result Summary Table
-result_long_df <- combine(kfold_results, LOOCV_results, nested_results)
+result_long_df <- combine(kfold_results, LOOCV_results, nested_results) %>% 
+  select(Method,Measure_of_Error, Model_A,Model_B )
 
-# Pivot wider tidy up
-result_wide_df <- result_long_df %>% 
-  pivot_wider(names_from = Measure_of_Error, values_from = Result_Value) %>% 
-  arrange(desc(R2), RMSE, MAE)
-result_wide_df %>% kable()
+# Print long df
+result_long_df %>% 
+  arrange(Method, Measure_of_Error) %>% 
+  mutate(Better_Predictor = case_when(Measure_of_Error %in% c("RMSE", "MAE") & Model_A < Model_B ~ "Model A",
+                                      Measure_of_Error %in% c("R2")          & Model_A > Model_B ~ "Model A",
+                                      TRUE ~ "Model B") 
+         ) %>%
+  mutate(Method = factor(Method, levels = c("LOOCV","10-Fold","Nested CV")),
+         Measure_of_Error = factor(Measure_of_Error, levels = c("RMSE", "MAE", "R2")) 
+         )  %>%
+  kable()
+```
 
-# Summary Plot
-summary_plot <- result_long_df %>% 
-  ggplot(aes(x = Method, y = Result_Value)) +
-  geom_bar(stat="identity", color = "red", fill = "orange") +
+#### Result Summary Plots
+
+```{r, warning=FALSE, echo=TRUE}
+#| label: analysis_result_plot
+
+# Pivot wider tidy up model A
+# result_wide_df <- result_long_df %>% 
+#   select(-Model_B) %>% 
+#   pivot_wider(names_from = Measure_of_Error, values_from = Model_A) %>% 
+#   arrange(desc(R2), RMSE, MAE)
+# result_wide_df %>% kable()
+
+# Summary Plot A
+summary_plotA <- result_long_df %>% 
+  ggplot(aes(x = Method, y = Model_A)) +
+  geom_bar(stat="identity", color = "blue4", fill = "gray78") +
   facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
-  ylab("Measure of Error Result") + theme(axis.title.y = element_text(face = "bold")) +
-  xlab("Cross-validation Method") + theme(axis.title.x = element_text(face = "bold")) +
+  labs(title = "Model A",
+       y = "Measure of Error Result",
+       x = "Cross-validation Method") + 
+  theme(axis.title.x = element_text(face = "bold")) + 
+  theme(axis.title.y = element_text(face = "bold")) +
   theme(strip.text = element_text(face = "bold"))
 
-summary_plot
+# Summary Plot B
+summary_plotB <- result_long_df %>% 
+  ggplot(aes(x = Method, y = Model_A)) +
+  geom_bar(stat="identity", color = "blue4", fill = "gray78") +
+  facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
+  labs(title = "Model B",
+       y = "Measure of Error Result",
+       x = "Cross-validation Method") + 
+  theme(axis.title.x = element_text(face = "bold")) + 
+  theme(axis.title.y = element_text(face = "bold")) +
+  theme(strip.text = element_text(face = "bold"))
+
+summary_plotA 
+summary_plotB 
 ```
 
 

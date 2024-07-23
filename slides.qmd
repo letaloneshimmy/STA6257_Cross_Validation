@@ -22,6 +22,8 @@ toc-expand: true
 toc-depth: 2
 ---
 
+[Slides](slides.html)
+
 ## Introduction
 
 Cross-validation (CV) is an important statistical method used to measure the performance and generalizability of machine learning and predictive models. 
