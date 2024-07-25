@@ -8,7 +8,7 @@ format:
     code-fold: true
 course: STA 6257 - Advanced Statistical Modeling
 bibliography: references.bib # file contains bibtex for references
-#always_allow_html: true # this allows to get PDF with HTML features
+always_allow_html: true # this allows to get PDF with HTML features
 self-contained: true
 execute: 
   warning: false
@@ -161,7 +161,7 @@ In the previous example, if you had 5 folds, we could choose the first set to be
 3. **Fit model to the training data**\
 Take the model you are going to use for prediction and fit it to the training data. Continuing with our example, you would use the 4 training folds to fit the model. Take the fitted model you developed in step 3 and apply it to the 1 test fold. After applying it to the model, you would take the resulting prediction and determine the accuracy by comparing what was predicted from the training folds to the actual values from the test fold.
 
-4. **Repeat steps 2 - 4**\
+4. **Repeat steps 2 - 3**\
 In the example, if you were using K = 5, then you would pick one of the folds you have not previously used and make it the test fold and the other 4 the training fold. In this way, every observation will be a member of the test fold once and training folds 4 times.
 
 5. **Calculate the mean error**\
@@ -274,7 +274,7 @@ data <- read_csv("Concrete_Data.csv") %>%
 pivot_longer(data = data, 1:9, names_to = "grp") %>% 
   mutate(grp = str_to_title(str_replace(grp, "_"," "))) %>%
   ggplot(aes(x=factor(0), y = value)) +
-  geom_boxplot(color="blue",outlier.color="red") +
+  geom_boxplot(color="blue4",fill = "gray78", outlier.color="red") +
   xlab("Predictor")+ ylab("")+
   theme(axis.text.x=element_blank() )+
   facet_wrap(~grp, scales = "free", ncol = 3)+
@@ -289,7 +289,7 @@ pivot_longer(data = data, 2:9, names_to = "grp") %>%
   xlab("Predictor")+ 
   ylab("Strength")+
   theme(strip.text = element_text(face = "bold"))+
-  geom_smooth(formula = "y~x", method=lm,se = F)
+  geom_smooth(formula = "y~x", method=lm,se = F, color="blue")
 ```
 
 ### Data Correlation Plots
