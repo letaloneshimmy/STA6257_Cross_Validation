@@ -7,6 +7,14 @@ format:
   revealjs:
     # smaller: true
     scrollable: true
+include-in-header:
+  - text: |
+      <style>
+      #title-slide .title {
+        font-size: 78px;
+        color: #14316b;
+      }
+      </style>
 course: STA 6257 - Advanced Statistical Modeling
 bibliography: references.bib # file contains bibtex for references
 #always_allow_html: true # this allows to get PDF with HTML features
@@ -18,6 +26,8 @@ editor:
   markdown: 
     wrap: 72
 toc: false
+theme: beige 
+scrollable: true
 # toc-location: right
 # toc-expand: true
 # toc-depth: 2
@@ -25,25 +35,31 @@ toc: false
 ---
 
 
+## Introduction
 
-# Cross-validation Uses
+::: {.panel-tabset}
 
-Cross-validation is a statistical method used to:
+## Uses
+
 
   - **Measure** performance and generalizability of machine learning and predictive models.
   - **Compare** different models constructed from the same data set. 
 
-**Generalizability**: How well predictive models created from a sample fit other samples from the same population.
+## Who Uses Cross-validation?
 
+CV widely used in various fields including:
 
-# Cross-validation Goals
+  - Machine Learning
+  - Data Mining
+  - Bioinformatics
 
-The goal of CV is to:
-  - Minimize overfitting 
-  - Ensure a model generalizes to unseen data
+## Goals
 
-  - **Overfitting**: When a model fits the the underlying patterns of the training data too well.
-    
+  - Minimize **overfitting**
+  - Ensure a model **generalizes** to unseen data
+  - Tune **hyperparameters**
+
+  
 
 <!-- When using a sample to fit a predictive model it is critical to verify the model can be generalized to the population [@hawkins2003assessing]. -->
 <!-- One of the biggest obstacles to model generalizability is overfitting.  -->
@@ -53,8 +69,45 @@ The goal of CV is to:
 <!-- Cross-validation is widely used in various fields, including machine learning, data mining, and bioinformatics. In machine learning, it is essential for tuning hyperparameters, selecting models, and estimating the model’s generalization error. In data mining, cross-validation helps in validating predictive models built from large datasets. Bioinformatics leverages cross-validation to validate models for predicting protein structures, gene functions, and disease classifications [@song2021making].\ -->
 
 <!-- There are different types of CV. All the different types divide a dataset into subsets, training a model on one subset, and test the data on the other subset [@song2021making], [@bischl2012resampling]. Three commonly used CV methods are: -->
+:::
 
-# Process Steps {.smaller}
+## Definitions
+
+::: {.panel-tabset}
+
+### Generalizability
+
+**Generalizability**: \
+How well predictive models created from a sample fit other samples from the same population.\
+
+### Overfitting
+
+**Overfitting**: \
+When a model fits the the underlying patterns of the training data too well.\
+\
+Model fits characteristics specific to the training set:
+
+  - <u>Noise</u>
+  - <u>Random fluctuations</u>
+  - <u>Outliers</u> .\
+
+### Hyperparameters
+**Hyperparameters**: \
+Model configuration variables\
+\
+Examples Include:
+
+  - Number of nodes and layers in a neural network.
+  - Number of branches in a decision tree.
+  
+:::
+
+
+    
+:::
+
+
+## Process Steps {.smaller}
 
 :::: {.columns}
 
@@ -85,7 +138,7 @@ The goal of CV is to:
 3. **Fit model to the training data**\
 Take the model you are going to use for prediction and fit it to the training data. Continuing with our example, you would use the 4 training folds to fit the model. Take the fitted model you developed in step 3 and apply it to the 1 test fold. After applying it to the model, you would take the resulting prediction and determine the accuracy by comparing what was predicted from the training folds to the actual values from the test fold.
 
-4. **Repeat steps 2 - 4**\
+4. **Repeat steps 2 - 3**\
 In the example, if you were using K = 5, then you would pick one of the folds you have not previously used and make it the test fold and the other 4 the training fold. In this way, every observation will be a member of the test fold once and training folds 4 times.
 
 5. **Calculate the mean error**\
