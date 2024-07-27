@@ -81,7 +81,7 @@ By measuring the quality of fit we can select the model that makes the most accu
 The Mean Absolute Error is a measure error <u>magnitude</u>. The sine of the error does not matter because MAE uses the absolute value. Small MAE values, "<i>lower magnitude</i>" indicate better model fit. MAE is calculated (1) by averaging the absolute difference between the observed $(y_i)$ and predicted $\hat{f}(x_i)$ values. Where:\
 
   - $n$ is the number of observations,
-  - $\hat{f}(x_i)$ is the prediction that the regression function $\hat{f}$ gives for the ith observation,
+  - $\hat{f}(x_i)$ is the prediction that the model function $\hat{f}$ gives for the ith observation,
   - $y_i$ is the observed value.
   
 
