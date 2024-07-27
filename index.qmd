@@ -1,6 +1,6 @@
 ---
 title: "Evaluating Concrete Strength Model Performance"
-subtitle: "Using Cross Validation Methods"
+subtitle: "Using Cross-validation Methods"
 author: "Sai Devarasheyyt, Mattick, Musson, Perez"
 date: '`r Sys.Date()`'
 format:
@@ -167,7 +167,7 @@ CV_{(n)} = \frac{1}{n}\sum_{i=1}^{n} \text{Measuer of Errori}_i \tag{5}
 $$
 
 **Process:**
-The steps for LOOCV are almost identical to k-fold cross validation. The only difference is that in K-fold, K must be less than the number of observations (n). In LOOCV, K = n, so when you split the data into testing and training data, the first testing fold is one of the observations and the training data would be every other observation [@fig-LOOCV]. In this way, every observation is tested against every other observation and the process would be repeated n times [@james2013introduction].
+The steps for LOOCV are almost identical to k-fold cross-validation. The only difference is that in K-fold, K must be less than the number of observations (n). In LOOCV, K = n, so when you split the data into testing and training data, the first testing fold is one of the observations and the training data would be every other observation [@fig-LOOCV]. In this way, every observation is tested against every other observation and the process would be repeated n times [@james2013introduction].
 
 ![Leave-one-out Cross-validation. Created by Author](LOOCV_fig.png#center){#fig-LOOCV}
 
@@ -712,7 +712,7 @@ Comparison_df %>%
   ggplot(aes(x=Model, y=Result_Value)) +
   geom_bar(stat="identity", color = "blue4", fill = "gray78") +
   facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
-  labs(title = "Modle Comparison",
+  labs(title = "Model Comparison",
        subtitle = "K-Fold Crosss-validation where K = 5",
        y = "Mean Measure of Error",
        x = "Model") + 
@@ -727,7 +727,7 @@ Comparison_df %>%
   ggplot(aes(x=Model, y=Result_Value)) +
   geom_bar(stat="identity", color = "blue4", fill = "gray78") +
   facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
-  labs(title = "Modle Comparison",
+  labs(title = "Model Comparison",
        subtitle = "Leave-One-Out Crosss-validation",
        y = "Mean Measure of Error",
        x = "Model") + 
@@ -742,7 +742,7 @@ Comparison_df %>%
   ggplot(aes(x=Model, y=Result_Value)) +
   geom_bar(stat="identity", color = "blue4", fill = "gray78") +
   facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
-  labs(title = "Modle Comparison",
+  labs(title = "Model Comparison",
        subtitle = "Nested Crosss-validation",
        y = "Mean Measure of Error",
        x = "Model") + 
@@ -756,7 +756,7 @@ Comparison_df %>%
 
 # Conclution
 
-In this study, we analyzed cross-validation techniques that can be used for evaluating concrete strength modeling performance, including K-Fold, leave-one-out cross-validation, and Nested cross-validation. In our case, we were able to examine the linear regression performance of an entire data set and then compare it with the performance of cross-validation techniques. The findings pointed out that leave-one-out cross validation, K-fold cross validation, and nested cross validation techniques had a better generalization error compared with conventional linear regression models. The detailed models established better results regarding the actual concrete strength. We can note that the nested cross-validation slightly performed better than the k-fold and leave-one-out cross-validation techniques. Further, the research also stressed the feature selection part, as variables like water-cement ratio, age, and type of aggregate were identified as main attributes influencing concrete strength. Overall, this kind of assessment raises the prospect of generating vehicle models for refining forecast precision and effectiveness, as well as investigating the best strategies for developing concrete mixes and promoting construction improvement.
+In this study, we analyzed cross-validation techniques that can be used for evaluating concrete strength modeling performance, including K-Fold, leave-one-out cross-validation, and Nested cross-validation. In our case, we were able to examine the linear regression performance of an entire data set and then compare it with the performance of cross-validation techniques. The findings pointed out that leave-one-out cross-validation, K-fold cross-validation, and nested cross-validation techniques had a better generalization error compared with conventional linear regression models. The detailed models established better results regarding the actual concrete strength. We can note that the nested cross-validation slightly performed better than the k-fold and leave-one-out cross-validation techniques. Further, the research also stressed the feature selection part, as variables like water-cement ratio, age, and type of aggregate were identified as main attributes influencing concrete strength. Overall, this kind of assessment raises the prospect of generating vehicle models for refining forecast precision and effectiveness, as well as investigating the best strategies for developing concrete mixes and promoting construction improvement.
 
 
 
