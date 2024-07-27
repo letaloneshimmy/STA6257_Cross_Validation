@@ -95,19 +95,17 @@ Model fits characteristics specific to the training set:
 ### Hyperparameters
 
 
-
-
 **Hyperparameters**:\
 Are model configuration variables
 
 :::: {.columns}
 
 ::: {.column width="50%"}
-![Number of nodes and layers in a neural network](neural_network.png)
+![Number of nodes and layers in a neural network](neural_network.png){width="85%"}
 :::
 
 ::: {.column width="50%"}
-![Number of branches in a decision tree](decision_tree.png){width="73%"}
+![Number of branches in a decision tree](decision_tree.png){width="65%"}
 :::
 
 ::::
