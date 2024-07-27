@@ -316,30 +316,6 @@ ggplot(cor_df, aes(x = reorder(Variable, Correlation), y = Correlation)) +
 
 # Analysisand Results
 
-## The Model
-
-```{css, echo = FALSE}
-.justify {
-  text-align: justify !important
-}
-```
-```{css, echo = FALSE}
-.big-text {
-  font-size: 28px !important
-}
-```
-
-::: {.big-text}
-
-$$
-\hat{Strength} = 
-\text{Cement + } 
-\text{Superplasticizer + } 
-\text{Age + } 
-\text{Water}
-$$
-
-:::
 
 ## Construct the Linear Regression Model
 ```{r, warning=FALSE, echo=TRUE}
@@ -361,7 +337,24 @@ model <- train(Strength ~ Cement + Superplasticizer + Age + Water,
                method = "lm")
 ```
 
+```{css, echo = FALSE}
+.big-text {
+  font-size: 28px !important
+}
+```
 
+::: {.big-text}
+
+$$
+\hat{Strength} = 
+`r round(coef(model$finalModel),3)[1]`
+`r round(coef(model$finalModel),3)[2]`_\text{Cement + }
+`r round(coef(model$finalModel),3)[3]`_\text{Superplasticizer + } 
+`r round(coef(model$finalModel),3)[4]`_\text{Age + } 
+`r round(coef(model$finalModel),3)[5]`_\text{Water}
+$$
+
+:::
 
 ### Linear Regression: K-Fold Cross-validation
 

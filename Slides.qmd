@@ -36,7 +36,18 @@ scrollable: true
 ---
 
 
+
 ## Introduction To Crossvalidation
+```{css, echo = FALSE}
+.tweak90-text {
+  font-size: 90%;
+}
+
+.big-text {
+  font-size: 26px !important;
+  font-weight: bold;
+}
+```
 
 ::: {.panel-tabset}
 
@@ -60,16 +71,6 @@ scrollable: true
   - Ensure a model **generalizes** to unseen data
   - Tune **hyperparameters**
 
-  
-
-<!-- When using a sample to fit a predictive model it is critical to verify the model can be generalized to the population [@hawkins2003assessing]. -->
-<!-- One of the biggest obstacles to model generalizability is overfitting.  -->
-<!-- Overfitting occurs when a model fits the the underlying patterns of the training data too well and preforms poorly on unseen data [@allgaier2024practical], [@bradshaw2023guide]. -->
-<!-- The goal of CV is to ensure a model generalizes well by minimize overfitting and optimize the hyperparameters [@filzmoser2009repeated], [@bradshaw2023guide].\ -->
-
-<!-- Cross-validation is widely used in various fields, including machine learning, data mining, and bioinformatics. In machine learning, it is essential for tuning hyperparameters, selecting models, and estimating the model’s generalization error. In data mining, cross-validation helps in validating predictive models built from large datasets. Bioinformatics leverages cross-validation to validate models for predicting protein structures, gene functions, and disease classifications [@song2021making].\ -->
-
-<!-- There are different types of CV. All the different types divide a dataset into subsets, training a model on one subset, and test the data on the other subset [@song2021making], [@bischl2012resampling]. Three commonly used CV methods are: -->
 :::
 
 ## Definitions
@@ -81,8 +82,9 @@ scrollable: true
 **Generalizability**: \
 How well predictive models created from a sample fit other samples from the same population.\
 
-### Overfitting
 
+### Overfitting
+:::{.tweak90-text}
 **Overfitting**: \
 When a model fits the the underlying patterns of the training data too well.\
 \
@@ -90,22 +92,24 @@ Model fits characteristics specific to the training set:
 
   - <u>Noise</u>
   - <u>Random fluctuations</u>
-  - <u>Outliers</u> .\
-
+  - <u>Outliers</u>
+  
+:::
 ### Hyperparameters
 
-
+:::{.tweak90-text}
 **Hyperparameters**:\
 Are model configuration variables
 
 :::: {.columns}
 
 ::: {.column width="50%"}
-![Number of nodes and layers in a neural network](neural_network.png){width="85%"}
+![Nodes and layers in a neural network](neural_network.png){width="75%"}
 :::
 
 ::: {.column width="50%"}
-![Number of branches in a decision tree](decision_tree.png){width="65%"}
+![Branches in a decision tree](decision_tree.png){width="60%"}
+:::
 :::
 ::::
 :::
@@ -123,8 +127,6 @@ Subsets the data into K approximately equally sized folds
 
 ![](process1.png)
 
-<!-- Each fold will contain approximately n/k observations.  -->
-<!-- For example when n = 200 and K = 5, then each fold have 200/5 = 40 observations. If n = 201, then one of the folds would have 41, the other four folds would have 40 observations. -->
 
 ### Split
 Split The Subsets into **test** and **training sets**
@@ -134,7 +136,7 @@ Split The Subsets into **test** and **training sets**
 
 ![](process2.png)
 
-  <!-- - all of the folds will eventually be test folds against the other 4 [@fig-kfold]. -->
+
   
 ### Train and Test
 
@@ -145,32 +147,22 @@ Split The Subsets into **test** and **training sets**
 ![](process3.png)
 
 
-<!-- **Fit model to the training data**\ -->
-<!-- Take the model you are going to use for prediction and fit it to the training data. 
-Take the fitted model you developed in step 3 and apply it to the 1 test fold. 
-After applying it to the model, you would take the resulting prediction and determine the accuracy by comparing what was predicted from the training folds to the actual values from the test fold. -->
-
 ### Repeat
-
-Repeat K Times
+:::{.tweak90-text}
+**Repeat K Times**
 
   - Fit to all K-1 combinations
   - Test with each subset 1 time
-
-![](process4.png){width=70%}
-
-<!-- **Repeat steps 2 - 3**\ -->
-<!-- In the example, if you were using K = 5, then you would pick one of the folds you have not previously used and make it the test fold and the other 4 the training fold. In this way, every observation will be a member of the test fold once and training folds 4 times. -->
-
+  
+![](process4.png){width=66%}
+:::
 ### Mean Error
 
 Calculate the **mean error**
 
 
 ![](process5.png)
-<!-- **Calculate the mean error**\ -->
-<!-- Measure the error after each fold has been used as the test fold. Take the mean measure error of all folds from step 4.\ -->
-<!-- [@song2021making] -->
+
 
 :::
 
@@ -186,6 +178,7 @@ Calculate the **mean error**
 ## Nested
 
 ## Table
+:::{.tweak90-text}
 | Method         | Computation | Bias         | Variance          |
 |----------------|-------------|--------------|-------------------|
 | K-Fold         | Lowest      | Intermediate | Lower than LOOCV  |
@@ -193,11 +186,12 @@ Calculate the **mean error**
 | Leave-one-out  | Highest     | Unbiased     | High              |
 
 : Method Comparison
+:::
 
   <!-- - Dataset is divided into K subsets, knows as **folds** -->
   <!-- - All folds contain roughly an equal number of observations -->
   
-<!-- For the K-Fold Cross-validation (K-Fold) method, the dataset is divided into K subsets, knows as "folds". Each fold contain roughly an equal number of observations. The model is trained on K−1 folds and tested on the remaining holdout fold. Every fold is used as the test set once, and this process is repeated K times [@fig-kfold]. -->
+<!-- For the K-Fold Cross-validation (K-Fold) method, the dataset is divided into K subsets, knows as "folds". Each fold contain roughly an equal number of observations. The model is trained on K−1 folds and tested on the remaining holdout fold. Every fold is used as the test set once, and this process is repeated K times . -->
 <!-- The K-Fold method is known for it's flexibility and adaptability of various data distributions and samplesizes [@browne2000cross]. -->
 <!-- Many, including [@james2013introduction], [@gorriz2024k] describe a <i>Bias-Variance Trade-Off</i> when comparing K-Fold and Leave-One-Out Cross-Validation (LOOCV) methods. The computational cost, bias and, variance of these two methods differ. Despite the lower bias in LOOCV, it is recommended to use k-fold in instances where K = 5 or K = 10, over LOOCV because:\ -->
 <!--     - the **<u>computational cost</u>** is much lower,\ -->
@@ -209,7 +203,7 @@ Calculate the **mean error**
 <!-- ## LOOCV -->
 <!-- **Leave-One-Out Cross-Validation:**\ -->
 <!-- Leave-One-Out Cross-Validation is a specific case of K-Fold Cross-Validation, where K is the number of observations in the dataset.  -->
-<!-- With this method, the model is trained n times, where each training set has n−1 observations, and the test set has 1 observation [@fig-LOOCV]. -->
+<!-- With this method, the model is trained n times, where each training set has n−1 observations, and the test set has 1 observation. -->
 <!-- This approach is particularly useful for smaller datasets for which separate training and testing sets are impractical [@wong2019reliable]. -->
 <!-- Iterating through all possible n−1 subset results in a performance estimate with low bias [@yates2023cross]. -->
 <!-- One drawback to this method is the high computational cost associate with fitting the model n times.  -->
@@ -223,7 +217,7 @@ Calculate the **mean error**
 <!-- Nested Cross-Validation is also very similar to K-fold Cross-Validation.  -->
 <!-- After dividing the data into K-folds with each fold holding a similar amount of data, the model is trained on the outer fold which are K-1 folds while the testing fold remains a single fold.  -->
 <!-- The difference between Nested and K-fold lies in its usage of two loops.  -->
-<!-- The training data becomes the inner loop which optimizes hyperparameters and the test data is the outside loop that assesses the model’s performance [@fig-NestCV]. \ -->
+<!-- The training data becomes the inner loop which optimizes hyperparameters and the test data is the outside loop that assesses the model’s performance . \ -->
 <!-- \ -->
 <!-- Nested cross-validation offers a more objective estimation of the model’s capacity for generalization by isolating the hyperparameter tweaking procedure from the performance assessment. Nested Cross-Validation is especially helpful when choosing a model and adjusting hyperparameters [@bradshaw2023guide].  -->
 <!-- Recently, recommendations to use this method when n is small have become more common [@raschka2018model].  -->
@@ -389,27 +383,24 @@ After getting an accuracy score for each training fold, we find the average of a
 [@yeh1998modeling] modeled compression strength of high performance concrete (HPC) at various ages and made with different ratios of components [@tbl-data]. 
 The data used for their study was made publicly available and can be downloaded UCI Machine Learning Repository [@misc_concrete_compressive_strength_165]. 
 
-::: {#tbl-data}
 
-| Name                | Data Type    | Units              | Variable  |
-|:------------------- |:-------------|:-------------------|:----------|
-| Strength            | Quantitative | MPa                | Response  |
-| Cement              | Quantitative | kg in a m3 mixture | Predictor |
-| Blast Furnace Slag  | Quantitative | kg in a m3 mixture | Predictor |
-| Fly Ash             | Quantitative | kg in a m3 mixture | Predictor |
-| Water               | Quantitative | kg in a m3 mixture | Predictor |
-| Superplasticizer    | Quantitative | kg in a m3 mixture | Predictor |
-| Coarse Aggregate    | Quantitative | kg in a m3 mixture | Predictor |
-| Fine Aggregate      | Quantitative | kg in a m3 mixture | Predictor |
-| Age                 | Quantitative | Day (1~365)        | Predictor |
 
-: **Variables** {.striped .hover}
+## Data Exploration and Visulation{.smaller}
+
+:::: {layout="[ 35, 65 ]"}
+
+::: {#first-column}
+  - Target variable:
+    - Strength in MPa
+  - Predictor variables:
+    - Cement in kg in a m3 mixture
+    - Superplasticizer kg in a m3 mixture
+    - Age in days
+    - Water kg in a m3 mixture
 
 :::
 
-
-
-### Load Libraries and Data
+::: {#second-column.#center}
 ```{r, warning=FALSE}
 #| label: load Libs and csv
 
@@ -440,43 +431,12 @@ data <- read_csv("Concrete_Data.csv") %>%
          Age = 8,
          Strength = 9 ) %>%
   relocate(Strength)
-```
-
-### Data Plots
-```{r, warning=FALSE}
-#| label: plot_data
-
-# Variable Box Plots
-pivot_longer(data = data, 1:9, names_to = "grp") %>% 
-  mutate(grp = str_to_title(str_replace(grp, "_"," "))) %>%
-  ggplot(aes(x=factor(0), y = value)) +
-  geom_boxplot(color="blue",outlier.color="red") +
-  xlab("Predictor")+ ylab("")+
-  theme(axis.text.x=element_blank() )+
-  facet_wrap(~grp, scales = "free", ncol = 3)+
-  theme(strip.text = element_text(face = "bold"))
-
-# Variable xy-point plots
-pivot_longer(data = data, 2:9, names_to = "grp") %>% 
-  mutate(grp = str_to_title(str_replace(grp, "_"," "))) %>%
-  ggplot(aes(x=value, y = Strength)) +
-  geom_point()+
-  facet_wrap(~grp, scales = "free", ncol = 3)+
-  xlab("Predictor")+ 
-  ylab("Strength")+
-  theme(strip.text = element_text(face = "bold"))+
-  geom_smooth(formula = "y~x", method=lm,se = F)
-```
-
-### Data Correlation Plots
-```{r, warning=FALSE}
-#| label: plot_corr
 
 # Correlation plots
 cor_matrix <- cor(data)
 
 # Correlation circle plot
-corrplot(cor_matrix, method = "circle", type = "upper", tl.col = "black", tl.srt = 45)
+# corrplot(cor_matrix, method = "circle", type = "upper", tl.col = "black", tl.srt = 45)
 
 # Correlation Bar plot
 response_correlations <- cor_matrix[, "Strength"]
@@ -484,42 +444,22 @@ response_correlations <- response_correlations[!names(response_correlations) %in
 sorted_correlations <- sort(response_correlations, decreasing = TRUE)
 
 cor_df <- data.frame(Variable = names(sorted_correlations), Correlation = sorted_correlations)
-ggplot(cor_df, aes(x = reorder(Variable, Correlation), y = Correlation)) +
+corr_plot <- ggplot(cor_df, aes(x = reorder(Variable, Correlation), y = Correlation)) +
   geom_bar(stat="identity", color = "blue4", fill = "gray78") +
   coord_flip() +
   theme_minimal() +
   labs(title = "Correlation with Concrete Compressive Strength", x = "Predictor Variable", y = "Correlation")
-
+corr_plot
 ```
 
-
-
-## The Model
-
-```{css, echo = FALSE}
-.justify {
-  text-align: justify !important
-}
-```
-```{css, echo = FALSE}
-.big-text {
-  font-size: 36px !important
-}
-```
-
-::: {.big-text}
-
-$$
-\hat{Strength} = 
-\text{Cement + } 
-\text{Superplasticizer + } 
-\text{Age + } 
-\text{Water}
-$$
+*All variables are quantitative*
 :::
 
+::::
 
-## Construct the Linear Regression Model
+## Linear Regression Model{.smaller}
+::: {#tbl-data}
+
 ```{r, warning=FALSE}
 #| label: analysis_model
 
@@ -535,11 +475,35 @@ train_data <- data_combined[trainIndex,]
 test_data <- data_combined[-trainIndex,]
 
 model <- train(Strength ~ Cement + Superplasticizer + Age + Water, data = train_data, method = "lm")
+
+model_summary <- summary(model$finalModel)[4]
+model_summary %>% kable()
 ```
 
+:::
 
 
-### Linear Regression: K-Fold Cross-validation
+
+::: {.big-text}
+
+$$
+\hat{Strength} = 
+`r round(coef(model$finalModel),3)[1]`_\text{Cement + }
+`r round(coef(model$finalModel),3)[2]`_\text{Superplasticizer + } 
+`r round(coef(model$finalModel),3)[3]`_\text{Age } 
+`r round(coef(model$finalModel),3)[4]`_\text{Water}
+$$
+
+:::
+
+
+
+
+## Linear Regression CV Results{.smaller}
+::::{.tweak90-text}
+::: {layout="[[30,70], [100], [30,70], [100], [30,70]]"}
+
+ - **K-Fold Results:**
 
 ```{r, warning=FALSE}
 #| label: analysis_kfold
@@ -569,11 +533,15 @@ kfold_r2 <- calculate_r2(test_data$Strength, kfold_predictions) %>% round(2)
 Measure_of_Error <- c("RMSE","MAE", "R2" )
 Result_Value <- c(kfold_rmse, kfold_mae, kfold_r2)
 kfold_df <- data.frame(Measure_of_Error, Result_Value) 
-kfold_df %>%  kable()
+kfold_df %>%  
+  rename(`Measure of Error`=1,Result=2) %>% 
+  kable()
 
 ```
 
-### Linear Regression: Leave-one-out Cross-validation
+_______________________
+
+   - **LOOCV Results:**
 
 ```{r, warning=FALSE}
 #| label: analysis_loocv
@@ -587,10 +555,17 @@ loocv_r2 <- calculate_r2(test_data$Strength, loocv_predictions) %>% round(2)
 
 Result_Value <- c(loocv_rmse, loocv_mae, loocv_r2)
 loocv_df <- data.frame(Measure_of_Error, Result_Value) 
-loocv_df %>%  kable()
+loocv_df %>%  
+  rename(`Measure of Error`=1,Result=2) %>% 
+  kable()
 ```
 
-### Linear Regression Model: Nested Cross-validation
+
+__________________________________________________
+
+
+  - **Nested CV Results:**
+  
 
 ```{r, warning=FALSE}
 #| label: analysis_nest
@@ -619,12 +594,19 @@ nested_cv_r2 <- mean(nested_cv_results[, 3]) %>% round(2)
 
 Result_Value <- c(nested_cv_rmse, nested_cv_mae, nested_cv_r2)
 nested_cv_df <- data.frame(Measure_of_Error, Result_Value) 
-nested_cv_df %>%  kable()
+nested_cv_df %>%  
+  rename(`Measure of Error`=1,Result=2) %>% 
+  kable()
 
 ```
 
+:::
+::::
 
-## Construct LightGBM Model
+## LightGBM Model
+:::: {layout="[[-20,60,-20], [100], [100]]"}
+:::{.tweak90-text}
+
 ```{r, warning=FALSE}
 #| label: analysis_lightgbm
 
@@ -661,12 +643,7 @@ params <- list(
 
 #Here we train the lightGBM model with the specific paramaters and 100 rounds. 
 model <- lgb.train(params = params, data = dtrain, nrounds = 100, verbose = -1)
-```
 
-
-### LightGBM Model K-Fold Cross-validation
-```{r, warning=FALSE}
-#| label: analysis_lightgbm_kfold
 
 #Redefining evaluation functions
 calculate_rmse <- function(actual, predicted) {
@@ -714,43 +691,81 @@ kfold_r2 <- mean(kfold_r2_values) %>% round(2)
 
 Result_Value <- c(kfold_rmse, kfold_mae, kfold_r2)
 kfold_lgbm_df <- data.frame(Measure_of_Error, Result_Value)
-kfold_lgbm_df %>%  kable()
-
+kfold_lgbm_df %>%  
+  rename(`Measure of Error`=1,Result=2) %>% 
+  kable()
 ```
 
-### LightGBM Model: Leave-one-out Cross-validation
+
+:::
+_______________
+
+:::{.tweak90-text}
+
+  - Ensemble of decision trees
+  - Uses gradient boosting
+  - Final prediction is the sum of predictions from all individual trees
+  - Feature importance
+
+:::
+::::
+
+
+
+## LightGBM CV Results
+::::{.tweak90-text}
+::: {layout="[[30,70], [100], [30,70], [100], [30,70]]"}
+
+  - **K-Fold Results:**
+
+```{r, warning=FALSE}
+
+kfold_lgbm_df %>%  
+  rename(`Measure of Error`=1,Result=2) %>% 
+  kable()
+```
+
+________
+
+
+  - **LOOCV Results:**
 
 ```{r, warning=FALSE}
 #| label: analysis_lightgbm_loocv
 
-# set.seed(123)
-# train_control_loocv <- trainControl(method = "LOOCV")
-# loocv_predictions <- c()
-# 
-# for (i in 1:nrow(train_data)) {
-#   fold_train <- train_data[-i, ]
-#   fold_test <- train_data[i, , drop = FALSE]
-#   
-#   dtrain <- lgb.Dataset(data = as.matrix(fold_train[, -ncol(fold_train)]), label = fold_train$Strength)
-#   dtest <- as.matrix(fold_test[, -ncol(fold_test)])
-#   
-#   params <- list(objective = "regression", metric = "rmse", learning_rate = 0.1, num_leaves = 31, max_depth = -1)
-#   model <- lgb.train(params = params, data = dtrain, nrounds = 100, verbose = -1)
-#   
-#   prediction <- predict(model, dtest)
-#   loocv_predictions <- c(loocv_predictions, prediction)
-# }
-# 
-# loocv_rmse <- calculate_rmse(train_data$Strength, loocv_predictions) %>% round(2)
-# loocv_mae <- calculate_mae(train_data$Strength, loocv_predictions) %>% round(2)
-# loocv_r2 <- calculate_r2(train_data$Strength, loocv_predictions) %>% round(2)
-# 
-# Result_Value <- c(loocv_rmse, loocv_mae, loocv_r2)
-# loocv_lgbm_df <- data.frame(Measure_of_Error, Result_Value)
-# loocv_lgbm_df %>%  kable()
+set.seed(123)
+train_control_loocv <- trainControl(method = "LOOCV")
+loocv_predictions <- c()
+
+for (i in 1:nrow(train_data)) {
+  fold_train <- train_data[-i, ]
+  fold_test <- train_data[i, , drop = FALSE]
+
+  dtrain <- lgb.Dataset(data = as.matrix(fold_train[, -ncol(fold_train)]), label = fold_train$Strength)
+  dtest <- as.matrix(fold_test[, -ncol(fold_test)])
+
+  params <- list(objective = "regression", metric = "rmse", learning_rate = 0.1, num_leaves = 31, max_depth = -1)
+  model <- lgb.train(params = params, data = dtrain, nrounds = 100, verbose = -1)
+
+  prediction <- predict(model, dtest)
+  loocv_predictions <- c(loocv_predictions, prediction)
+}
+
+loocv_rmse <- calculate_rmse(train_data$Strength, loocv_predictions) %>% round(2)
+loocv_mae <- calculate_mae(train_data$Strength, loocv_predictions) %>% round(2)
+loocv_r2 <- calculate_r2(train_data$Strength, loocv_predictions) %>% round(2)
+
+Result_Value <- c(loocv_rmse, loocv_mae, loocv_r2)
+loocv_lgbm_df <- data.frame(Measure_of_Error, Result_Value)
+loocv_lgbm_df %>%  
+  rename(`Measure of Error`=1,Result=2) %>% 
+  kable()
 ```
 
-### LightGBM Model Nested Cross-validation
+________
+
+
+  - **Nested CV Results:**
 
 ```{r, warning=FALSE}
 #| label: analysis_lightgbm_nest
@@ -802,15 +817,25 @@ nested_cv_r2 <- mean(nested_cv_r2_values) %>% round(2)
 
 Result_Value <- c(nested_cv_rmse, nested_cv_mae, nested_cv_r2)
 nested_cv_lgbm_df <- data.frame(Measure_of_Error, Result_Value) 
-nested_cv_lgbm_df %>%  kable()
-
+nested_cv_lgbm_df %>%  
+  rename(`Measure of Error`=1,Result=2) %>% 
+  kable()
 ```
 
+:::
+::::
 
-## Cross-validation Method Comparision
-::: {.panel-tabset}
+## Comparison of Models{.smaller}
+:::: {layout="[ 35, 65 ]"}
 
-## Table
+::: {#first-column}
+  - Performance Comparison:\ Linear Regression vs. LightGBM
+  - Advantages and disadvantages of each model
+
+:::
+
+::: {#second-column}
+
 ```{r, warning=FALSE}
 #| label: analysis_results_mlr
 
@@ -827,33 +852,29 @@ result_long_df <- combine(kfold_results, LOOCV_results, nested_results)
 result_wide_df <- result_long_df %>% 
   pivot_wider(names_from = Measure_of_Error, values_from = Result_Value) %>% 
   arrange(desc(R2), RMSE, MAE)
-result_wide_df %>% kable()
+# result_wide_df %>% kable()
 ```
-## Plot
-```{r, warning=FALSE}
 
-# Summary Plot
-summary_plot <- result_long_df %>% 
-  ggplot(aes(x = Method, y = Result_Value)) +
-  geom_bar(stat="identity", color = "blue4", fill = "gray78") +
-  facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
-  labs(title = "Linnear Model",
-       y = "Mean Measure of Error",
-       x = "Cross-validation Method") + 
-  theme(axis.title.x = element_text(face = "bold")) + 
-  theme(axis.title.y = element_text(face = "bold")) +
-  theme(axis.title.title = element_text(face = "bold")) +
-  theme(strip.text = element_text(face = "bold"))
+<!-- ## Plot -->
+<!-- ```{r, warning=FALSE} -->
 
-summary_plot
-```
-:::
+<!-- # Summary Plot -->
+<!-- summary_plot <- result_long_df %>% -->
+<!--   ggplot(aes(x = Method, y = Result_Value)) + -->
+<!--   geom_bar(stat="identity", color = "blue4", fill = "gray78") + -->
+<!--   facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) + -->
+<!--   labs(title = "Linnear Model", -->
+<!--        y = "Mean Measure of Error", -->
+<!--        x = "Cross-validation Method") + -->
+<!--   theme(axis.title.x = element_text(face = "bold")) + -->
+<!--   theme(axis.title.y = element_text(face = "bold")) + -->
+<!--   theme(axis.title.title = element_text(face = "bold")) + -->
+<!--   theme(strip.text = element_text(face = "bold")) -->
 
-## Model Comparison{.smaller}
+<!-- summary_plot -->
+<!-- ``` -->
 
-::: {.panel-tabset}
 
-## Table
 ```{r, warning=FALSE}
 #| label: analysis_results_LGMB
 
@@ -861,7 +882,7 @@ summary_plot
 Comparison_df <- rbind(
   Regression_R <- cbind(result_long_df, c(replicate(length(result_long_df),"Linear_Regression"))) %>% rename(Model=4),
   LightGBM_KFold_R <- kfold_lgbm_df %>% mutate(Method = "5-Fold", Model = "LightGBM"),
-  # LightGBM_KFold_R <- loocv_lgbm_df %>% mutate(Method = "LOOCV", Model = "LightGBM"),
+  LightGBM_KFold_R <- loocv_lgbm_df %>% mutate(Method = "LOOCV", Model = "LightGBM"),
   LightGBM_Nest_R  <- nested_cv_lgbm_df %>% mutate(Method = "Nested CV", Model = "LightGBM")
   ) 
 
@@ -870,25 +891,26 @@ Comparison_df %>%
   pivot_wider(names_from = Model, 
               values_from = Result_Value) %>% 
   relocate(Method) %>% 
-  rename(Measure = Measure_of_Error,
-         MLR = Linear_Regression,
-         LGBM = LightGBM) %>% 
+  rename(`Measure of Error` = Measure_of_Error,
+         `Linear Regression` = Linear_Regression) %>% 
   kable()
 ```
+:::
+
 
 ## K-Fold Plot
 ```{r, warning=FALSE}
 # Model Comparison Plot: K-Fold
 KFold_Plot <- Comparison_df %>%
-  filter(Method == "5-Fold") %>% 
+  filter(Method == "5-Fold") %>%
   ggplot(aes(x=Model, y=Result_Value)) +
   geom_bar(stat="identity", color = "blue4", fill = "gray78") +
   facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
   labs(title = "Modle Comparison",
        subtitle = "K-Fold Crosss-validation where K = 5",
        y = "Mean Measure of Error",
-       x = "Model") + 
-  theme(axis.title.x = element_text(face = "bold")) + 
+       x = "Model") +
+  theme(axis.title.x = element_text(face = "bold")) +
   theme(axis.title.y = element_text(face = "bold")) +
   theme(axis.title.title = element_text(face = "bold")) +
   theme(strip.text = element_text(face = "bold"))
@@ -900,17 +922,17 @@ KFold_Plot
 
 print('Intentionally blank. Takes 10 minutes to render this code chunk \n Will turn it back on to finalize')
 
-# # Model Comparison Plot: LOOCV 
-# LOOCV_Plot <- Comparison_df %>% 
-#   filter(Method == "LOOCV") %>% 
+# # Model Comparison Plot: LOOCV
+# LOOCV_Plot <- Comparison_df %>%
+#   filter(Method == "LOOCV") %>%
 #   ggplot(aes(x=Model, y=Result_Value)) +
 #   geom_bar(stat="identity", color = "blue4", fill = "gray78") +
 #   facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
 #   labs(title = "Modle Comparison",
 #        subtitle = "Leave-One-Out Crosss-validation",
 #        y = "Mean Measure of Error",
-#        x = "Model") + 
-#   theme(axis.title.x = element_text(face = "bold")) + 
+#        x = "Model") +
+#   theme(axis.title.x = element_text(face = "bold")) +
 #   theme(axis.title.y = element_text(face = "bold")) +
 #   theme(axis.title.title = element_text(face = "bold")) +
 #   theme(strip.text = element_text(face = "bold"))
@@ -922,15 +944,15 @@ print('Intentionally blank. Takes 10 minutes to render this code chunk \n Will t
 ```{r, warning=FALSE}
 # Model Comparison Plot: Nested CV
 Nested_CV_Plot <- Comparison_df %>%
-  filter(Method == "Nested CV") %>% 
+  filter(Method == "Nested CV") %>%
   ggplot(aes(x=Model, y=Result_Value)) +
   geom_bar(stat="identity", color = "blue4", fill = "gray78") +
   facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
   labs(title = "Modle Comparison",
        subtitle = "Nested Crosss-validation",
        y = "Mean Measure of Error",
-       x = "Model") + 
-  theme(axis.title.x = element_text(face = "bold")) + 
+       x = "Model") +
+  theme(axis.title.x = element_text(face = "bold")) +
   theme(axis.title.y = element_text(face = "bold")) +
   theme(axis.title.title = element_text(face = "bold")) +
   theme(strip.text = element_text(face = "bold"))
@@ -939,7 +961,7 @@ Nested_CV_Plot
 
 
 
-:::
+
 
 ## LightGBM
 ::: {.panel-tabset}
