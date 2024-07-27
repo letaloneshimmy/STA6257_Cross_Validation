@@ -44,7 +44,7 @@ scrollable: true
 }
 
 .big-text {
-  font-size: 26px !important;
+  font-size: 27px !important;
   font-weight: bold;
 }
 ```
@@ -451,8 +451,9 @@ corr_plot <- ggplot(cor_df, aes(x = reorder(Variable, Correlation), y = Correlat
   labs(title = "Correlation with Concrete Compressive Strength", x = "Predictor Variable", y = "Correlation")
 corr_plot
 ```
-
+:::{text-align="center"}
 *All variables are quantitative*
+:::
 :::
 
 ::::
@@ -712,7 +713,7 @@ _______________
 
 
 
-## LightGBM CV Results
+## LightGBM CV Results{.smaller}
 ::::{.tweak90-text}
 ::: {layout="[[30,70], [100], [30,70], [100], [30,70]]"}
 
@@ -745,7 +746,7 @@ for (i in 1:nrow(train_data)) {
   dtest <- as.matrix(fold_test[, -ncol(fold_test)])
 
   params <- list(objective = "regression", metric = "rmse", learning_rate = 0.1, num_leaves = 31, max_depth = -1)
-  model <- lgb.train(params = params, data = dtrain, nrounds = 100, verbose = -1)
+  model <- lgb.train(params = params, data = dtrain, nrounds = 3, verbose = -1) ############################################ Change back to 100
 
   prediction <- predict(model, dtest)
   loocv_predictions <- c(loocv_predictions, prediction)
@@ -826,11 +827,13 @@ nested_cv_lgbm_df %>%
 ::::
 
 ## Comparison of Models{.smaller}
-:::: {layout="[ 35, 65 ]"}
+:::: {layout="[30, 70]"}
 
 ::: {#first-column}
-  - Performance Comparison:\ Linear Regression vs. LightGBM
-  - Advantages and disadvantages of each model
+  - Performance Comparison:\
+  \  Linear Regression vs. LightGBM
+  - Advantages and disadvantages\
+  \ of each model
 
 :::
 
@@ -885,6 +888,7 @@ Comparison_df <- rbind(
   LightGBM_KFold_R <- loocv_lgbm_df %>% mutate(Method = "LOOCV", Model = "LightGBM"),
   LightGBM_Nest_R  <- nested_cv_lgbm_df %>% mutate(Method = "Nested CV", Model = "LightGBM")
   ) 
+  
 
 # print Comparison_df
 Comparison_df %>% 
@@ -893,12 +897,14 @@ Comparison_df %>%
   relocate(Method) %>% 
   rename(`Measure of Error` = Measure_of_Error,
          `Linear Regression` = Linear_Regression) %>% 
+  mutate(Method = if_else(Method == "Nested CV", "NCV", Method)) %>% 
   kable()
 ```
 :::
+::::
 
 
-## K-Fold Plot
+## Modle Comparison K-Fold Plot
 ```{r, warning=FALSE}
 # Model Comparison Plot: K-Fold
 KFold_Plot <- Comparison_df %>%
@@ -917,30 +923,30 @@ KFold_Plot <- Comparison_df %>%
 KFold_Plot
 ```
 
-## LOOCV Plot
+## Modle Comparison LOOCV Plot
 ```{r, warning=FALSE}
+# 
+# print('Intentionally blank. Takes 10 minutes to render this code chunk \n Will turn it back on to finalize')
 
-print('Intentionally blank. Takes 10 minutes to render this code chunk \n Will turn it back on to finalize')
-
-# # Model Comparison Plot: LOOCV
-# LOOCV_Plot <- Comparison_df %>%
-#   filter(Method == "LOOCV") %>%
-#   ggplot(aes(x=Model, y=Result_Value)) +
-#   geom_bar(stat="identity", color = "blue4", fill = "gray78") +
-#   facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
-#   labs(title = "Modle Comparison",
-#        subtitle = "Leave-One-Out Crosss-validation",
-#        y = "Mean Measure of Error",
-#        x = "Model") +
-#   theme(axis.title.x = element_text(face = "bold")) +
-#   theme(axis.title.y = element_text(face = "bold")) +
-#   theme(axis.title.title = element_text(face = "bold")) +
-#   theme(strip.text = element_text(face = "bold"))
-# LOOCV_Plot
+# Model Comparison Plot: LOOCV
+LOOCV_Plot <- Comparison_df %>%
+  filter(Method == "LOOCV") %>%
+  ggplot(aes(x=Model, y=Result_Value)) +
+  geom_bar(stat="identity", color = "blue4", fill = "gray78") +
+  facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
+  labs(title = "Modle Comparison",
+       subtitle = "Leave-one-out Cross-validation",
+       y = "Mean Measure of Error",
+       x = "Model") +
+  theme(axis.title.x = element_text(face = "bold")) +
+  theme(axis.title.y = element_text(face = "bold")) +
+  theme(axis.title.title = element_text(face = "bold")) +
+  theme(strip.text = element_text(face = "bold"))
+LOOCV_Plot
 
 ```
 
-## Nested CV Plot
+## Modle Comparison Nested CV Plot
 ```{r, warning=FALSE}
 # Model Comparison Plot: Nested CV
 Nested_CV_Plot <- Comparison_df %>%
@@ -963,8 +969,6 @@ Nested_CV_Plot
 
 
 
-## LightGBM
-::: {.panel-tabset}
 
 ## LightGBM (Light Gradient Boosting Machine)
 
@@ -988,7 +992,7 @@ Nested_CV_Plot
 - **Nested Cross-Validation:** Excellent performance but computationally intensive.
 - Efficiency crucial for real-world applications with limited resources.
 
-:::
+
 
 ## Conclution conclusion
 
