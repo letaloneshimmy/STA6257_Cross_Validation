@@ -151,7 +151,7 @@ Take the model you are going to use for prediction and fit it to the training da
 In the example, if you were using K = 5, then you would pick one of the folds you have not previously used and make it the test fold and the other 4 the training fold. In this way, every observation will be a member of the test fold once and training folds 4 times.
 
 5. **Calculate the mean error**\
-Measure the error after each fold has been used as the test fold. Take the mean measure error of all folds from step 4.\
+Measure the error (4) after each fold has been used as the test fold. Take the mean measure error of all folds from step 4.\
 [@song2021making]
 
 ![K-Fold Cross-Validation where K = 5. Created by Author](CV5Fold_fig.png#center){#fig-kfold}
@@ -159,7 +159,7 @@ Measure the error after each fold has been used as the test fold. Take the mean 
 
 ## Leave One Out Cross-validations (LOOCV)
 
-Leave-One-Out Cross-Validation is a specific case of K-Fold Cross-Validation, where K is the number of observations in the dataset. 
+Leave-One-Out Cross-Validation is a specific case of K-Fold Cross-Validation, where K is the number of observations in the dataset (5). 
 With this method, the model is trained n times, where each training set has n−1 observations, and the test set has 1 observation [@fig-LOOCV].
 
 $$
