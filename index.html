@@ -3262,10 +3262,9 @@ window.Quarto = {
   </ul></li>
   <li><a href="#analysisand-results" id="toc-analysisand-results" class="nav-link" data-scroll-target="#analysisand-results"><span class="header-section-number">4</span> Analysisand Results</a>
   <ul class="collapse">
-  <li><a href="#the-model" id="toc-the-model" class="nav-link" data-scroll-target="#the-model"><span class="header-section-number">4.1</span> The Model</a></li>
-  <li><a href="#construct-the-linear-regression-model" id="toc-construct-the-linear-regression-model" class="nav-link" data-scroll-target="#construct-the-linear-regression-model"><span class="header-section-number">4.2</span> Construct the Linear Regression Model</a></li>
-  <li><a href="#construct-lightgbm-model" id="toc-construct-lightgbm-model" class="nav-link" data-scroll-target="#construct-lightgbm-model"><span class="header-section-number">4.3</span> Construct LightGBM Model</a></li>
-  <li><a href="#result-table-and-plots" id="toc-result-table-and-plots" class="nav-link" data-scroll-target="#result-table-and-plots"><span class="header-section-number">4.4</span> Result Table and Plots</a></li>
+  <li><a href="#construct-the-linear-regression-model" id="toc-construct-the-linear-regression-model" class="nav-link" data-scroll-target="#construct-the-linear-regression-model"><span class="header-section-number">4.1</span> Construct the Linear Regression Model</a></li>
+  <li><a href="#construct-lightgbm-model" id="toc-construct-lightgbm-model" class="nav-link" data-scroll-target="#construct-lightgbm-model"><span class="header-section-number">4.2</span> Construct LightGBM Model</a></li>
+  <li><a href="#result-table-and-plots" id="toc-result-table-and-plots" class="nav-link" data-scroll-target="#result-table-and-plots"><span class="header-section-number">4.3</span> Result Table and Plots</a></li>
   </ul></li>
   <li><a href="#conclution" id="toc-conclution" class="nav-link" data-scroll-target="#conclution"><span class="header-section-number">5</span> Conclution</a></li>
   </ul>
@@ -3351,7 +3350,7 @@ In this study, we apply cross-validation to a dataset containing measurements of
 </p>
 <ul>
 <li><span class="math inline">\(n\)</span> is the number of observations,</li>
-<li><span class="math inline">\(\hat{f}(x_i)\)</span> is the prediction that the regression function <span class="math inline">\(\hat{f}\)</span> gives for the ith observation,</li>
+<li><span class="math inline">\(\hat{f}(x_i)\)</span> is the prediction that the model function <span class="math inline">\(\hat{f}\)</span> gives for the ith observation,</li>
 <li><span class="math inline">\(y_i\)</span> is the observed value.</li>
 </ul>
 <p><span class="math display">\[
@@ -3668,34 +3667,8 @@ Table 1: <strong>Variables</strong>
 </section>
 <section id="analysisand-results" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Analysisand Results</h1>
-<section id="the-model" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="the-model"><span class="header-section-number">4.1</span> The Model</h2>
-<div class="cell">
-<style type="text/css">
-.justify {
-text-align: justify !important
-}
-</style>
-</div>
-<div class="cell">
-<style type="text/css">
-.big-text {
-font-size: 28px !important
-}
-</style>
-</div>
-<div class="big-text">
-<p><span class="math display">\[
-\hat{Strength} =
-\text{Cement + }
-\text{Superplasticizer + }
-\text{Age + }
-\text{Water}
-\]</span></p>
-</div>
-</section>
-<section id="construct-the-linear-regression-model" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="construct-the-linear-regression-model"><span class="header-section-number">4.2</span> Construct the Linear Regression Model</h2>
+<section id="construct-the-linear-regression-model" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="construct-the-linear-regression-model"><span class="header-section-number">4.1</span> Construct the Linear Regression Model</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3715,8 +3688,25 @@ font-size: 28px !important
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>               <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="linear-regression-k-fold-cross-validation" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="linear-regression-k-fold-cross-validation"><span class="header-section-number">4.2.1</span> Linear Regression: K-Fold Cross-validation</h3>
+<div class="cell">
+<style type="text/css">
+.big-text {
+font-size: 23px !important
+}
+</style>
+</div>
+<div class="big-text">
+<p><span class="math display">\[
+\hat{Strength} =
+28.26 \text{ + }
+0.07_\text{Cement}\text{ + }
+0.87_\text{Superplasticizer}\text{ + }
+0.11_\text{Age }
+-0.12_\text{Water}
+\]</span></p>
+</div>
+<section id="linear-regression-k-fold-cross-validation" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="linear-regression-k-fold-cross-validation"><span class="header-section-number">4.1.1</span> Linear Regression: K-Fold Cross-validation</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3776,8 +3766,8 @@ font-size: 28px !important
 </div>
 </div>
 </section>
-<section id="linear-regression-leave-one-out-cross-validation" class="level3" data-number="4.2.2">
-<h3 data-number="4.2.2" class="anchored" data-anchor-id="linear-regression-leave-one-out-cross-validation"><span class="header-section-number">4.2.2</span> Linear Regression: Leave-one-out Cross-validation</h3>
+<section id="linear-regression-leave-one-out-cross-validation" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="linear-regression-leave-one-out-cross-validation"><span class="header-section-number">4.1.2</span> Linear Regression: Leave-one-out Cross-validation</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3822,8 +3812,8 @@ font-size: 28px !important
 </div>
 </div>
 </section>
-<section id="linear-regression-model-nested-cross-validation" class="level3" data-number="4.2.3">
-<h3 data-number="4.2.3" class="anchored" data-anchor-id="linear-regression-model-nested-cross-validation"><span class="header-section-number">4.2.3</span> Linear Regression Model: Nested Cross-validation</h3>
+<section id="linear-regression-model-nested-cross-validation" class="level3" data-number="4.1.3">
+<h3 data-number="4.1.3" class="anchored" data-anchor-id="linear-regression-model-nested-cross-validation"><span class="header-section-number">4.1.3</span> Linear Regression Model: Nested Cross-validation</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3883,8 +3873,8 @@ font-size: 28px !important
 </div>
 </section>
 </section>
-<section id="construct-lightgbm-model" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="construct-lightgbm-model"><span class="header-section-number">4.3</span> Construct LightGBM Model</h2>
+<section id="construct-lightgbm-model" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="construct-lightgbm-model"><span class="header-section-number">4.2</span> Construct LightGBM Model</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3923,8 +3913,8 @@ font-size: 28px !important
 <span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lgb.train</span>(<span class="at">params =</span> params, <span class="at">data =</span> dtrain, <span class="at">nrounds =</span> <span class="dv">100</span>, <span class="at">verbose =</span> <span class="sc">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="lightgbm-model-k-fold-cross-validation" class="level3" data-number="4.3.1">
-<h3 data-number="4.3.1" class="anchored" data-anchor-id="lightgbm-model-k-fold-cross-validation"><span class="header-section-number">4.3.1</span> LightGBM Model K-Fold Cross-validation</h3>
+<section id="lightgbm-model-k-fold-cross-validation" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="lightgbm-model-k-fold-cross-validation"><span class="header-section-number">4.2.1</span> LightGBM Model K-Fold Cross-validation</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -4003,8 +3993,8 @@ font-size: 28px !important
 </div>
 </div>
 </section>
-<section id="lightgbm-model-leave-one-out-cross-validation" class="level3" data-number="4.3.2">
-<h3 data-number="4.3.2" class="anchored" data-anchor-id="lightgbm-model-leave-one-out-cross-validation"><span class="header-section-number">4.3.2</span> LightGBM Model: Leave-one-out Cross-validation</h3>
+<section id="lightgbm-model-leave-one-out-cross-validation" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="lightgbm-model-leave-one-out-cross-validation"><span class="header-section-number">4.2.2</span> LightGBM Model: Leave-one-out Cross-validation</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -4065,8 +4055,8 @@ font-size: 28px !important
 </div>
 </div>
 </section>
-<section id="lightgbm-model-nested-cross-validation" class="level3" data-number="4.3.3">
-<h3 data-number="4.3.3" class="anchored" data-anchor-id="lightgbm-model-nested-cross-validation"><span class="header-section-number">4.3.3</span> LightGBM Model Nested Cross-validation</h3>
+<section id="lightgbm-model-nested-cross-validation" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="lightgbm-model-nested-cross-validation"><span class="header-section-number">4.2.3</span> LightGBM Model Nested Cross-validation</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -4151,10 +4141,10 @@ font-size: 28px !important
 </div>
 </section>
 </section>
-<section id="result-table-and-plots" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="result-table-and-plots"><span class="header-section-number">4.4</span> Result Table and Plots</h2>
-<section id="cross-validation-method-comparision" class="level3" data-number="4.4.1">
-<h3 data-number="4.4.1" class="anchored" data-anchor-id="cross-validation-method-comparision"><span class="header-section-number">4.4.1</span> Cross-validation Method Comparision</h3>
+<section id="result-table-and-plots" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="result-table-and-plots"><span class="header-section-number">4.3</span> Result Table and Plots</h2>
+<section id="cross-validation-method-comparision" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="cross-validation-method-comparision"><span class="header-section-number">4.3.1</span> Cross-validation Method Comparision</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -4169,38 +4159,38 @@ font-size: 28px !important
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot wider tidy up</span></span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>result_wide_df <span class="ot">&lt;-</span> result_long_df <span class="sc">%&gt;%</span> </span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Measure_of_Error, <span class="at">values_from =</span> Result_Value) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(R2), RMSE, MAE)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Method, <span class="at">values_from =</span> Result_Value) <span class="co">#%&gt;% </span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># arrange(desc(R2), RMSE, MAE)</span></span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>result_wide_df <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;">Method</th>
-<th style="text-align: right;">RMSE</th>
-<th style="text-align: right;">MAE</th>
-<th style="text-align: right;">R2</th>
+<th style="text-align: left;">Measure_of_Error</th>
+<th style="text-align: right;">5-Fold</th>
+<th style="text-align: right;">LOOCV</th>
+<th style="text-align: right;">Nested CV</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Nested CV</td>
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: right;">12.13</td>
+<td style="text-align: right;">12.13</td>
 <td style="text-align: right;">11.87</td>
-<td style="text-align: right;">9.43</td>
-<td style="text-align: right;">0.49</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">5-Fold</td>
-<td style="text-align: right;">12.13</td>
+<td style="text-align: left;">MAE</td>
 <td style="text-align: right;">9.23</td>
-<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">9.23</td>
+<td style="text-align: right;">9.43</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">LOOCV</td>
-<td style="text-align: right;">12.13</td>
-<td style="text-align: right;">9.23</td>
+<td style="text-align: left;">R2</td>
 <td style="text-align: right;">0.46</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">0.49</td>
 </tr>
 </tbody>
 </table>
@@ -4231,8 +4221,8 @@ font-size: 28px !important
 </div>
 </div>
 </section>
-<section id="model-comparison" class="level3" data-number="4.4.2">
-<h3 data-number="4.4.2" class="anchored" data-anchor-id="model-comparison"><span class="header-section-number">4.4.2</span> Model Comparison</h3>
+<section id="model-comparison" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="model-comparison"><span class="header-section-number">4.3.2</span> Model Comparison</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>

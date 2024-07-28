@@ -339,7 +339,7 @@ model <- train(Strength ~ Cement + Superplasticizer + Age + Water,
 
 ```{css, echo = FALSE}
 .big-text {
-  font-size: 28px !important
+  font-size: 23px !important
 }
 ```
 
@@ -347,11 +347,11 @@ model <- train(Strength ~ Cement + Superplasticizer + Age + Water,
 
 $$
 \hat{Strength} = 
-`r round(coef(model$finalModel),3)[1]`
-`r round(coef(model$finalModel),3)[2]`_\text{Cement + }
-`r round(coef(model$finalModel),3)[3]`_\text{Superplasticizer + } 
-`r round(coef(model$finalModel),3)[4]`_\text{Age + } 
-`r round(coef(model$finalModel),3)[5]`_\text{Water}
+`r round(coef(model$finalModel),2)[1]` \text{ + }
+`r round(coef(model$finalModel),2)[2]`_\text{Cement}\text{ + }
+`r round(coef(model$finalModel),2)[3]`_\text{Superplasticizer}\text{ + }
+`r round(coef(model$finalModel),2)[4]`_\text{Age } 
+`r round(coef(model$finalModel),2)[5]`_\text{Water}
 $$
 
 :::
@@ -661,8 +661,8 @@ result_long_df <- combine(kfold_results, LOOCV_results, nested_results)
 
 # Pivot wider tidy up
 result_wide_df <- result_long_df %>% 
-  pivot_wider(names_from = Measure_of_Error, values_from = Result_Value) %>% 
-  arrange(desc(R2), RMSE, MAE)
+  pivot_wider(names_from = Method, values_from = Result_Value) #%>% 
+  # arrange(desc(R2), RMSE, MAE)
 result_wide_df %>% kable()
 
 # Summary Plot
