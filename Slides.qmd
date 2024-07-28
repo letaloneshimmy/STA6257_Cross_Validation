@@ -342,12 +342,12 @@ The data used for their study was made publicly available and can be downloaded 
 
 ::: {#first-column}
   - Target variable:
-    - Strength in MPa
+    - Strength (MPa)
   - Predictor variables:
-    - Cement in kg in a m3 mixture
-    - Superplasticizer kg in a m3 mixture
-    - Age in days
-    - Water kg in a m3 mixture
+    - Cement (kg/m3)
+    - Superplasticizer (kg/m3)
+    - Age (days)
+    - Water (kg/m3)
 
 :::
 
@@ -855,14 +855,17 @@ Comparison_df %>%
 ::::
 
 
+
 ## Model Comparison K-Fold Plot
+
 ```{r, warning=FALSE}
 # Model Comparison Plot: K-Fold
 KFold_Plot <- Comparison_df %>%
   filter(Method == "5-Fold") %>%
   ggplot(aes(x=Model, y=Result_Value)) +
   geom_bar(stat="identity", color = "blue4", fill = "gray78") +
-  facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
+  # facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
+  facet_wrap(~factor(Measure_of_Error, c("MAE","RMSE","R2")), scales = "free", ncol = 3) +
   labs(title = "Model Comparison",
        subtitle = "K-Fold Crosss-validation where K = 5",
        y = "Mean Measure of Error",
@@ -884,7 +887,8 @@ LOOCV_Plot <- Comparison_df %>%
   filter(Method == "LOOCV") %>%
   ggplot(aes(x=Model, y=Result_Value)) +
   geom_bar(stat="identity", color = "blue4", fill = "gray78") +
-  facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
+  # facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
+  facet_wrap(~factor(Measure_of_Error, c("MAE","RMSE","R2")), scales = "free", ncol = 3) +
   labs(title = "Model Comparison",
        subtitle = "Leave-one-out Cross-validation",
        y = "Mean Measure of Error",
@@ -904,7 +908,8 @@ Nested_CV_Plot <- Comparison_df %>%
   filter(Method == "Nested CV") %>%
   ggplot(aes(x=Model, y=Result_Value)) +
   geom_bar(stat="identity", color = "blue4", fill = "gray78") +
-  facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
+  # facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
+  facet_wrap(~factor(Measure_of_Error, c("MAE","RMSE","R2")), scales = "free", ncol = 3) +
   labs(title = "Model Comparison",
        subtitle = "Nested Crosss-validation",
        y = "Mean Measure of Error",
@@ -921,27 +926,28 @@ Nested_CV_Plot
 
 
 
-## LightGBM (Light Gradient Boosting Machine)
 
-- **Description:** A gradient boosting framework that uses tree-based learning algorithms.
-- **Pros:** High efficiency, fast training, and capable of handling large datasets.
-- **Cons:** Requires careful tuning of parameters.
+<!-- ## LightGBM (Light Gradient Boosting Machine) -->
 
-
-
-## Predictive Performance Comparison
+<!-- - **Description:** A gradient boosting framework that uses tree-based learning algorithms. -->
+<!-- - **Pros:** High efficiency, fast training, and capable of handling large datasets. -->
+<!-- - **Cons:** Requires careful tuning of parameters. -->
 
 
-  - LightGBM outperformed traditional models and cross-validation techniques.
-  - Lower prediction errors and more reliable performance metrics.
-  - Demonstrated strong generalization capabilities.
+
+<!-- ## Predictive Performance Comparison -->
 
 
-## Computational Efficiency
+<!--   - LightGBM outperformed traditional models and cross-validation techniques. -->
+<!--   - Lower prediction errors and more reliable performance metrics. -->
+<!--   - Demonstrated strong generalization capabilities. -->
 
-- **LightGBM:** Fast training and efficient computation.
-- **Nested Cross-Validation:** Excellent performance but computationally intensive.
-- Efficiency crucial for real-world applications with limited resources.
+
+<!-- ## Computational Efficiency -->
+
+<!-- - **LightGBM:** Fast training and efficient computation. -->
+<!-- - **Nested Cross-Validation:** Excellent performance but computationally intensive. -->
+<!-- - Efficiency crucial for real-world applications with limited resources. -->
 
 
 
