@@ -1,7 +1,7 @@
 ---
 title: "Evaluating Concrete Strength Model Performance"
 subtitle: "Using Cross-validation Methods"
-author: "Sai Devarasheyyt, Mattick, Musson, Perez"
+author: "Sai Devarashetty, Mattick, Musson, Perez"
 date: '`r Sys.Date()`'
 format:
   revealjs:
@@ -29,6 +29,7 @@ editor:
 toc: false
 theme: beige 
 scrollable: true
+slide-number: true
 # toc-location: right
 # toc-expand: true
 # toc-depth: 2
@@ -127,6 +128,7 @@ Subsets the data into K approximately equally sized folds
 
 ![](process1.png)
 
+[@song2021making]
 
 ### Split
 Split The Subsets into **test** and **training sets**
@@ -169,15 +171,18 @@ Calculate the **mean error**
 
 ## Bias-Variance Trade-Off{.smaller}
 
-**K-Fold vs. LOOCV**
+
 
 :::{layout="[[-20,60,-20], [100], [100]]"}
 :::{.tweak90-text}
+
+
 
 | Method   | Computation | Bias         | Variance |
 |:---------|:------------|:-------------|:---------|
 | K-Fold   | Lower       | Intermediate | Lower    |
 | LOOCV    | Highest     | Unbiased     | High     |
+:<span style="color:blue">**K-Fold vs. LOOCV**</span>
 
 __________
 
@@ -187,6 +192,7 @@ K-fold where K = 5 or K = 10 is recommended: \
   - Does not show excessive **bias**\
   - Does not show excessive **variance**
 
+[@james2013introduction], [@gorriz2024k]
 :::
 :::
 
@@ -247,6 +253,8 @@ $$
   - Proportion of the **variance** explained by the predictor(s)
   - **higher** value means better the fit
     - An $R^2$ value of 0.75 indicates 75% of the variance in the response variable is explained by the predictor(s)
+
+[@james2013introduction], [@hawkins2003assessing], [@helsel1993statistical]
 :::
 
 ## K-Fold Cross-Validation
@@ -254,6 +262,8 @@ $$
 CV_{(k)} = \frac{1}{k}\sum_{i=1}^{k} \text{Measuer of Errori}_i \tag{4}
 $$
 ![](CV5Fold_fig.png#center){#fig-kfold}
+
+[@james2013introduction],[@browne2000cross]
 
 <!-- **Process:** -->
 
@@ -285,6 +295,8 @@ $$
 
 ![](LOOCV_fig.png){#fig-LOOCV}
 
+[@james2013introduction],[@browne2000cross]
+
 <!-- **Process:** -->
 <!-- The steps for LOOCV are almost identical to k-fold cross-validation. The only difference is that in K-fold, K must be less than the number of observations (n). In LOOCV, K = n, so when you split the data into testing and training data, the first testing fold is one of the observations and the training data would be every other observation [@fig-LOOCV]. In this way, every observation is tested against every other observation and the process would be repeated n times [@james2013introduction]. -->
 
@@ -294,6 +306,7 @@ $$
 
 ![](NestCV_fig.png){#fig-NestCV}
 
+[@berrar2019cross]
 <!-- 1. **Split the data into training and testing sets**\ -->
 <!-- As in k-fold cross-validation, break the observations into the single test fold and the training folds.  For example, if there are 300 observations and you use K = 5, four of the folds would be training folds and one of them would be the training fold. -->
 
@@ -318,7 +331,7 @@ $$
 ## Study Data 
 
  
-[@yeh1998modeling] modeled compression strength of high performance concrete (HPC) at various ages and made with different ratios of components [@tbl-data]. 
+[@yeh1998modeling] modeled compression strength of high performance concrete (HPC) at various ages and made with different ratios of components.
 The data used for their study was made publicly available and can be downloaded UCI Machine Learning Repository [@misc_concrete_compressive_strength_165]. 
 
 
@@ -842,7 +855,7 @@ Comparison_df %>%
 ::::
 
 
-## Modle Comparison K-Fold Plot
+## Model Comparison K-Fold Plot
 ```{r, warning=FALSE}
 # Model Comparison Plot: K-Fold
 KFold_Plot <- Comparison_df %>%
@@ -850,7 +863,7 @@ KFold_Plot <- Comparison_df %>%
   ggplot(aes(x=Model, y=Result_Value)) +
   geom_bar(stat="identity", color = "blue4", fill = "gray78") +
   facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
-  labs(title = "Modle Comparison",
+  labs(title = "Model Comparison",
        subtitle = "K-Fold Crosss-validation where K = 5",
        y = "Mean Measure of Error",
        x = "Model") +
@@ -861,7 +874,7 @@ KFold_Plot <- Comparison_df %>%
 KFold_Plot
 ```
 
-## Modle Comparison LOOCV Plot
+## Model Comparison LOOCV Plot
 ```{r, warning=FALSE}
 # 
 # print('Intentionally blank. Takes 10 minutes to render this code chunk \n Will turn it back on to finalize')
@@ -872,7 +885,7 @@ LOOCV_Plot <- Comparison_df %>%
   ggplot(aes(x=Model, y=Result_Value)) +
   geom_bar(stat="identity", color = "blue4", fill = "gray78") +
   facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
-  labs(title = "Modle Comparison",
+  labs(title = "Model Comparison",
        subtitle = "Leave-one-out Cross-validation",
        y = "Mean Measure of Error",
        x = "Model") +
@@ -884,7 +897,7 @@ LOOCV_Plot
 
 ```
 
-## Modle Comparison Nested CV Plot
+## Model Comparison Nested CV Plot
 ```{r, warning=FALSE}
 # Model Comparison Plot: Nested CV
 Nested_CV_Plot <- Comparison_df %>%
@@ -892,7 +905,7 @@ Nested_CV_Plot <- Comparison_df %>%
   ggplot(aes(x=Model, y=Result_Value)) +
   geom_bar(stat="identity", color = "blue4", fill = "gray78") +
   facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
-  labs(title = "Modle Comparison",
+  labs(title = "Model Comparison",
        subtitle = "Nested Crosss-validation",
        y = "Mean Measure of Error",
        x = "Model") +
@@ -932,7 +945,7 @@ Nested_CV_Plot
 
 
 
-## Conclution conclusion
+## Conclusion
 
   - Cross-validation techniques and LightGBM effectively reduce overfitting and enhance model accuracy.
   - LightGBM offers superior accuracy and efficiency.
