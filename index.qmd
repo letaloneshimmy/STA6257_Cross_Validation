@@ -78,7 +78,7 @@ By measuring the quality of fit we can select the model that makes the most accu
 
 - **Mean Absolute Error (MAE)**
 
-The Mean Absolute Error is a measure error <u>magnitude</u>. The sine of the error does not matter because MAE uses the absolute value. Small MAE values, "<i>lower magnitude</i>" indicate better model fit. MAE is calculated (1) by averaging the absolute difference between the observed $(y_i)$ and predicted $\hat{f}(x_i)$ values. Where:\
+The Mean Absolute Error is a measure error <u>magnitude</u>. The sign of the error does not matter because MAE uses the absolute value. Small MAE values, "<i>lower magnitude</i>" indicate better model fit. MAE is calculated (1) by averaging the absolute difference between the observed $(y_i)$ and predicted $\hat{f}(x_i)$ values. Where:\
 
   - $n$ is the number of observations,
   - $\hat{f}(x_i)$ is the prediction that the model function $\hat{f}$ gives for the ith observation,
@@ -314,7 +314,7 @@ ggplot(cor_df, aes(x = reorder(Variable, Correlation), y = Correlation)) +
 
 ```
 
-# Analysisand Results
+# Analysis and Results
 
 
 ## Construct the Linear Regression Model
@@ -672,7 +672,7 @@ summary_plot <- result_long_df %>%
   # facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
   facet_wrap(~factor(Measure_of_Error, c("RMSE","MAE","R2")), scales = "free", ncol = 3) +
   labs(title = "Linear Model",
-       y = "Mean Measure of Error",
+       y = "Mean Error",
        x = "Cross-validation Method") + 
   theme(axis.title.x = element_text(face = "bold")) + 
   theme(axis.title.y = element_text(face = "bold")) +
@@ -709,7 +709,7 @@ Comparison_df %>%
   facet_wrap(~factor(Measure_of_Error, c("RMSE","MAE","R2")), scales = "free", ncol = 3) +
   labs(title = "Model Comparison",
        subtitle = "K-Fold Crosss-validation where K = 5",
-       y = "Mean Measure of Error",
+       y = "Mean Error",
        x = "Model") + 
   theme(axis.title.x = element_text(face = "bold")) + 
   theme(axis.title.y = element_text(face = "bold")) +
@@ -725,7 +725,7 @@ Comparison_df %>%
   facet_wrap(~factor(Measure_of_Error, c("RMSE","MAE","R2")), scales = "free", ncol = 3) +
   labs(title = "Model Comparison",
        subtitle = "Leave-One-Out Crosss-validation",
-       y = "Mean Measure of Error",
+       y = "Mean Error",
        x = "Model") + 
   theme(axis.title.x = element_text(face = "bold")) + 
   theme(axis.title.y = element_text(face = "bold")) +
@@ -741,7 +741,7 @@ Comparison_df %>%
   facet_wrap(~factor(Measure_of_Error, c("RMSE","MAE","R2")), scales = "free", ncol = 3) +
   labs(title = "Model Comparison",
        subtitle = "Nested Crosss-validation",
-       y = "Mean Measure of Error",
+       y = "Mean Error",
        x = "Model") + 
   theme(axis.title.x = element_text(face = "bold")) + 
   theme(axis.title.y = element_text(face = "bold")) +
