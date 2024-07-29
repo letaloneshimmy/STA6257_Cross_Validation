@@ -257,7 +257,7 @@ $$
 [@james2013introduction], [@hawkins2003assessing], [@helsel1993statistical]
 :::
 
-## K-Fold Cross-Validation
+## k-Fold Cross-Validation
 $$
 CV_{(k)} = \frac{1}{k}\sum_{i=1}^{k} \text{Measuer of Errori}_i \tag{4}
 $$
@@ -298,7 +298,7 @@ $$
 [@james2013introduction],[@browne2000cross]
 
 <!-- **Process:** -->
-<!-- The steps for LOOCV are almost identical to k-fold cross-validation. The only difference is that in K-fold, K must be less than the number of observations (n). In LOOCV, K = n, so when you split the data into testing and training data, the first testing fold is one of the observations and the training data would be every other observation [@fig-LOOCV]. In this way, every observation is tested against every other observation and the process would be repeated n times [@james2013introduction]. -->
+<!-- The steps for LOOCV are almost identical to k-fold cross-validation. The only difference is that in k-fold, K must be less than the number of observations (n). In LOOCV, K = n, so when you split the data into testing and training data, the first testing fold is one of the observations and the training data would be every other observation [@fig-LOOCV]. In this way, every observation is tested against every other observation and the process would be repeated n times [@james2013introduction]. -->
 
 
 
@@ -322,7 +322,7 @@ $$
 <!-- 5. **Choose another number of parameters**\ -->
 <!-- We would then choose a different number of parameters and repeat step 4.  After determining the average accuracy for the new set of parameters, we would compare it to the average accuracy produced by the other parameters.  The number of parameters that produces the highest average accuracy is chosen for that training fold. -->
 
-<!-- 6. **Repeat the process K-times**\ -->
+<!-- 6. **Repeat the process k-times**\ -->
 <!-- After getting an accuracy score for each training fold, we find the average of all folds which will give us the average accuracy of the model.\ [@berrar2019cross]. -->
 
 
@@ -455,7 +455,7 @@ $$
 ::::{.tweak90-text}
 ::: {layout="[[30, 70], [100], [30,70], [100], [30,70]]"}
 
- - **K-Fold Results:**
+ - **k-Fold Results:**
 
 ```{r, warning=FALSE}
 #| label: analysis_kfold
@@ -473,7 +473,7 @@ calculate_r2 <- function(actual, predicted) {
   1 - (sum((actual - predicted)^2) / sum((actual - mean(actual))^2))
   }
 
-# K-Fold CV
+# k-Fold CV
 set.seed(123)
 train_control_kfold <- trainControl(method = "cv", number = 10)
 model_kfold <- train(Strength ~ Cement + Superplasticizer + Age + Water, data = train_data, method = "lm", trControl = train_control_kfold)
@@ -614,7 +614,7 @@ calculate_r2 <- function(actual, predicted) {
   return(r2)
 }
 
-#K-Fold CV for LightGBM
+#k-Fold CV for LightGBM
 set.seed(123)
 folds <- createFolds(train_data$Strength, k = 5, list = TRUE)
 kfold_rmse_values <- c()
@@ -669,7 +669,7 @@ _______________
 ::::{.tweak90-text}
 ::: {layout="[[30,70], [100], [30,70], [100], [30,70]]"}
 
-  - **K-Fold Results:**
+  - **k-Fold Results:**
 
 ```{r, warning=FALSE}
 
@@ -857,10 +857,10 @@ Comparison_df %>%
 
 
 
-## Model Comparison K-Fold Plot
+## Model Comparison k-Fold Plot
 
 ```{r, warning=FALSE}
-# Model Comparison Plot: K-Fold
+# Model Comparison Plot: k-Fold
 KFold_Plot <- Comparison_df %>%
   filter(Method == "5-Fold") %>%
   ggplot(aes(x=Model, y=Result_Value)) +
@@ -868,7 +868,7 @@ KFold_Plot <- Comparison_df %>%
   # facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
   facet_wrap(~factor(Measure_of_Error, c("RMSE","MAE","R2")), scales = "free", ncol = 3) +
   labs(title = "Model Comparison",
-       subtitle = "K-Fold Crosss-validation where K = 5",
+       subtitle = "k-Fold Crosss-validation where K = 5",
        y = "Mean Error",
        x = "Model") +
   theme(axis.title.x = element_text(face = "bold")) +
@@ -952,24 +952,40 @@ Nested_CV_Plot
 
 
 
-## Conclusion
+## Conclusion: Overview{.smaller}
 
-  - Cross-validation techniques and LightGBM effectively reduce overfitting and enhance model accuracy.
-  - LightGBM offers superior accuracy and efficiency.
-  - Identified key predictors for accurate model development.
-  - Robust framework for model evaluation, improving decision-making in concrete design and construction.
+  - **Evaluation of Two Models:**
+    - Linear Regression Model
+    - LightGBM Model\
+    \
+  - **Cross-Validation Methods Used:**
+    - k-fold Cross-Validation
+    - Leave-One-Out Cross-Validation (LOOCV)
+    - Nested Cross-Validation
 
+## Conclusion: Key Findings{.smaller}
 
-<!-- In this study, we analyzed cross-validation techniques that can be used for evaluating concrete strength modeling performance, including K-Fold, leave-one-out cross-validation, and Nested cross-validation. In our case, we were able to examine the linear regression performance of an entire data set and then compare it with the performance of cross-validation techniques. The findings pointed out that leave-one-out cross-validation, K-fold cross-validation, and nested cross-validation techniques had a better generalization error compared with conventional linear regression models. The detailed models established better results regarding the actual concrete strength. We can note that the nested cross-validation slightly performed better than the k-fold and leave-one-out cross-validation techniques. Further, the research also stressed the feature selection part, as variables like water-cement ratio, age, and type of aggregate were identified as main attributes influencing concrete strength. Overall, this kind of assessment raises the prospect of generating vehicle models for refining forecast precision and effectiveness, as well as investigating the best strategies for developing concrete mixes and promoting construction improvement. -->
+  - **Model Performance:**
+    - LightGBM consistently outperformed Linear Regression
+    - Linear Regression provided baseline insights into linear relationships\
+    \
+  - **Cross-Validation Insights:**
+    - k-fold CV showed LightGBM's superior generalization
+    - LOOCV confirmed robustness across individual data points
+    - Nested CV mitigated overfitting, ensuring genuine predictive power
 
-## Future Research
+## Conclusion: Implications and Future Directions{.smaller}
 
-
-  - Further refinement of these techniques to improve predictive accuracy.
-  - Exploration of additional advanced models.
-  - Application in various engineering contexts to enhance model reliability and performance.
-
+- **Implications for Future Research:**
+  - Importance of advanced cross-validation techniques
+  - Enhancing model validation processes
+  - Ensuring model generalizability and reliability across various applications\
+  \
+- **Future Directions:**
+  - Continuous refinement of cross-validation methods
+  - Exploration of implications in different predictive modeling scenarios
+  - Development of robust predictive models through improved validation processes
 
 ## References
 
-<span style="color:blue"> All figures were created by the authors. </span>
+All figures were created by the authors
