@@ -5,7 +5,6 @@ author: "Sai Devarashetty, Mattick, Musson, Perez"
 date: '`r Sys.Date()`'
 format:
   revealjs:
-    # smaller: true
     scrollable: true
 include-in-header:
   - text: |
@@ -14,10 +13,14 @@ include-in-header:
         font-size: 78px;
         color: #14316b;
       }
+      #subtitle-slide .subtitle {
+        font-size: 33px;
+        color: #14316b;
+      }
       </style>
 course: STA 6257 - Advanced Statistical Modeling
-bibliography: references.bib # file contains bibtex for references
-#always_allow_html: true # this allows to get PDF with HTML features
+bibliography: [packages.bib, references.bib]
+always_allow_html: true # this allows to get PDF with HTML features
 self-contained: true
 echo: false
 execute: 
@@ -30,15 +33,13 @@ toc: false
 theme: beige 
 scrollable: true
 slide-number: true
-# toc-location: right
-# toc-expand: true
-# toc-depth: 2
-# number-sections: true
+nocite: |
+  @R-base, @R-caret, @R-Core, @R-corrplot, @R-dplyr, @R-ggplot2, @R-knitr, @R-lightgbm, @R-rmarkdown, @R-Matrix, @R-Metrics, @R-mlbench, @R-readr, @R-stringr, @R-tidyr
 ---
 
 
 
-## Introduction To Crossvalidation
+## Introduction To Cross-validation
 ```{css, echo = FALSE}
 .tweak90-text {
   font-size: 89%;
@@ -50,12 +51,31 @@ slide-number: true
 }
 ```
 
+```{r, warning=FALSE}
+#| label: load lib
+
+# Load Libraries
+library(dplyr)
+library(readr)
+library(knitr)
+library(ggplot2)
+library(stringr)
+library(tidyr)
+library(readxl)
+library(caret)
+library(mlbench)
+library(corrplot)
+library(Matrix)
+library(lightgbm)
+library(Metrics)
+```
+
 ::: {.panel-tabset}
 
 ## Uses
 
 
-  - **Measure** performance and generalizability of machine learning and predictive models.
+  - **Measure** performance and generalizability of predictive models.
   - **Compare** different models constructed from the same data set. 
 
 ## Who Uses CV?
@@ -121,7 +141,7 @@ Are model configuration variables
 ::: {.panel-tabset}
 
 ### Subset
-Subsets the data into K approximately equally sized folds
+Subsets the data into k approximately equally sized folds
 
   - **Randomly**
   - **Without** replacement
@@ -134,7 +154,7 @@ Subsets the data into K approximately equally sized folds
 Split The Subsets into **test** and **training sets**
 
   - **1** test set
-  - **K-1** training set
+  - **k-1** training set
 
 ![](process2.png)
 
@@ -142,8 +162,8 @@ Split The Subsets into **test** and **training sets**
   
 ### Train and Test
 
-  - **Fit** the model to the training data
-  - Apply the fitted model to the **test** set
+  - Fit the model to the **training set**
+  - Apply the fitted model to the **test set**
   - Measure the prediction **error**
 
 ![](process3.png)
@@ -151,9 +171,9 @@ Split The Subsets into **test** and **training sets**
 
 ### Repeat
 :::{.tweak90-text}
-**Repeat K Times**
+**Repeat k Times**
 
-  - Fit to all K-1 combinations
+  - Train with **all** k-1 combinations
   - Test with each subset 1 time
 ![](process4.png){width=76%}
 :::
@@ -180,13 +200,13 @@ Calculate the **mean error**
 
 | Method   | Computation | Bias         | Variance |
 |:---------|:------------|:-------------|:---------|
-| K-Fold   | Lower       | Intermediate | Lower    |
+| k-Fold   | Lower       | Intermediate | Lower    |
 | LOOCV    | Highest     | Unbiased     | High     |
-:<span style="color:blue">**K-Fold vs. LOOCV**</span>
+:<span style="color:blue">**k-Fold vs. LOOCV**</span>
 
 __________
 
-K-fold where K = 5 or K = 10 is recommended: \
+k-fold where k = 5 or k = 10 is recommended: \
 
   - Lowe **computational cost**\
   - Does not show excessive **bias**\
@@ -265,28 +285,6 @@ $$
 
 [@james2013introduction],[@browne2000cross]
 
-<!-- **Process:** -->
-
-<!-- 1. **Prepare the data**\ -->
-<!-- Subsets the data randomly and without replacement into K equally sized folds.  -->
-<!-- Each fold will contain approximately n/k observations.  -->
-<!-- For example when n = 200 and K = 5, then each fold have 200/5 = 40 observations. If n = 201, then one of the folds would have 41, the other four folds would have 40 observations. -->
-
-<!-- 2. **Split the folds into test and training sets**\ -->
-<!-- In the previous example, if you had 5 folds, we could choose the first set to be the test set and the other 4 would be the training set. It doesn’t make a difference which one you choose as all of the folds will eventually be test folds against the other 4 [@fig-kfold]. -->
-
-<!-- 3. **Fit model to the training data**\ -->
-<!-- Take the model you are going to use for prediction and fit it to the training data. Continuing with our example, you would use the 4 training folds to fit the model. Take the fitted model you developed in step 3 and apply it to the 1 test fold. After applying it to the model, you would take the resulting prediction and determine the accuracy by comparing what was predicted from the training folds to the actual values from the test fold. -->
-
-<!-- 4. **Repeat steps 2 - 4**\ -->
-<!-- In the example, if you were using K = 5, then you would pick one of the folds you have not previously used and make it the test fold and the other 4 the training fold. In this way, every observation will be a member of the test fold once and training folds 4 times. -->
-
-<!-- 5. **Calculate the mean error**\ -->
-<!-- Measure the error after each fold has been used as the test fold. Take the mean measure error of all folds from step 4.\ -->
-<!-- [@song2021making] -->
-
-
-
 
 ## Leave One Out Cross-validations (LOOCV)
 $$
@@ -297,42 +295,23 @@ $$
 
 [@james2013introduction],[@browne2000cross]
 
-<!-- **Process:** -->
-<!-- The steps for LOOCV are almost identical to k-fold cross-validation. The only difference is that in k-fold, K must be less than the number of observations (n). In LOOCV, K = n, so when you split the data into testing and training data, the first testing fold is one of the observations and the training data would be every other observation [@fig-LOOCV]. In this way, every observation is tested against every other observation and the process would be repeated n times [@james2013introduction]. -->
-
-
 
 ## Nested Cross-Validation
 
 ![](NestCV_fig.png){#fig-NestCV}
 
 [@berrar2019cross]
-<!-- 1. **Split the data into training and testing sets**\ -->
-<!-- As in k-fold cross-validation, break the observations into the single test fold and the training folds.  For example, if there are 300 observations and you use K = 5, four of the folds would be training folds and one of them would be the training fold. -->
-
-<!-- 2. **Define inner and outer loops**\ -->
-<!-- We define the test fold as the outer loop and use that to test the performance of the model.  The training loops will be defined as the inner loop and we will use that to test which parameters we should use. -->
-
-<!-- 3. **Split the inner loop into training sets and validation sets**\ -->
-<!-- The inner loop (or training folds) is broken in half.  Half of that data will be used as training and the other half will be used as evaluation [@fig-NestCV]. -->
-
-<!-- 4. **Fit the model to the inner loop**\ -->
-<!-- We choose the number of parameters that we are going to use for validation and fit it to the model.  After fitting, you will store the accuracy value for those parameters.  We then switch the validation and training sets from the inner loop and fit them to the model.  After receiving another accuracy score, we would average them together with the previous accuracy score for that number of parameters. -->
-
-<!-- 5. **Choose another number of parameters**\ -->
-<!-- We would then choose a different number of parameters and repeat step 4.  After determining the average accuracy for the new set of parameters, we would compare it to the average accuracy produced by the other parameters.  The number of parameters that produces the highest average accuracy is chosen for that training fold. -->
-
-<!-- 6. **Repeat the process k-times**\ -->
-<!-- After getting an accuracy score for each training fold, we find the average of all folds which will give us the average accuracy of the model.\ [@berrar2019cross]. -->
-
-
 
 
 ## Study Data 
 
  
-[@yeh1998modeling] modeled compression strength of high performance concrete (HPC) at various ages and made with different ratios of components.
-The data used for their study was made publicly available and can be downloaded UCI Machine Learning Repository [@misc_concrete_compressive_strength_165]. 
+Yeh modeled compression strength of high performance concrete (HPC) at various ages and made with different ratios of components.[@yeh1998modeling]\
+\
+The data is available for downloaded at UCI Machine Learning Repository.\
+[UCI Repository HPC Data](https://doi.org/10.24432/C5PK67)\
+\
+[@misc_concrete_compressive_strength_165]. 
 
 
 
@@ -353,22 +332,7 @@ The data used for their study was made publicly available and can be downloaded 
 
 ::: {#second-column.#center}
 ```{r, warning=FALSE}
-#| label: load Libs and csv
-
-# Load Libraries
-library(dplyr)
-library(readr)
-library(knitr)
-library(ggplot2)
-library(stringr)
-library(tidyr)
-library(readxl)
-library(caret)
-library(mlbench)
-library(corrplot)
-library(Matrix)
-library(lightgbm)
-library(Metrics)
+#| label: load csv
 
 #Load Data
 data <- read_csv("Concrete_Data.csv") %>%
@@ -810,25 +774,6 @@ result_wide_df <- result_long_df %>%
 # result_wide_df %>% kable()
 ```
 
-<!-- ## Plot -->
-<!-- ```{r, warning=FALSE} -->
-
-<!-- # Summary Plot -->
-<!-- summary_plot <- result_long_df %>% -->
-<!--   ggplot(aes(x = Method, y = Result_Value)) + -->
-<!--   geom_bar(stat="identity", color = "blue4", fill = "gray78") + -->
-<!--   facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) + -->
-<!--   labs(title = "Linnear Model", -->
-<!--        y = "Mean Measure of Error", -->
-<!--        x = "Cross-validation Method") + -->
-<!--   theme(axis.title.x = element_text(face = "bold")) + -->
-<!--   theme(axis.title.y = element_text(face = "bold")) + -->
-<!--   theme(axis.title.title = element_text(face = "bold")) + -->
-<!--   theme(strip.text = element_text(face = "bold")) -->
-
-<!-- summary_plot -->
-<!-- ``` -->
-
 
 ```{r, warning=FALSE}
 #| label: analysis_results_LGMB
@@ -868,7 +813,7 @@ KFold_Plot <- Comparison_df %>%
   # facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
   facet_wrap(~factor(Measure_of_Error, c("RMSE","MAE","R2")), scales = "free", ncol = 3) +
   labs(title = "Model Comparison",
-       subtitle = "k-Fold Crosss-validation where K = 5",
+       subtitle = "k-Fold Crosss-validation where k = 5",
        y = "Mean Error",
        x = "Model") +
   theme(axis.title.x = element_text(face = "bold")) +
@@ -921,34 +866,6 @@ Nested_CV_Plot <- Comparison_df %>%
   theme(strip.text = element_text(face = "bold"))
 Nested_CV_Plot
 ```
-
-
-
-
-
-
-
-<!-- ## LightGBM (Light Gradient Boosting Machine) -->
-
-<!-- - **Description:** A gradient boosting framework that uses tree-based learning algorithms. -->
-<!-- - **Pros:** High efficiency, fast training, and capable of handling large datasets. -->
-<!-- - **Cons:** Requires careful tuning of parameters. -->
-
-
-
-<!-- ## Predictive Performance Comparison -->
-
-
-<!--   - LightGBM outperformed traditional models and cross-validation techniques. -->
-<!--   - Lower prediction errors and more reliable performance metrics. -->
-<!--   - Demonstrated strong generalization capabilities. -->
-
-
-<!-- ## Computational Efficiency -->
-
-<!-- - **LightGBM:** Fast training and efficient computation. -->
-<!-- - **Nested Cross-Validation:** Excellent performance but computationally intensive. -->
-<!-- - Efficiency crucial for real-world applications with limited resources. -->
 
 
 

@@ -7,7 +7,7 @@ format:
   html:
     code-fold: true
 course: STA 6257 - Advanced Statistical Modeling
-bibliography: references.bib # file contains bibtex for references
+bibliography: [packages.bib, references.bib]
 always_allow_html: true # this allows to get PDF with HTML features
 self-contained: true
 execute: 
@@ -21,6 +21,8 @@ toc-location: right
 toc-expand: true
 toc-depth: 2
 number-sections: true
+nocite: |
+  @R-base, @R-caret, @R-Core, @R-corrplot, @R-dplyr, @R-ggplot2, @R-knitr, @R-lightgbm, @R-rmarkdown, @R-Matrix, @R-Metrics, @R-mlbench, @R-readr, @R-stringr, @R-tidyr
 ---
 
 [Slides](slides.html)
@@ -246,8 +248,9 @@ library(corrplot)
 library(Matrix)
 library(lightgbm)
 library(Metrics)
-library(patchwork)
-library(tictoc)
+# library(patchwork)
+# library(tictoc)
+
 #Load Data
 data <- read_csv("Concrete_Data.csv") %>%
   rename(Cement = 1,

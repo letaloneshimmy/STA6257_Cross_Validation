@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sai Devarashetty, Mattick, Musson, Perez">
-<meta name="dcterms.date" content="2024-07-29">
+<meta name="dcterms.date" content="2024-07-30">
 
 <title>Evaluating Concrete Strength Model Performance</title>
 <style>
@@ -3292,7 +3292,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 29, 2024</p>
+      <p class="date">July 30, 2024</p>
     </div>
   </div>
   
@@ -3559,20 +3559,21 @@ Table 1: <strong>Variables</strong>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Matrix)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lightgbm)</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Metrics)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tictoc)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Load Data</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Concrete_Data.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Cement =</span> <span class="dv">1</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">FurnacSlag =</span> <span class="dv">2</span>,</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">FlyAsh =</span> <span class="dv">3</span>,</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">Water =</span> <span class="dv">4</span>,</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>         <span class="at">Superplasticizer =</span> <span class="dv">5</span>,</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">CoarseAggregate =</span> <span class="dv">6</span>,</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">FineAggregate =</span> <span class="dv">7</span>,</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>         <span class="at">Age =</span> <span class="dv">8</span>,</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>         <span class="at">Strength =</span> <span class="dv">9</span> ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(Strength)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># library(patchwork)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># library(tictoc)</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#Load Data</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Concrete_Data.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Cement =</span> <span class="dv">1</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">FurnacSlag =</span> <span class="dv">2</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">FlyAsh =</span> <span class="dv">3</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>         <span class="at">Water =</span> <span class="dv">4</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">Superplasticizer =</span> <span class="dv">5</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">CoarseAggregate =</span> <span class="dv">6</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>         <span class="at">FineAggregate =</span> <span class="dv">7</span>,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>         <span class="at">Age =</span> <span class="dv">8</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>         <span class="at">Strength =</span> <span class="dv">9</span> ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(Strength)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -4402,8 +4403,14 @@ font-size: 23px !important
 <div id="ref-adin2024automatic" class="csl-entry" role="listitem">
 Adin, Aritz, Elias Teixeira Krainski, Amanda Lenzi, Zhedong Liu, Joaquı́n Martı́nez-Minaya, and Haavard Rue. 2024. <span>“Automatic Cross-Validation in Structured Models: Is It Time to Leave Out Leave-One-Out?”</span> <em>Spatial Statistics</em>, 100843.
 </div>
+<div id="ref-R-rmarkdown" class="csl-entry" role="listitem">
+Allaire, JJ, Yihui Xie, Christophe Dervieux, Jonathan McPherson, Javier Luraschi, Kevin Ushey, Aron Atkins, et al. 2024. <em>Rmarkdown: Dynamic Documents for r</em>. <a href="https://github.com/rstudio/rmarkdown">https://github.com/rstudio/rmarkdown</a>.
+</div>
 <div id="ref-allgaier2024practical" class="csl-entry" role="listitem">
 Allgaier, Johannes, and Rüdiger Pryss. 2024. <span>“Practical Approaches in Evaluating Validation and Biases of Machine Learning Applied to Mobile Health Studies.”</span> <em>Communications Medicine</em> 4 (1): 76.
+</div>
+<div id="ref-R-Matrix" class="csl-entry" role="listitem">
+Bates, Douglas, Martin Maechler, and Mikael Jagan. 2024. <em>Matrix: Sparse and Dense Matrix Classes and Methods</em>. <a href="https://Matrix.R-forge.R-project.org">https://Matrix.R-forge.R-project.org</a>.
 </div>
 <div id="ref-berrar2019cross" class="csl-entry" role="listitem">
 Berrar, Daniel et al. 2019. <span>“Cross-Validation.”</span>
@@ -4423,6 +4430,9 @@ Filzmoser, Peter, Bettina Liebmann, and Kurt Varmuza. 2009. <span>“Repeated Do
 <div id="ref-gorriz2024k" class="csl-entry" role="listitem">
 Gorriz, Juan M, Fermı́n Segovia, Javier Ramirez, Andrés Ortiz, and John Suckling. 2024. <span>“Is k-Fold Cross Validation the Best Model Selection Method for Machine Learning?”</span> <em>arXiv Preprint arXiv:2401.16407</em>.
 </div>
+<div id="ref-R-Metrics" class="csl-entry" role="listitem">
+Hamner, Ben, and Michael Frasco. 2018. <em>Metrics: Evaluation Metrics for Machine Learning</em>. <a href="https://github.com/mfrasco/Metrics">https://github.com/mfrasco/Metrics</a>.
+</div>
 <div id="ref-hawkins2003assessing" class="csl-entry" role="listitem">
 Hawkins, Douglas M, Subhash C Basak, and Denise Mills. 2003. <span>“Assessing Model Fit by Cross-Validation.”</span> <em>Journal of Chemical Information and Computer Sciences</em> 43 (2): 579–86.
 </div>
@@ -4432,17 +4442,53 @@ Helsel, Dennis R, and Robert M Hirsch. 1993. <em>Statistical Methods in Water Re
 <div id="ref-james2013introduction" class="csl-entry" role="listitem">
 James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, et al. 2013. <em>An Introduction to Statistical Learning</em>. Vol. 112. Springer.
 </div>
+<div id="ref-R-caret" class="csl-entry" role="listitem">
+Kuhn, Max. 2023. <em>Caret: Classification and Regression Training</em>. <a href="https://github.com/topepo/caret/">https://github.com/topepo/caret/</a>.
+</div>
 <div id="ref-lei2020cross" class="csl-entry" role="listitem">
 Lei, Jing. 2020. <span>“Cross-Validation with Confidence.”</span> <em>Journal of the American Statistical Association</em> 115 (532): 1978–97.
+</div>
+<div id="ref-R-mlbench" class="csl-entry" role="listitem">
+Leisch, Friedrich, and Evgenia Dimitriadou. 2024. <em>Mlbench: Machine Learning Benchmark Problems</em>. <a href="https://CRAN.R-project.org/package=mlbench">https://CRAN.R-project.org/package=mlbench</a>.
+</div>
+<div id="ref-R-Core" class="csl-entry" role="listitem">
+R Core Team. 2024a. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+</div>
+<div id="ref-R-base" class="csl-entry" role="listitem">
+———. 2024b. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
 </div>
 <div id="ref-raschka2018model" class="csl-entry" role="listitem">
 Raschka, Sebastian. 2018. <span>“Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning.”</span> <em>arXiv Preprint arXiv:1811.12808</em>.
 </div>
+<div id="ref-R-lightgbm" class="csl-entry" role="listitem">
+Shi, Yu, Guolin Ke, Damien Soukhavong, James Lamb, Qi Meng, Thomas Finley, Taifeng Wang, et al. 2024. <em>Lightgbm: Light Gradient Boosting Machine</em>. <a href="https://github.com/Microsoft/LightGBM">https://github.com/Microsoft/LightGBM</a>.
+</div>
 <div id="ref-song2021making" class="csl-entry" role="listitem">
 Song, Q Chelsea, Chen Tang, and Serena Wee. 2021. <span>“Making Sense of Model Generalizability: A Tutorial on Cross-Validation in r and Shiny.”</span> <em>Advances in Methods and Practices in Psychological Science</em> 4 (1): 2515245920947067.
 </div>
+<div id="ref-R-corrplot" class="csl-entry" role="listitem">
+Wei, Taiyun, and Viliam Simko. 2021. <em>Corrplot: Visualization of a Correlation Matrix</em>. <a href="https://github.com/taiyun/corrplot">https://github.com/taiyun/corrplot</a>.
+</div>
+<div id="ref-R-stringr" class="csl-entry" role="listitem">
+Wickham, Hadley. 2023. <em>Stringr: Simple, Consistent Wrappers for Common String Operations</em>. <a href="https://stringr.tidyverse.org">https://stringr.tidyverse.org</a>.
+</div>
+<div id="ref-R-ggplot2" class="csl-entry" role="listitem">
+Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani, Dewey Dunnington, and Teun van den Brand. 2024. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-R-dplyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller, and Davis Vaughan. 2023. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://dplyr.tidyverse.org">https://dplyr.tidyverse.org</a>.
+</div>
+<div id="ref-R-readr" class="csl-entry" role="listitem">
+Wickham, Hadley, Jim Hester, and Jennifer Bryan. 2024. <em>Readr: Read Rectangular Text Data</em>. <a href="https://readr.tidyverse.org">https://readr.tidyverse.org</a>.
+</div>
+<div id="ref-R-tidyr" class="csl-entry" role="listitem">
+Wickham, Hadley, Davis Vaughan, and Maximilian Girlich. 2024. <em>Tidyr: Tidy Messy Data</em>. <a href="https://tidyr.tidyverse.org">https://tidyr.tidyverse.org</a>.
+</div>
 <div id="ref-wong2019reliable" class="csl-entry" role="listitem">
 Wong, Tzu-Tsung, and Po-Yang Yeh. 2019. <span>“Reliable Accuracy Estimates from k-Fold Cross Validation.”</span> <em>IEEE Transactions on Knowledge and Data Engineering</em> 32 (8): 1586–94.
+</div>
+<div id="ref-R-knitr" class="csl-entry" role="listitem">
+Xie, Yihui. 2024. <em>Knitr: A General-Purpose Package for Dynamic Report Generation in r</em>. <a href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>.
 </div>
 <div id="ref-yates2023cross" class="csl-entry" role="listitem">
 Yates, Luke A, Zach Aandahl, Shane A Richards, and Barry W Brook. 2023. <span>“Cross Validation for Model Selection: A Review with Examples from Ecology.”</span> <em>Ecological Monographs</em> 93 (1): e1557.
