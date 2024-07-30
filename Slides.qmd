@@ -394,7 +394,7 @@ corr_plot
 ::::
 
 ## Linear Regression Model{.smaller}
-::: {#tbl-data}
+
 
 ```{r, warning=FALSE}
 #| label: analysis_model
@@ -413,10 +413,10 @@ test_data <- data_combined[-trainIndex,]
 model <- train(Strength ~ Cement + Superplasticizer + Age + Water, data = train_data, method = "lm")
 
 model_summary <- summary(model$finalModel)[4]
-model_summary %>% kable()
+# model_summary %>% kable()
 ```
 
-:::
+
 
 
 
@@ -433,7 +433,24 @@ $$
 
 :::
 
+```{r, warning=FALSE}
+#| label: analysis_model2
 
+model_summary %>% kable()
+```
+
+
+
+
+## Linear Regression Model Statistics
+
+|                         |                                |
+|-------------------------|--------------------------------|
+|**Residual standard error** | 11.8 on 821 degrees of freedom |
+|**Multiple R-squared**      | 0.5073                         |
+|**Adjusted R-squared**      | 0.5049                         |
+|**F-statistic**             | 211.3 on 4 and 821 DF          |
+|**p-value**                 | \< 2.2e-16                     |
 
 
 ## Linear Regression CV Results{.smaller}
