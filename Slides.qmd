@@ -13,8 +13,8 @@ include-in-header:
         font-size: 78px;
         color: #14316b;
       }
-      #subtitle-slide .subtitle {
-        font-size: 33px;
+      #title-slide .subtitle {
+        font-size: 55px;
         color: #14316b;
       }
       </style>
@@ -45,13 +45,17 @@ nocite: |
   font-size: 89%;
 }
 
+.tweak80-text {
+  font-size: 79%;
+}
+
 .big-text {
-  font-size: 27px !important;
+  font-size: 24px !important;
   font-weight: bold;
 }
 ```
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, echo = FALSE}
 #| label: load lib
 
 # Load Libraries
@@ -217,8 +221,11 @@ k-fold where k = 5 or k = 10 is recommended: \
 :::
 
 ## Model Measures of Error (MOE){.smaller}
-::: {.panel-tabset}
-## Overview{.smaller}
+:::: {.panel-tabset}
+
+## Overview
+
+
 
   - Measure the quality of fit of a model
   - Measuring error is a critical data modeling step
@@ -226,8 +233,13 @@ k-fold where k = 5 or k = 10 is recommended: \
   
 By measuring the quality of fit we can select the model that Generalizes best.
 
-## Mean Absolute Error (MAE){.smaller}
-:::{.tweak90-text}
+
+
+
+## MAE
+
+**Mean Absolute Error**
+
 $$
  \text{MAE} 
  = \frac{1}{n} \sum_{i=1}^n |y_i - \hat{f}(x_i)|  
@@ -239,13 +251,16 @@ $$
   - **Lower** magnitude indicates **better fit**
   - Take the mean absolute difference between:
     - observed $(y_i)$ and the predicted $\hat{f}(x_i)$ values
-  - $n$ is the number of observations,
   - $\hat{f}(x_i)$ is the model prediction $\hat{f}$ for the ith observation
-  - $y_i$ is the observed value
+  - $n$ is observations
 
-:::
 
-## Root Mean Squared Error (RMSE){.smaller}
+
+
+## RMSE
+
+**Root Mean Squared Error**
+
 $$
 \text{RMSE} 
 = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{f}(x_i))^2}
@@ -260,7 +275,11 @@ $$
 
 
 
-## R-squared ($R^2$){.smaller}
+
+## $R^2$
+
+**R-squared**
+
 $$
 \text{R}^2 
 = \frac{SS_{tot}-SS_{res}}{SS_{tot}} 
@@ -275,15 +294,17 @@ $$
     - An $R^2$ value of 0.75 indicates 75% of the variance in the response variable is explained by the predictor(s)
 
 [@james2013introduction], [@hawkins2003assessing], [@helsel1993statistical]
-:::
 
-## k-Fold Cross-Validation
+::::
+
+
+## k-Fold Cross-validation
 $$
 CV_{(k)} = \frac{1}{k}\sum_{i=1}^{k} \text{Measuer of Errori}_i \tag{4}
 $$
 ![](CV5Fold_fig.png#center){#fig-kfold}
 
-[@james2013introduction],[@browne2000cross]
+[@james2013introduction], [@browne2000cross]
 
 
 ## Leave One Out Cross-validations (LOOCV)
@@ -293,10 +314,10 @@ $$
 
 ![](LOOCV_fig.png){#fig-LOOCV}
 
-[@james2013introduction],[@browne2000cross]
+[@james2013introduction], [@browne2000cross]
 
 
-## Nested Cross-Validation
+## Nested Cross-validation
 
 ![](NestCV_fig.png){#fig-NestCV}
 
@@ -306,12 +327,11 @@ $$
 ## Study Data 
 
  
-Yeh modeled compression strength of high performance concrete (HPC) at various ages and made with different ratios of components.[@yeh1998modeling]\
+Yeh modeled compression strength of high performance concrete (HPC) at various ages and made with different ratios of components [@yeh1998modeling].\
 \
 The data is available for downloaded at UCI Machine Learning Repository.\
 [UCI Repository HPC Data](https://doi.org/10.24432/C5PK67)\
-\
-[@misc_concrete_compressive_strength_165]. 
+[@misc_concrete_compressive_strength_165]
 
 
 
@@ -320,9 +340,9 @@ The data is available for downloaded at UCI Machine Learning Repository.\
 :::: {layout="[ 37, 63 ]"}
 
 ::: {#first-column}
-  - Target variable:
+  - **Target variable:**
     - Strength (MPa)
-  - Predictor variables:
+  - **Predictor variables:**
     - Cement (kg/m3)
     - Superplasticizer (kg/m3)
     - Age (days)
@@ -404,10 +424,11 @@ model_summary %>% kable()
 
 $$
 \hat{Strength} = 
-`r round(coef(model$finalModel),3)[1]`_\text{Cement + }
-`r round(coef(model$finalModel),3)[2]`_\text{Superplasticizer + } 
-`r round(coef(model$finalModel),3)[3]`_\text{Age } 
-`r round(coef(model$finalModel),3)[4]`_\text{Water}
+`r round(coef(model$finalModel),3)[1]` \text{ + }
+`r round(coef(model$finalModel),3)[2]`_\text{Cement} +
+`r round(coef(model$finalModel),3)[3]`_\text{Superplasticizer} +
+`r round(coef(model$finalModel),3)[4]`_\text{Age }
+`r round(coef(model$finalModel),3)[5]`_\text{Water}
 $$
 
 :::
@@ -743,11 +764,13 @@ nested_cv_lgbm_df %>%
 ::::
 
 ## Comparison of Models{.smaller}
-:::: {layout="[30, 70]"}
+:::: {layout="[35, 65]"}
 
 ::: {#first-column}
-  - Performance Comparison:\
-  \  Linear Regression vs. LightGBM
+  - **Performance Comparison:**\
+  \  Linear Regression vs. LightGBM\
+  \
+  \
   - Advantages and disadvantages\
   \ of each model
 
@@ -875,10 +898,10 @@ Nested_CV_Plot
     - Linear Regression Model
     - LightGBM Model\
     \
-  - **Cross-Validation Methods Used:**
-    - k-fold Cross-Validation
-    - Leave-One-Out Cross-Validation (LOOCV)
-    - Nested Cross-Validation
+  - **Cross-validation Methods Used:**
+    - k-fold Cross-validation
+    - Leave-one-out Cross-validation (LOOCV)
+    - Nested Cross-validation
 
 ## Conclusion: Key Findings{.smaller}
 
@@ -886,7 +909,7 @@ Nested_CV_Plot
     - LightGBM consistently outperformed Linear Regression
     - Linear Regression provided baseline insights into linear relationships\
     \
-  - **Cross-Validation Insights:**
+  - **Cross-validation Insights:**
     - k-fold CV showed LightGBM's superior generalization
     - LOOCV confirmed robustness across individual data points
     - Nested CV mitigated overfitting, ensuring genuine predictive power
