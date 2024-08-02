@@ -30,19 +30,19 @@ nocite: |
 # Introduction
 
 Cross-validation (CV) is an important statistical method used to measure the performance and generalizability of machine learning and predictive models. 
-[@song2021making] define generalizability as how well predictive models created from a sample fit other samples from the same population.
-When using a sample to fit a predictive model it is critical to verify the model can be generalized to the population [@hawkins2003assessing].
+Generalizability is define [@song2021making] as how well predictive models created from a sample fit other samples from the same population.
+When using a sample to fit a predictive model it is critical to verify that the model can be generalized to the population [@hawkins2003assessing].
 One of the biggest obstacles to model generalizability is overfitting. 
-Overfitting occurs when a model fits the the underlying patterns of the training data too well and preforms poorly on unseen data [@allgaier2024practical], [@bradshaw2023guide].
-The goal of CV is to ensure a model generalizes well by minimize overfitting and optimize the hyperparameters [@filzmoser2009repeated], [@bradshaw2023guide].\
+Overfitting occurs when a model fits the the underlying patterns of the training data too well and performs poorly on unseen data [@allgaier2024practical], [@bradshaw2023guide].
+The goal of CV is to ensure a model generalizes well by minimizing overfitting and optimizing the hyperparameters [@filzmoser2009repeated], [@bradshaw2023guide].\
 
 Cross-validation is widely used in various fields, including machine learning, data mining, and bioinformatics. In machine learning, it is essential for tuning hyperparameters, selecting models, and estimating the model’s generalization error. In data mining, cross-validation helps in validating predictive models built from large datasets. Bioinformatics leverages cross-validation to validate models for predicting protein structures, gene functions, and disease classifications [@song2021making].\
 
-There are many different variations of CV method. All variations are similar in that that divide a dataset into subsets, training a model on a all but one of the subsets, and test the data on the one remaining subset [@song2021making], [@bischl2012resampling]. Three commonly used CV methods are:
+There are many different variations of CV method. All variations are similar in that they divide a dataset into subsets, training a model on a all but one of the subsets, and test the data on the one remaining subset [@song2021making], [@bischl2012resampling]. Three commonly used CV methods are:
 
-1. **K-Fold Cross-validation**\
-The K-Fold method is known for it's flexibility and adaptability of various data distributions and samplesizes [@browne2000cross].
-Many, including [@james2013introduction], [@gorriz2024k] describe a <i>Bias-Variance Trade-Off</i> when comparing K-Fold and Leave-One-Out Cross-Validation (LOOCV) methods. The computational cost, bias and, variance of these two methods differ. Despite the lower bias in LOOCV, it is recommended to use k-fold in instances where K = 5 or K = 10, over LOOCV because:\
+1. **k-Fold Cross-validation**\
+The k-Fold method is known for it's flexibility and adaptability of various data distributions and sample sizes [@browne2000cross].
+Many publications including [@james2013introduction], [@gorriz2024k] describe a <i>Bias-Variance Trade-Off</i> when comparing k-Fold and Leave-one-out Cross-validation (LOOCV) methods. The computational cost bias, and, variance of these two methods differ. Despite the lower bias in LOOCV, it is recommended to use k-fold in instances where k=5 or k= 0, over LOOCV because:\
     - the **<u>computational cost</u>** is much lower,\
     - it does not show excessive **<u>bias</u>**,\
     - and it does not show excessively high **<u>variance</u>**.\
@@ -53,22 +53,18 @@ Iterating through all possible n−1 subset results in a performance estimate wi
 One drawback to this method is the high computational cost associate with fitting the model n times. 
 When n is large or the model complex, LOOCV can be unfeasible due to the prohibitive computational cost [@adin2024automatic]. 
 When n is small or computational cost is irrelevant, LOOCV is good at giving a thorough, low bias evaluation of model performance [@lei2020cross], [@hawkins2003assessing].
-The other drawback to LOOCV is high variance. High variance in error estimation brought on by the frequent usage of almost identical training sets [@browne2000cross].
+The other drawback to LOOCV is high variance. High variance in error estimation is brought on by the frequent usage of almost identical training sets [@browne2000cross].
 
 3. **Nested Cross-validation**\
-Nested cross-validation offers a more objective estimation of the model’s capacity for generalization by isolating the hyperparameter tweaking procedure from the performance assessment. Nested Cross-Validation is especially helpful when choosing a model and adjusting hyperparameters [@bradshaw2023guide]. 
+Nested cross-validation offers a more objective estimation of the model’s capacity for generalization by isolating the hyperparameter tweaking procedure from the performance assessment. Nested Cross-validation is especially helpful when choosing a model and adjusting hyperparameters [@bradshaw2023guide]. 
 Recently, recommendations to use this method when n is small have become more common [@raschka2018model]. 
-According to [@filzmoser2009repeated], nested cross-validation is useful for generating precise performance estimates without causing overfitting, which can happen when hyperparameters are adjusted using the same data that is used for model evaluation. This technique is particularly important in complicated modeling situations when the model’s prediction performance is greatly impacted by parameter adjustment.
+According to [@filzmoser2009repeated], nested cross-validation is useful for generating precise performance estimates without causing overfitting. Overfitting can happen when hyperparameters are adjusted using the same data that is used for model evaluation. This technique is particularly important in complicated modeling situations where the model’s prediction performance is greatly impacted by parameter adjustment.
 
 ## Study Objectives
 
-The goal of this paper is to explore the methodology of cross-validation and its application in evaluating the performance of predictive models for concrete strength. Concrete strength is a crucial parameter in construction, directly impacting the safety, durability, and cost-effectiveness of structures. Accurate prediction of concrete strength allows for optimal design, better resource allocation, and improved construction practices. Traditional methods of model validation, such as holdout validation, can sometimes provide misleading performance estimates due to their reliance on a single training-validation split. Cross-validation addresses this limitation by using multiple splits, thus providing a more robust evaluation of the model. As previously mentioned, cross-validation is a statistical technique used to assess the generalizability and reliability of a model by partitioning the data into multiple subsets, training the model on some subsets while validating it on others. This process helps prevent overfitting, ensuring that the model performs well on new, unseen data, and provides a more accurate estimate of the model's performance.\
-\
-Concrete strength is a crucial parameter in construction, directly impacting the safety, durability, and cost-effectiveness of structures. Accurate prediction of concrete strength allows for optimal design, better resource allocation, and improved construction practices. Traditional methods of model validation, such as holdout validation, can sometimes provide misleading performance estimates due to their reliance on a single training-validation split. Cross-validation addresses this limitation by using multiple splits, thus providing a more robust evaluation of the model.\
+The goal of this paper is to explore the methodology of cross-validation and its application in evaluating the performance of predictive models for concrete strength. Concrete strength is a crucial parameter in construction, directly impacting the safety, durability, and cost-effectiveness of structures. Accurate prediction of concrete strength allows for optimal design, better resource allocation, and improved construction practices. Traditional methods of model validation, such as holdout validation, can sometimes provide misleading performance estimates due to their reliance on a single training-validation split. Cross-validation addresses this limitation by using multiple splits, thus providing a more robust evaluation of the model. As previously mentioned, cross-validation is a statistical technique used to assess the generalizability and reliability of a model by partitioning the data into multiple subsets. This trains the model on some subsets while validating it on others. Using this process helps prevent overfitting, ensuring that the model performs well on new, unseen data, and provides a more accurate estimate of the model's performance.\
 \
 In this study, we apply cross-validation to a dataset containing measurements of concrete strength. We aim to demonstrate how different cross-validation techniques, such as k-fold cross-validation and leave-one-out cross-validation, can be used to evaluate the performance of predictive models. By comparing these techniques, we seek to identify the most effective method for assessing model accuracy and reliability in the context of predicting concrete strength.
-
-
 
 # Methods
 
@@ -96,8 +92,8 @@ $$
 
 - **Root Mean Squared Error (RMSE)**
 
-The Root Mean Squared Error (2) is a measure of error <u>magnitude</u> also. Like MAE, smaller RMSE values indicate better model fit.
-In this method the square error $(y_i - \hat{f}(x_i))^2$  values are used. Squaring the error give more weight to the larger ones. In contrast with the MAE that uses the absolute error $|y_i - \hat{f}(x_i)|$ values, all errors are weighted equally regardless of size. Taking the square root returns the error to the same units as the response variable, making it easier to interpret.\
+The Root Mean Squared Error (2) is also a measure of error <u>magnitude</u>. Like MAE, smaller RMSE values indicate a better model fit.
+In this method the square error $(y_i - \hat{f}(x_i))^2$ values are used. Squaring the error gives more weight to the larger ones. In contrast with the MAE that uses the absolute error $|y_i - \hat{f}(x_i)|$ values, all errors are weighted equally regardless of size. Taking the square root returns the error to the same units as the response variable, making it easier to interpret.\
 
 $$
 \text{RMSE} 
@@ -108,7 +104,7 @@ $$
 
 - **R-squared ($R^2$)**
 
-R-squared is the percent of the <u>variance</u> in the response variable that is explained by the predictor variable(s). Unlike MAR and RMSE, $R^2$ values range from 0 to 1 and the higher the value, the better the fit. An $R^2$ value of 0.75 indicates that 75% of the variance in the response variable can be explained by the predictor variable(s). The $R^2$ equation (3) is composed of two key parts, the Total Sum of Squares ($SS_{tot}$) and the Residual Sum of Squares ($SS_{res}$).
+R-squared is the percent of the <u>variance</u> in the response variable that is explained by the predictor variable(s). Unlike MAR and RMSE, $R^2$ values range from 0 to 1, and the higher the value, the better the fit. An $R^2$ value of 0.75 indicates that 75% of the variance in the response variable can be explained by the predictor variable(s). The $R^2$ equation (3) is composed of two key parts, the Total Sum of Squares ($SS_{tot}$) and the Residual Sum of Squares ($SS_{res}$).
 
 $$
 \text{R}^2 
@@ -126,9 +122,9 @@ $$
  
 
 
-## K-Fold Cross-Validation
+## k-Fold Cross-validation
 
-For the K-Fold Cross-validation (K-Fold) method, the dataset is divided into K subsets, knows as "folds". Each fold contain roughly an equal number of observations. The model is trained on K−1 folds and tested on the remaining holdout fold. Every fold is used as the test set once, and this process is repeated K times [@fig-kfold].
+For the k-Fold Cross-validation (k-Fold) method, the dataset is divided into k subsets, knows as "folds." Each fold contains roughly an equal number of observations. The model is trained on k−1 folds and tested on the remaining holdout fold. Every fold is used once as the test set, and this process is repeated k times [@fig-kfold].
 
 
 $$
@@ -139,9 +135,9 @@ $$
 **Process:**
 
 1. **Prepare the data**\
-Subsets the data randomly and without replacement into K equally sized folds. 
+Subset the data randomly and without replacement into k equally sized folds. 
 Each fold will contain approximately n/k observations. 
-For example when n = 200 and K = 5, then each fold have 200/5 = 40 observations. If n = 201, then one of the folds would have 41, the other four folds would have 40 observations.
+For example when n=200 and k=5, then each fold will have 200/5 = 40 observations. If n=201, then one of the folds would have 41 observations, the other four folds would have 40.
 
 2. **Split the folds into test and training sets**\
 In the previous example, if you had 5 folds, we could choose the first set to be the test set and the other 4 would be the training set. It doesn’t make a difference which one you choose as all of the folds will eventually be test folds against the other 4 [@fig-kfold].
@@ -150,18 +146,18 @@ In the previous example, if you had 5 folds, we could choose the first set to be
 Take the model you are going to use for prediction and fit it to the training data. Continuing with our example, you would use the 4 training folds to fit the model. Take the fitted model you developed in step 3 and apply it to the 1 test fold. After applying it to the model, you would take the resulting prediction and determine the accuracy by comparing what was predicted from the training folds to the actual values from the test fold.
 
 4. **Repeat steps 2 - 3**\
-In the example, if you were using K = 5, then you would pick one of the folds you have not previously used and make it the test fold and the other 4 the training fold. In this way, every observation will be a member of the test fold once and training folds 4 times.
+In the example, if you were using k = 5, then you would pick one of the folds you have not previously used and make it the test fold. The remaining  4 will become the training fold. In this way, every observation will be a member of the test fold once and training fold 4 times.
 
 5. **Calculate the mean error**\
 Measure the error (4) after each fold has been used as the test fold. Take the mean measure error of all folds from step 4.\
 [@song2021making]
 
-![K-Fold Cross-Validation where K = 5. Created by Author](CV5Fold_fig.png){#fig-kfold}
+![k-Fold Cross-validation where k=5](CV5Fold_fig.png){#fig-kfold}
 
 
-## Leave One Out Cross-validations (LOOCV)
+## Leave-one-out Cross-validations (LOOCV)
 
-Leave-One-Out Cross-Validation is a specific case of K-Fold Cross-Validation, where K is the number of observations in the dataset (5). 
+Leave-one-out Cross-validation is a specific case of k-Fold Cross-validation, where k is the number of observations in the dataset (5). 
 With this method, the model is trained n times, where each training set has n−1 observations, and the test set has 1 observation [@fig-LOOCV].
 
 $$
@@ -169,46 +165,27 @@ CV_{(n)} = \frac{1}{n}\sum_{i=1}^{n} \text{Measuer of Errori}_i \tag{5}
 $$
 
 **Process:**
-The steps for LOOCV are almost identical to k-fold cross-validation. The only difference is that in K-fold, K must be less than the number of observations (n). In LOOCV, k = n, so when you split the data into testing and training data, the first testing fold is one of the observations and the training data would be every other observation [@fig-LOOCV]. In this way, every observation is tested against every other observation and the process would be repeated n times [@james2013introduction].
+The steps for LOOCV are almost identical to k-fold cross-validation. The only difference is that in k-fold, k must be less than the number of observations (n). In LOOCV, k=n, so when you split the data into testing and training data, the first testing fold is one of the observations and the training data would be every other observation [@fig-LOOCV]. In this way, every observation is tested against every other observation and the process would be repeated n times [@james2013introduction].
 
-![Leave-one-out Cross-validation. Created by Author](LOOCV_fig.png){#fig-LOOCV}
-
-
-## Nested Cross-Validation
-
-Nested Cross-Validation is also very similar to k-fold Cross-Validation. 
-After dividing the data into k-folds with each fold holding a similar amount of data, the model is trained on the outer fold which are K-1 folds while the testing fold remains a single fold. 
-The difference between Nested and k-fold lies in its usage of two loops. 
-The training data becomes the inner loop which optimizes hyperparameters and the test data is the outside loop that assesses the model’s performance [@fig-NestCV]. \
+![Leave-one-out Cross-validation](LOOCV_fig.png){#fig-LOOCV}
 
 
-1. **Split the data into training and testing sets**\
-As in k-fold cross-validation, break the observations into the single test fold and the training folds.  For example, if there are 300 observations and you use k = 5, four of the folds would be training folds and one of them would be the training fold.
+## Nested Cross-validation
 
-2. **Define inner and outer loops**\
-We define the test fold as the outer loop and use that to test the performance of the model.  The training loops will be defined as the inner loop and we will use that to test which parameters we should use.
+The process for Nested Cross-validation and k-fold CV methods start the same. 
+The data are divided into k-folds, the model fit to k-1 and tested on the remaining k. 
+In Nested CV this is called the *outer validation*. 
+The difference with the Nested CV method is the addition of a *inner validation* step [@fig-NestCV], where a second k-fold CV is performed on the training set [@berrar2019cross].\
 
-3. **Split the inner loop into training sets and validation sets**\
-The inner loop (or training folds) is broken in half.  Half of that data will be used as training and the other half will be used as evaluation [@fig-NestCV].
-
-4. **Fit the model to the inner loop**\
-We choose the number of parameters that we are going to use for validation and fit it to the model.  After fitting, you will store the accuracy value for those parameters.  We then switch the validation and training sets from the inner loop and fit them to the model.  After receiving another accuracy score, we would average them together with the previous accuracy score for that number of parameters.
-
-5. **Choose another number of parameters**\
-We would then choose a different number of parameters and repeat step 4.  After determining the average accuracy for the new set of parameters, we would compare it to the average accuracy produced by the other parameters.  The number of parameters that produces the highest average accuracy is chosen for that training fold.
-
-6. **Repeat the process K-times**\
-After getting an accuracy score for each training fold, we find the average of all folds which will give us the average accuracy of the model.\ [@berrar2019cross].
-
-![Nested Cross-validation where k = 5. Created by Author](NestCV_fig.png#center){#fig-NestCV}
+![Nested Cross-validation where k=5,2](NestCV_fig.png){#fig-NestCV}
 
 # Analysis and Results
 
-## Data extraction, transformation and visulation
+## Data Extraction, Transformation and Visualization
 
  
-[@yeh1998modeling] modeled compression strength of high performance concrete (HPC) at various ages and made with different ratios of components [@tbl-data]. 
-The data used for their study was made publicly available and can be downloaded UCI Machine Learning Repository [@misc_concrete_compressive_strength_165]. 
+In his 1998 journal article [@yeh1998modeling], Yeh modeled compression strength of high performance concrete (HPC) at various ages and made with different ratios of components [@tbl-data]. 
+The data used for their study was made publicly available and can be downloaded from the UCI Machine Learning Repository [@misc_concrete_compressive_strength_165]. 
 
 ::: {#tbl-data}
 
@@ -269,16 +246,6 @@ data <- read_csv("Concrete_Data.csv") %>%
 ```{r, warning=FALSE, echo=TRUE}
 #| label: plot_data
 
-# Variable Box Plots
-pivot_longer(data = data, 1:9, names_to = "grp") %>% 
-  mutate(grp = str_to_title(str_replace(grp, "_"," "))) %>%
-  ggplot(aes(x=factor(0), y = value)) +
-  geom_boxplot(color="blue4",fill = "gray78", outlier.color="red") +
-  xlab("Predictor")+ ylab("")+
-  theme(axis.text.x=element_blank() )+
-  facet_wrap(~grp, scales = "free", ncol = 3)+
-  theme(strip.text = element_text(face = "bold"))
-
 # Variable xy-point plots
 pivot_longer(data = data, 2:9, names_to = "grp") %>% 
   mutate(grp = str_to_title(str_replace(grp, "_"," "))) %>%
@@ -299,7 +266,7 @@ pivot_longer(data = data, 2:9, names_to = "grp") %>%
 cor_matrix <- cor(data)
 
 # Correlation circle plot
-corrplot(cor_matrix, method = "circle", type = "upper", tl.col = "black", tl.srt = 45)
+# corrplot(cor_matrix, method = "circle", type = "upper", tl.col = "black", tl.srt = 45)
 
 # Correlation Bar plot
 response_correlations <- cor_matrix[, "Strength"]
@@ -320,7 +287,7 @@ ggplot(cor_df, aes(x = reorder(Variable, Correlation), y = Correlation)) +
 # Analysis and Results
 
 
-## Construct the Linear Regression Model
+## Construct The Linear Regression Model
 ```{r, warning=FALSE, echo=TRUE}
 #| label: analysis_model
 
@@ -359,7 +326,7 @@ $$
 
 :::
 
-### Linear Regression: K-Fold Cross-validation
+### Linear Regression: k-Fold Cross-validation
 
 ```{r, warning=FALSE, echo=TRUE}
 #| label: analysis_kfold
@@ -377,7 +344,7 @@ calculate_r2 <- function(actual, predicted) {
   1 - (sum((actual - predicted)^2) / sum((actual - mean(actual))^2))
   }
 
-# K-Fold CV
+# k-Fold CV
 set.seed(123)
 train_control_kfold <- trainControl(method = "cv", number = 10)
 model_kfold <- train(Strength ~ Cement + Superplasticizer + Age + Water, 
@@ -453,7 +420,7 @@ nested_cv_df %>%  kable()
 ```
 
 
-## Construct LightGBM Model
+## Construct The LightGBM Model
 ```{r, warning=FALSE, echo=TRUE}
 #| label: analysis_lightgbm
 
@@ -493,7 +460,7 @@ model <- lgb.train(params = params, data = dtrain, nrounds = 100, verbose = -1)
 ```
 
 
-### LightGBM Model K-Fold Cross-validation
+### LightGBM Model k-Fold Cross-validation
 ```{r, warning=FALSE, echo=TRUE}
 #| label: analysis_lightgbm_kfold
 
@@ -513,7 +480,7 @@ calculate_r2 <- function(actual, predicted) {
   return(r2)
 }
 
-#K-Fold CV for LightGBM
+#k-Fold CV for LightGBM
 set.seed(123)
 folds <- createFolds(train_data$Strength, k = 5, list = TRUE)
 kfold_rmse_values <- c()
@@ -585,7 +552,7 @@ loocv_lgbm_df <- data.frame(Measure_of_Error, Result_Value)
 loocv_lgbm_df %>%  kable()
 ```
 
-### LightGBM Model Nested Cross-validation
+### LightGBM Model: Nested Cross-validation
 
 ```{r, warning=FALSE, echo=TRUE}
 #| label: analysis_lightgbm_nest
@@ -703,7 +670,7 @@ Comparison_df %>%
   relocate(Method) %>% 
   kable()
 
-# Model Comparison Plot: K-Fold
+# Model Comparison Plot: k-Fold
 Comparison_df %>%
   filter(Method == "5-Fold") %>% 
   ggplot(aes(x=Model, y=Result_Value)) +
@@ -711,7 +678,7 @@ Comparison_df %>%
   # facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
   facet_wrap(~factor(Measure_of_Error, c("RMSE","MAE","R2")), scales = "free", ncol = 3) +
   labs(title = "Model Comparison",
-       subtitle = "k-Fold Crosss-validation where K = 5",
+       subtitle = "k-Fold Crosss-validation where k=5",
        y = "Mean Error",
        x = "Model") + 
   theme(axis.title.x = element_text(face = "bold")) + 
@@ -727,7 +694,7 @@ Comparison_df %>%
   # facet_wrap(~ Measure_of_Error, scales = "free", ncol = 3) +
   facet_wrap(~factor(Measure_of_Error, c("RMSE","MAE","R2")), scales = "free", ncol = 3) +
   labs(title = "Model Comparison",
-       subtitle = "Leave-One-Out Crosss-validation",
+       subtitle = "Leave-one-out Crosss-validation",
        y = "Mean Error",
        x = "Model") + 
   theme(axis.title.x = element_text(face = "bold")) + 
@@ -762,7 +729,9 @@ The results of our cross-validation evaluations showed distinct patterns in mode
 
 Cross-validation methods, as a whole, proved very important in providing a comprehensive evaluation of our models, specifically showing their strengths and weaknesses. These methods are key for future research and studies, because they offer a precise framework for assessing model performance and ensuring generalizability. The insights from this study show the importance of employing advanced cross-validation techniques in predictive modeling, allowing for more reliable and accurate applications in various different fields. By continuously refining these methods and exploring their implications, future research can further enhance model validation processes and contribute to the development of strong predictive models.
 
+# References
 
+All figures created by the authors.
 
 
 
