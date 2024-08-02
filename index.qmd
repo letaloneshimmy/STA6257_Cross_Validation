@@ -33,16 +33,16 @@ Cross-validation (CV) is an important statistical method used to measure the per
 Generalizability is define [@song2021making] as how well predictive models created from a sample fit other samples from the same population.
 When using a sample to fit a predictive model it is critical to verify that the model can be generalized to the population [@hawkins2003assessing].
 One of the biggest obstacles to model generalizability is overfitting. 
-Overfitting occurs when a model fits the the underlying patterns of the training data too well and performs poorly on unseen data [@allgaier2024practical], [@bradshaw2023guide].
+Overfitting occurs when a model fits the underlying patterns of the training data too well and performs poorly on unseen data [@allgaier2024practical], [@bradshaw2023guide].
 The goal of CV is to ensure a model generalizes well by minimizing overfitting and optimizing the hyperparameters [@filzmoser2009repeated], [@bradshaw2023guide].\
 
 Cross-validation is widely used in various fields, including machine learning, data mining, and bioinformatics. In machine learning, it is essential for tuning hyperparameters, selecting models, and estimating the model’s generalization error. In data mining, cross-validation helps in validating predictive models built from large datasets. Bioinformatics leverages cross-validation to validate models for predicting protein structures, gene functions, and disease classifications [@song2021making].\
 
-There are many different variations of CV method. All variations are similar in that they divide a dataset into subsets, training a model on a all but one of the subsets, and test the data on the one remaining subset [@song2021making], [@bischl2012resampling]. Three commonly used CV methods are:
+There are many different variations of CV methods. All variations are similar in that they divide a dataset into subsets, training a model on all but one of the subsets, and test the data on the one remaining subset [@song2021making], [@bischl2012resampling]. Three commonly used CV methods are:
 
 1. **k-Fold Cross-validation**\
-The k-Fold method is known for it's flexibility and adaptability of various data distributions and sample sizes [@browne2000cross].
-Many publications including [@james2013introduction], [@gorriz2024k] describe a <i>Bias-Variance Trade-Off</i> when comparing k-Fold and Leave-one-out Cross-validation (LOOCV) methods. The computational cost bias, and, variance of these two methods differ. Despite the lower bias in LOOCV, it is recommended to use k-fold in instances where k=5 or k= 0, over LOOCV because:\
+The k-Fold method is known for its flexibility and adaptability of various data distributions and sample sizes [@browne2000cross].
+Many publications including [@james2013introduction], [@gorriz2024k] describe a <i>Bias-Variance Trade-Off</i> when comparing k-Fold and Leave-one-out Cross-validation (LOOCV) methods. The computational cost, bias, and variance of these two methods differ. Despite the lower bias in LOOCV, it is recommended to use k-fold in instances where k=5 or k= 0, over LOOCV because:\
     - the **<u>computational cost</u>** is much lower,\
     - it does not show excessive **<u>bias</u>**,\
     - and it does not show excessively high **<u>variance</u>**.\
@@ -50,7 +50,7 @@ Many publications including [@james2013introduction], [@gorriz2024k] describe a 
 2. **Leave-one-out Cross-validation**\
 This approach is particularly useful for smaller datasets for which separate training and testing sets are impractical [@wong2019reliable].
 Iterating through all possible n−1 subset results in a performance estimate with low bias [@yates2023cross].
-One drawback to this method is the high computational cost associate with fitting the model n times. 
+One drawback to this method is the high computational cost associated with fitting the model n times. 
 When n is large or the model complex, LOOCV can be unfeasible due to the prohibitive computational cost [@adin2024automatic]. 
 When n is small or computational cost is irrelevant, LOOCV is good at giving a thorough, low bias evaluation of model performance [@lei2020cross], [@hawkins2003assessing].
 The other drawback to LOOCV is high variance. High variance in error estimation is brought on by the frequent usage of almost identical training sets [@browne2000cross].
@@ -76,7 +76,7 @@ By measuring the quality of fit we can select the model that makes the most accu
 
 - **Mean Absolute Error (MAE)**
 
-The Mean Absolute Error is a measure error <u>magnitude</u>. The sign of the error does not matter because MAE uses the absolute value. Small MAE values, "<i>lower magnitude</i>" indicate better model fit. MAE is calculated (1) by averaging the absolute difference between the observed $(y_i)$ and predicted $\hat{f}(x_i)$ values. Where:\
+The Mean Absolute Error is a measure of error <u>magnitude</u>. The sign of the error does not matter because MAE uses the absolute value. Small MAE values or "<i>lower magnitude</i>" indicate better model fit. MAE is calculated (1) by averaging the absolute difference between the observed $(y_i)$ and predicted $\hat{f}(x_i)$ values. Where:\
 
   - $n$ is the number of observations,
   - $\hat{f}(x_i)$ is the prediction that the model function $\hat{f}$ gives for the ith observation,
@@ -124,7 +124,7 @@ $$
 
 ## k-Fold Cross-validation
 
-For the k-Fold Cross-validation (k-Fold) method, the dataset is divided into k subsets, knows as "folds." Each fold contains roughly an equal number of observations. The model is trained on k−1 folds and tested on the remaining holdout fold. Every fold is used once as the test set, and this process is repeated k times [@fig-kfold].
+For the k-Fold Cross-validation (k-Fold) method, the dataset is divided into k subsets, known as "folds." Each fold contains roughly an equal number of observations. The model is trained on k−1 folds and tested on the remaining holdout fold. Every fold is used once as the test set, and this process is repeated k times [@fig-kfold].
 
 
 $$
