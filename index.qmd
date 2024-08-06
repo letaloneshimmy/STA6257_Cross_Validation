@@ -183,10 +183,8 @@ The difference with the Nested CV method is the addition of a *inner validation*
 
 ## Data Extraction, Transformation and Visualization
 
+In our study, we analyzed a dataset from I-C Yeh's 1998 journal article [@yeh1998modeling] that models the compressive strength of high-performance concrete, using predictors such as Cement, Blast Furnace Slag, Fly Ash, Water, Superplasticizer, Coarse Aggregate, Fine Aggregate, and Age, with Strength as the response variable. Each predictor [@tbl-data], is measured in kilograms per cubic meter, except Age, which is measured in days [@misc_concrete_compressive_strength_165].
  
-In his 1998 journal article [@yeh1998modeling], Yeh modeled compression strength of high performance concrete (HPC) at various ages and made with different ratios of components [@tbl-data]. 
-The data used for their study was made publicly available and can be downloaded from the UCI Machine Learning Repository [@misc_concrete_compressive_strength_165]. 
-
 ::: {#tbl-data}
 
 | Name                | Data Type    | Units              | Variable  |
@@ -205,7 +203,7 @@ The data used for their study was made publicly available and can be downloaded 
 
 :::
 
-
+The scatter plots reveal the relationships between these predictors and compressive strength, indicating that concrete strength generally increases with age as expected due to the curing process. Cement shows a strong positive correlation with strength, showing its importance as a binding agent. Superplasticizer also positively correlates with strength, suggesting that it enhances the mixture's workability and effectiveness. Water demonstrates a negative correlation, reflecting its potential to weaken the concrete matrix when used in excess. Aggregates and supplementary materials show smaller correlations, indicating indirect effects on strength. These visualizations gave us important insights into the dataset, which we used to guide our model selection and hyperparameter tuning during cross-validation.
 
 ### Load Libraries and Data
 ```{r, warning=FALSE, echo=TRUE}
@@ -284,10 +282,15 @@ ggplot(cor_df, aes(x = reorder(Variable, Correlation), y = Correlation)) +
 
 ```
 
+
+
 # Analysis and Results
 
 
 ## Construct The Linear Regression Model
+
+
+
 ```{r, warning=FALSE, echo=TRUE}
 #| label: analysis_model
 
@@ -419,8 +422,26 @@ nested_cv_df %>%  kable()
 
 ```
 
+Here we developed a linear regression model to predict concrete compressive strength using
+predictors like Cement, Superplasticizer, Age, and Water. The resulting equation showed that
+while Cement, Superplasticizer, and Age positively influenced concrete strength, higher Water
+content had a negative impact. We assessed the model's performance using our three cross-
+validation methods. The k-fold and LOOCV approaches gave similar results, with moderate
+predictive accuracy and an R2 value indicating that about 46% of the variability in concrete
+strength was explained by the model. These consistent results suggest reliability across different
+data subsets, though LOOCV's computational cost is higher due to its multiple iterations. Nested
+cross-validation provided slightly improved outcomes, enhancing the model's fit and
+generalizability by isolating hyperparameter tuning from performance evaluation. Overall, this
+analysis emphasizes the importance of choosing appropriate validation techniques to ensure
+accurate model assessments. The study shows that while k-fold and LOOCV offer consistent
+evaluations, nested cross-validation gives a slight edge in accuracy, underlining the significance
+of cross-validation in developing reliable predictive models for concrete strength. This helps
+facilitate more efficient and dependable construction practices.
 
 ## Construct The LightGBM Model
+
+
+
 ```{r, warning=FALSE, echo=TRUE}
 #| label: analysis_lightgbm
 
@@ -613,8 +634,33 @@ nested_cv_lgbm_df %>%  kable()
 
 ```
 
+In this analysis, we constructed a LightGBM model to predict concrete compressive strength and
+evaluated its performance using k-fold, leave-one-out, and nested cross-validation methods.
+LightGBM is a gradient boosting framework known for its efficiency and effectiveness with
+structured datasets. Across all three cross-validation methods, the LightGBM model showed
+strong predictive accuracy, consistently outperforming the linear regression model. The model
+captured a significant amount of variability in the concrete strength data, showcasing its ability
+to provide a better fit and explain more variance. Leave-one-out cross-validation, while
+computationally intensive, provided the most accurate estimates, indicating an excellent model fit with a very low bias. Nested cross-validation, although showing a slight decrease in variance
+explanation, offered a strong assessment by ensuring that hyperparameter tuning did not interfere
+with model evaluation. Overall, the LightGBM model's performance across these methods shows
+its suitability for complex datasets and its capability to predict concrete strength more accurately
+than linear regression. This shows LightGBM's potential for strong application in real-world
+scenarios where precise predictions are needed.
 
 ## Result Table and Plots
+
+Comparing models is crucial for understanding their predictive performance, as emphasized by
+[@hawkins2003assessing]. In our evaluation using three cross-validation techniques, the LightGBM model
+consistently demonstrated superior performance over the linear regression model. Across the
+board, LightGBM showed lower error rates and higher R2 values, indicating it provides a better
+fit and explains more variability in the concrete strength data. In particular, LightGBM's
+performance during LOOCV was notable for its accuracy and reliability, showing its capacity to
+generalize well to new data. Nested cross-validation further confirmed LightGBM's effectiveness
+by providing strong performance metrics that ensure the model's generalizability while
+preventing overfitting. Overall, the LightGBM model's consistent excellence across all validation
+methods shows its suitability for predicting concrete strength, demonstrating its potential as a
+more efficient and accurate modeling approach compared to linear regression.
 
 ### Cross-validation Method Comparision
 ```{r, warning=FALSE, echo=TRUE}
